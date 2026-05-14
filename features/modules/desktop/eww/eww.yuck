@@ -1,0 +1,80 @@
+;; EWW Widget Configuration
+;;
+;; Start with:  eww open bar
+;; Stop with:   eww close bar
+
+;; ── Window Definitions ──
+
+(defwindow bar
+  :monitor 0
+  :geometry (geometry :x "0%"
+                     :y "0%"
+                     :width "100%"
+                     :height "36px"
+                     :anchor "top center")
+  :windowtype "dock"
+  :stacking "fg"
+  :reserve (struts :side "top" :distance "36px")
+  (bar))
+
+(defwindow quickexec
+  :monitor 0
+  :geometry (geometry :x "50%"
+                     :y "50%"
+                     :width "400px"
+                     :height "200px"
+                     :anchor "center")
+  :stacking "fg"
+  :windowtype "dialog"
+  :wm-ignore true
+  (quickexec))
+
+;; ── Bar Widget ──
+
+(defwidget bar []
+  (centerbox :orientation "h"
+    :class "bar"
+
+    ;; Left: workspace / logo
+    (box :class "left"
+         :orientation "h"
+         :spacing 8
+         :halign "start"
+      (label :text "EWW" :class "logo"))
+
+    ;; Center: time
+    (box :class "center"
+         :orientation "h"
+         :halign "center"
+      (label :text "${_time}" :class "time"))
+
+    ;; Right: date
+    (box :class "right"
+         :orientation "h"
+         :spacing 8
+         :halign "end"
+      (label :text "${_date}" :class "date"))))
+
+;; ── Quick Exec Widget ──
+
+(defwidget quickexec []
+  (box :class "quickexec-box"
+       :orientation "vertical"
+       :halign "center"
+       :valign "center"
+       :spacing 16
+    (label :text "Quick Execute" :class "quickexec-title")
+    (entry :onchange "_command"
+           :placeholder "Enter command..."
+           :class "quickexec-input")
+    (button :onclick "eww close quickexec; sh -c '${_command}'"
+            :class "quickexec-run"
+      "Run")))
+
+;; ── Polls (data sources) ──
+
+(poll "_time" 1 "date '+%H:%M:%S'")
+(poll "_date" 60 "date '+%a %b %d'")
+
+;; ── Variables ──
+(defvar _command "")
