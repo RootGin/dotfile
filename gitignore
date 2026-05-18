@@ -1,0 +1,13 @@
+# Secrets
+secrets/
+# Nix build artifacts
+result
+result-*
+# direnv
+.envrc
+.direnv
+# Editor temp files
+*.swp
+*.swo
+*~
+
