@@ -14,6 +14,8 @@
         maven
         gradle
         python3
+        rustc
+        cargo
       ];
     in
     {
