@@ -49,21 +49,6 @@
         inputs.home-manager.nixosModules.home-manager
       ];
 
-      environment.variables = {
-        NIXOS_OZONE_WL = "1";
-        XDG_CURRENT_DESKTOP = "Hyprland";
-        XDG_SESSION_DESKTOP = "Hyprland";
-        GTK_USE_PORTAL = "1";
-        GDK_BACKEND = "wayland,x11";
-        MOZ_ENABLE_WAYLAND = "1";
-        MOZ_DISABLE_RDD_SANDBOX = "1";
-        QT_QPA_PLATFORM = "wayland";
-        QT_QPA_PLATFORMTHEME = "qt5ct";
-        QT_STYLE_OVERRIDE = "kvantum";
-        SDL_VIDEODRIVER = "wayland";
-        CLUTTER_BACKEND = "wayland";
-      };
-
       home-manager.users.${username} = _: {
         wayland.windowManager.hyprland = {
           enable = true;
@@ -253,7 +238,6 @@
               # Brightness
               ", XF86MonBrightnessUp,   exec, brightnessctl set 10%+"
               ", XF86MonBrightnessDown, exec, brightnessctl set 10%-"
-
             ];
 
             bindl = [
@@ -271,6 +255,7 @@
             exec-once = [
               "dbus-update-activation-environment --systemd --all"
               "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP QT_QPA_PLATFORMTHEME"
+              "export NIXOS_OZONE_WL=1 XDG_CURRENT_DESKTOP=Hyprland XDG_SESSION_DESKTOP=Hyprland GTK_USE_PORTAL=1 GDK_BACKEND=wayland,x11 MOZ_ENABLE_WAYLAND=1 MOZ_DISABLE_RDD_SANDBOX=1 QT_QPA_PLATFORM=wayland QT_QPA_PLATFORMTHEME=qt5ct QT_STYLE_OVERRIDE=kvantum SDL_VIDEODRIVER=wayland CLUTTER_BACKEND=wayland"
               "teamspeak3"
               "vicinae server"
             ];

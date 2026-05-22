@@ -5,6 +5,7 @@
       self.nixosModules.modulesDesktopEww
       self.nixosModules.modulesDesktopGreetd
       self.nixosModules.modulesDesktopHypr
+      self.nixosModules.modulesDesktopKde
       self.nixosModules.modulesDesktopLy
       self.nixosModules.modulesDesktopStylix
       self.nixosModules.modulesDesktopXdg
