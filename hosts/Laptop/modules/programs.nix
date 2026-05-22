@@ -18,6 +18,7 @@
           opencode = {
             enable = true;
           };
+          ollama = true;
           gkg = {
             enable = true;
           };
