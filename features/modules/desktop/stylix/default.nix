@@ -105,7 +105,7 @@
 
         qt = {
           enable = true;
-          platformTheme.name = "qtct";
+          platformTheme.name = lib.mkForce "qtct";
           style.name = "kvantum";
         };
       };
