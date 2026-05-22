@@ -1,5 +1,4 @@
 # ai.nix — merged Ollama + opencode configuration
-# Replaces: ollama.nix + opencode.nix (both wrote to opencode.json, causing clobber)
 { self, ... }:
 {
   flake.nixosModules.applicationsAiConfig =
@@ -25,24 +24,106 @@
         '';
       };
 
-      # Model definitions — tuned for 16GB RAM, CPU-only
-      # - qwen2.5-coder:7b  ~4.5GB  best pure coding 7B (default + fast)
-      # - qwen3:8b          ~5.5GB  beats qwen2.5-14B on coding; has thinking mode (reasoning)
-      # phi4 dropped — 14B is too heavy on CPU-only 16GB once OS + context load in
-      defaultModel   = "qwen2.5-coder:7b";
-      reasoningModel = "qwen3:8b";
-      fastModel      = "qwen2.5-coder:7b";
-
       ollamaBaseUrl = "http://${ollamaCfg.host}:${toString ollamaCfg.port}/v1";
+
+      # Models must be in "provider/model" format per opencode schema
+      defaultModel   = "ollama/qwen2.5-coder:7b";
+      reasoningModel = "ollama/qwen3:8b";
+      fastModel      = "ollama/qwen2.5-coder:7b";
+
+      gkgMcp = if cfg.gkg.enable then {
+        gitlab-knowledge-graph = {
+          type    = "remote";
+          url     = "http://localhost:27495/mcp";
+          headers = { Accept = "application/json, text/event-stream"; };
+        };
+      } else {};
+
+      # provider block: only emitted when ollama is enabled
+      ollamaProvider = if ollamaCfg.enable then {
+        provider = {
+          ollama = {
+            # npm package opencode uses to talk to OpenAI-compatible endpoints
+            npm = "openai";
+            options = {
+              apiKey  = "ollama";
+              baseURL = ollamaBaseUrl;
+            };
+            # Declare the two models so opencode knows their capabilities
+            models = {
+              "qwen2.5-coder:7b" = {
+                id          = "qwen2.5-coder:7b";
+                name        = "Qwen2.5 Coder 7B";
+                tool_call   = true;
+                temperature = true;
+                limit       = { context = 32768; output = 8192; };
+              };
+              "qwen3:8b" = {
+                id          = "qwen3:8b";
+                name        = "Qwen3 8B";
+                reasoning   = true;
+                tool_call   = true;
+                temperature = true;
+                limit       = { context = 32768; output = 8192; };
+              };
+            };
+          };
+        };
+      } else {};
+
+      opencodeJson = ollamaProvider // {
+        "$schema"   = "https://opencode.ai/config.json";
+        autoupdate  = false;
+        model       = defaultModel;
+        small_model = fastModel;
+
+        # qwen3:8b handles reasoning — wire it in via the build agent
+        agent = {
+          build = {
+            model = reasoningModel;
+          };
+        };
+
+        mcp = {
+          memory = {
+            type    = "local";
+            enabled = true;
+            command = [ "npx" "-y" "@modelcontextprotocol/server-memory" ];
+          };
+          "sequential-thinking" = {
+            type    = "local";
+            enabled = true;
+            command = [ "npx" "-y" "@modelcontextprotocol/server-sequential-thinking" ];
+          };
+          context7 = {
+            type    = "local";
+            enabled = true;
+            command = [ "npx" "-y" "@upstash/context7-mcp" ];
+          };
+          deepwiki = {
+            type = "remote";
+            url  = "https://mcp.deepwiki.com/mcp";
+          };
+        } // gkgMcp // opencodeCfg.mcpServers;
+
+        plugin = [
+          "opencode-pty"
+          "octto"
+          "opencode-worktree"
+          "plannotator"
+          "opencode-md-table-formatter"
+          "oh-my-opencode"
+        ];
+      };
+
     in
     {
-      # ── Ollama options ──────────────────────────────────────────────────────
       options.programs.ai.ollama = {
         enable = lib.mkEnableOption "Enable Ollama";
 
         host = lib.mkOption {
           type    = lib.types.str;
-          default = "0.0.0.0";
+          default = "127.0.0.1";
         };
 
         port = lib.mkOption {
@@ -52,98 +133,33 @@
 
         models = lib.mkOption {
           type    = lib.types.listOf lib.types.str;
-          default = [ defaultModel reasoningModel ];
+          default = [ "qwen2.5-coder:7b" "qwen3:8b" ];
         };
       };
 
-      # ── System + home-manager config ────────────────────────────────────────
       config = lib.mkIf cfg.enable {
 
-        # Ollama service (only when ollama sub-option is enabled)
         services.ollama = lib.mkIf ollamaCfg.enable {
-          enable  = true;
-          package = pkgs.ollama-cpu;
-          host    = ollamaCfg.host;
-          port    = ollamaCfg.port;
+          enable     = true;
+          package    = pkgs.ollama-cpu;
+          host       = ollamaCfg.host;
+          port       = ollamaCfg.port;
           loadModels = ollamaCfg.models;
         };
 
-        environment.systemPackages = with pkgs;
-          lib.optionals ollamaCfg.enable [ ollama-cpu ]
-          ++ lib.optionals opencodeCfg.enable [ opencode ];
+        environment.systemPackages =
+          lib.optionals ollamaCfg.enable  (with pkgs; [ ollama-cpu ])
+          ++ lib.optionals opencodeCfg.enable (with pkgs; [ opencode ]);
 
         home-manager.users.${username} = lib.mkIf opencodeCfg.enable {
 
-          # GKG binary
           home.packages = lib.optionals cfg.gkg.enable [ gkg ];
 
-          # ── Single opencode.json (merged provider + MCP + plugins) ──────────
           xdg.configFile."opencode/opencode.json" = {
             force = true;
-            text  = builtins.toJSON {
-              autoupdate = false;
-
-              # Provider: Ollama via OpenAI-compatible endpoint
-              provider.default = lib.mkIf ollamaCfg.enable "ollama";
-
-              model          = defaultModel;
-              small_model    = fastModel;
-              reasoning_model = reasoningModel;
-
-              # Only set base_url when Ollama is enabled; otherwise opencode
-              # will use its own default (cloud) provider config.
-              base_url       = lib.mkIf ollamaCfg.enable ollamaBaseUrl;
-              context_window = 8192;
-
-              mcp =
-                {
-                  # ── Local MCP servers (CPU-safe, no internet required) ──────
-                  memory = {
-                    type    = "local";
-                    enabled = true;
-                    command = [ "npx" "-y" "@modelcontextprotocol/server-memory" ];
-                  };
-
-                  "sequential-thinking" = {
-                    type    = "local";
-                    enabled = true;
-                    command = [ "npx" "-y" "@modelcontextprotocol/server-sequential-thinking" ];
-                  };
-
-                  # ── Remote MCP servers (require internet) ───────────────────
-                  context7 = {
-                    type    = "local";
-                    enabled = true;
-                    command = [ "npx" "-y" "@upstash/context7-mcp" ];
-                  };
-
-                  deepwiki = {
-                    type = "remote";
-                    url  = "https://mcp.deepwiki.com/mcp";
-                  };
-
-                  # ── GitLab Knowledge Graph (local service on :27495) ────────
-                  gitlab-knowledge-graph = lib.mkIf cfg.gkg.enable {
-                    type = "remote";
-                    url  = "http://localhost:27495/mcp";
-                    headers.Accept = "application/json, text/event-stream";
-                  };
-                }
-                # Allow per-host extra MCP servers from opencode options
-                // opencodeCfg.mcpServers;
-
-              plugin = [
-                "opencode-pty"
-                "octto"
-                "opencode-worktree"
-                "plannotator"
-                "opencode-md-table-formatter"
-                "oh-my-opencode"
-              ];
-            };
+            text  = builtins.toJSON opencodeJson;
           };
 
-          # ── GKG systemd user service ────────────────────────────────────────
           systemd.user.services.gkg = lib.mkIf cfg.gkg.enable {
             Unit = {
               Description = "GitLab Knowledge Graph server";
@@ -151,7 +167,6 @@
             };
             Service = {
               Type       = "simple";
-              # Explicit port so it matches the MCP url above
               ExecStart  = "${gkg}/bin/gkg server start --port 27495";
               Restart    = "on-failure";
               RestartSec = "5";
