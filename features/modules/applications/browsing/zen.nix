@@ -67,6 +67,8 @@
                   "uBlock0@raymondhill.net"        = { install_url = urlPrefix "ublock-origin";    inherit installation_mode; };
                   "tridactyl.vim@cmcaine.co.uk"    = { install_url = urlPrefix "tridactyl-vim";    inherit installation_mode; };
                   "{c2c003ee-bd69-42a2-b0e9-6f34222cb046}" = { install_url = urlPrefix "auto-tab-discard"; inherit installation_mode; };
+                  "78272b6fa58f4a1abaac99321d503a20@proton.me" = { install_url = urlPrefix "proton-pass";       inherit installation_mode; };
+                  "treestyletab@piro.sakura.ne.jp" = { install_url = urlPrefix "tree-style-tab";    inherit installation_mode; };
                   "bing@search.mozilla.org".installation_mode = "blocked";
                 };
             };
@@ -212,7 +214,7 @@
                 "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
                 "browser.search.suggest.enabled" = false;
                 "browser.tabs.warnOnClose" = true;
-                "browser.startup.homepage" = "file:///home/rootgin/Downloads/startpage-master/index.html";
+                "browser.startup.homepage" = "https://startup-page-nord.vercel.app/";
                 "browser.startup.page" = 3;
                 "browser.translations.panelShown" = true;
                 "browser.urlbar.quicksuggest.scenario" = "history";
