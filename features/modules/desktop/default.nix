@@ -4,12 +4,15 @@
     imports = [
       self.nixosModules.modulesDesktopEww
       self.nixosModules.modulesDesktopGreetd
-      self.nixosModules.modulesDesktopHypr
-      self.nixosModules.modulesDesktopKde
-      self.nixosModules.modulesDesktopLy
+      self.nixosModules.modulesDesktopNiri
       self.nixosModules.modulesDesktopStylix
       self.nixosModules.modulesDesktopXdg
     ];
     programs.dconf.enable = true;
+
+    services.displayManager.sddm = {
+      enable = true;
+      wayland.enable = true;
+    };
   };
 }
