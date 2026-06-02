@@ -17,6 +17,7 @@
       home-manager.users.${username} = {
         programs.git = {
           enable = true;
+          signing.format = "openpgp";
           settings = {
             push.autoSetupRemote = "true";
             user = {

@@ -1,14 +1,19 @@
 { self, ... }:
 {
   flake.nixosModules.applicationsGamingWine =
-    { config, lib, pkgs, ... }:
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     let
       cfg = config.programs.gaming;
     in
     {
       config = lib.mkIf cfg.enable {
         environment.systemPackages = with pkgs; [
-          wineWowPackages.stable
+          wineWow64Packages.stable
           wine-staging
           winetricks
           protontricks

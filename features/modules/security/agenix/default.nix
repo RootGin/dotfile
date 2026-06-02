@@ -55,7 +55,7 @@
         environment.systemPackages = with pkgs; [
           age
           openssl
-          inputs.agenix.packages.${system}.default
+          inputs.agenix.packages.${pkgs.stdenv.hostPlatform.system}.default
         ];
       };
     };

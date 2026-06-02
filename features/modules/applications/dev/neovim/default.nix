@@ -1,7 +1,12 @@
 { self, inputs, ... }:
 {
   flake.nixosModules.applicationsDevNeovim =
-    { config, lib, pkgs, ... }:
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     {
       imports = [ inputs.nixvim.nixosModules.nixvim ];
 
@@ -97,11 +102,13 @@
                 diagnostics = "nvim_lsp";
                 separator_style = "slant";
                 always_show_bufferline = true;
-                offsets = [{
-                  filetype = "neo-tree";
-                  text = "Explorer";
-                  highlight = "Directory";
-                }];
+                offsets = [
+                  {
+                    filetype = "neo-tree";
+                    text = "Explorer";
+                    highlight = "Directory";
+                  }
+                ];
               };
             };
 
@@ -145,9 +152,28 @@
                 };
               };
               grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
-                nix lua python javascript typescript tsx java rust
-                bash json yaml toml markdown html css scss sql
-                gitcommit diff dockerfile cmake make
+                nix
+                lua
+                python
+                javascript
+                typescript
+                tsx
+                java
+                rust
+                bash
+                json
+                yaml
+                toml
+                markdown
+                html
+                css
+                scss
+                sql
+                gitcommit
+                diff
+                dockerfile
+                cmake
+                make
               ];
             };
 
@@ -190,9 +216,16 @@
                 section_separators = "";
                 sections = {
                   lualine_a = [ "mode" ];
-                  lualine_b = [ "branch" "diff" "diagnostics" ];
+                  lualine_b = [
+                    "branch"
+                    "diff"
+                    "diagnostics"
+                  ];
                   lualine_c = [ "filename" ];
-                  lualine_x = [ "encoding" "filetype" ];
+                  lualine_x = [
+                    "encoding"
+                    "filetype"
+                  ];
                   lualine_y = [ "progress" ];
                   lualine_z = [ "location" ];
                 };
@@ -211,7 +244,6 @@
             # ── Neo-tree (file explorer) ──────────────────────────────
             neo-tree = {
               enable = true;
-              closeIfLastWindow = true;
               settings = {
                 window.position = "left";
                 close_if_last_window = true;
@@ -224,7 +256,11 @@
               enable = true;
               settings = {
                 close_behavior = "auto";
-                backends = [ "treesitter" "lsp" "markdown" ];
+                backends = [
+                  "treesitter"
+                  "lsp"
+                  "markdown"
+                ];
                 show_guides = true;
                 guides = {
                   mid_item = "├─";
@@ -290,8 +326,8 @@
                 jump.autojump = true;
                 search.multi_window = true;
                 label = {
-                    uppercase = false;
-                  };
+                  uppercase = false;
+                };
                 highlight = {
                   backdrop = false;
                 };
@@ -417,8 +453,7 @@
                 yamlls = {
                   enable = true;
                   settings.yaml.schemas = {
-                    "https://json.schemastore.org/github-workflow.json" =
-                      ".github/workflows/*.{yml,yaml}";
+                    "https://json.schemastore.org/github-workflow.json" = ".github/workflows/*.{yml,yaml}";
                   };
                 };
                 marksman.enable = true;

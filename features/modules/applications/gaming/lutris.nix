@@ -1,7 +1,12 @@
 { self, ... }:
 {
   flake.nixosModules.applicationsGamingLutris =
-    { config, lib, pkgs, ... }:
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     let
       cfg = config.programs.gaming;
     in
@@ -10,7 +15,7 @@
         environment.systemPackages = with pkgs; [
           lutris
           winetricks
-          wineWowPackages.stable
+          wineWow64Packages.stable
         ];
 
         programs.steam.enable = lib.mkDefault true;
