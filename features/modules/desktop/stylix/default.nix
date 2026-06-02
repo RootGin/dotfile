@@ -101,12 +101,13 @@
 
           # Ensure user-level theme matches system polarity
           polarity = "dark";
+
+          targets.qt.enable = true;
         };
 
         qt = {
           enable = true;
           platformTheme.name = lib.mkForce "qtct";
-          style.name = "kvantum";
         };
       };
     };

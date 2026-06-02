@@ -67,9 +67,7 @@
 
     opencode-desktop.url = "github:tomsch/opencode-desktop-nix";
 
-    wrapper-modules = {
-      url = "github:BirdeeHub/nix-wrapper-modules";
-    };
+    niri.url = "github:sodiboo/niri-flake";
   };
 
   outputs =
@@ -80,17 +78,8 @@
         imports = [
           (inputs.import-tree ./features)
           (inputs.import-tree ./hosts)
-          ./niri-wrapper.nix
         ];
 
-        perSystem =
-          { pkgs, ... }:
-          {
-            packages.niri = inputs.wrapper-modules.wrappers.niri.wrap {
-              inherit pkgs;
-              imports = [ self.wrappersModules.niri ];
-            };
-          };
       }
     );
 }

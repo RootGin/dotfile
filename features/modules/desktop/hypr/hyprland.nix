@@ -54,14 +54,11 @@
           enable = true;
           xwayland.enable = true;
           portalPackage = pkgs.xdg-desktop-portal-hyprland;
+          # UWSM handles systemd integration — disabling Hyprland's own to avoid conflict
           systemd = {
-            enable = true;
-            enableXdgAutostart = true;
-            variables = [
-              "--all"
-              "XDG_CURRENT_DESKTOP"
-              "XDG_SESSION_TYPE"
-            ];
+            enable = false;
+            enableXdgAutostart = false;
+            variables = [ ];
           };
           settings = {
             "ecosystem:no_update_news" = true;
@@ -252,10 +249,9 @@
               "$mainMod, mouse:273, resizewindow"
             ];
 
+            # UWSM already manages dbus activation environment and systemd imports.
+            # Wayland env vars are set via NixOS environment.sessionVariables.
             exec-once = [
-              "dbus-update-activation-environment --systemd --all"
-              "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP QT_QPA_PLATFORMTHEME"
-              "export NIXOS_OZONE_WL=1 XDG_CURRENT_DESKTOP=Hyprland XDG_SESSION_DESKTOP=Hyprland GTK_USE_PORTAL=1 GDK_BACKEND=wayland,x11 MOZ_ENABLE_WAYLAND=1 MOZ_DISABLE_RDD_SANDBOX=1 QT_QPA_PLATFORM=wayland QT_QPA_PLATFORMTHEME=qt5ct QT_STYLE_OVERRIDE=kvantum SDL_VIDEODRIVER=wayland CLUTTER_BACKEND=wayland"
               "teamspeak3"
               "vicinae server"
             ];
