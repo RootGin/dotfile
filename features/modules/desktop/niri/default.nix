@@ -7,7 +7,9 @@
 #   NixOS level (programs.niri.enable) → system integration, session files
 #   Home-manager level (programs.niri.settings) → compositor config (typed -> KDL)
 #
-# Keybindings and visual config ported from the previous Hyprland setup.
+# Keybindings ported from the Hyprland setup. Native Niri actions used where available
+# (screenshot, screenshot-screen, move-window, resize-window) instead of external tools.
+# Screen locker: swaylock (replaces hyprlock for wlroots compatibility).
 # Color scheme: Nord (base16).
 
 { self, inputs, ... }:
@@ -37,7 +39,7 @@ in
         base06 = "ECEFF4";
         base07 = "8FBCBB";
         base08 = "88C0D0";
-        base09 = "81A1C1"; # accent — focus ring
+        base09 = "81A1C1";
         base0A = "5E81AC";
         base0B = "BF616A";
         base0C = "D08770";
@@ -62,12 +64,37 @@ in
       # ── Niri compositor (system integration) ────────────────
       programs.niri.enable = true;
 
-      # ── Disable UWSM (was used with Hyprland, not needed by Niri) ──
-      programs.uwsm.enable = lib.mkDefault false;
+      # ── UWSM: user Wayland session manager for smooth app launching ──
+      programs.uwsm = {
+        enable = true;
+        waylandCompositors = {
+          niri = {
+            prettyName = "Niri";
+            comment = "Niri compositor managed by UWSM";
+            binPath = "/run/current-system/sw/bin/niri-session";
+          };
+        };
+      };
+
+      # ── XDG Desktop Portal: niri compositor routes ──────────
+      xdg.portal.config.niri = {
+        default = [
+          "gnome"
+          "gtk"
+        ];
+        "org.freedesktop.impl.portal.Access" = "gtk";
+        "org.freedesktop.impl.portal.FileChooser" = "gtk";
+        "org.freedesktop.impl.portal.Notification" = "gtk";
+        "org.freedesktop.impl.portal.Secret" = "gnome-keyring";
+      };
+
+      # ── Import niri.service systemd user unit ───────────────
+      systemd.packages = [ config.programs.niri.package ];
 
       # ── System packages ──────────────────────────────────────
       environment.systemPackages = with pkgs; [
         wl-clipboard
+        xwayland-satellite
         grim
         slurp
         swappy
@@ -75,6 +102,8 @@ in
         brightnessctl
         playerctl
         pavucontrol
+        swaylock
+        fuzzel
         kdePackages.dolphin
         gthumb
         yazi
@@ -84,10 +113,7 @@ in
       ];
 
       # ── Home Manager: user-level ──────────────────────────────
-      # programs.niri.settings lives here because niri-flake defines it
-      # via homeModules.config (auto-added to sharedModules by nixosModules.niri).
       home-manager.users.${username} = {
-        # ── Niri compositor configuration (typed -> KDL) ──────
         programs.niri.settings = {
           prefer-no-csd = true;
 
@@ -116,83 +142,72 @@ in
           };
 
           binds = {
-            # Terminal
-            "Mod+Return".action.spawn = "kitty";
-
-            # Close window
-            "Mod+Q".action.close-window = [ ];
-
-            # Browser
-            "Mod+F".action.spawn = browser;
-
-            # File manager
-            "Mod+E".action.spawn = "dolphin";
-
-            # App launcher (replaces hyprland's Super+R)
-            "Mod+R".action.spawn = "vicinae toggle";
-
-            # Toggle floating
+            # ── System ──────────────────────────────────────────
+            "Mod+C".action.close-window = [ ];
+            "Mod+M".action.quit = [ ];
             "Mod+V".action.toggle-window-floating = [ ];
+            "Mod+L".action.spawn = "swaylock";
+            "Mod+Shift+R".action.spawn = "dunstctl history-pop";
+            "Alt+Return".action.fullscreen-window = [ ];
 
-            # Fullscreen
-            "Mod+G".action.fullscreen-window = [ ];
+            # ── Applications ────────────────────────────────────
+            "Mod+Q".action.spawn = "kitty";
+            "Mod+F".action.spawn = browser;
+            "Mod+E".action.spawn = "dolphin";
+            "Mod+R".action.spawn = "fuzzel";
 
-            # Center column
-            "Mod+C".action.center-column = [ ];
+            # ── Screenshot (native Niri — saves to ~/Pictures/Screenshots/) ──
+            "Print".action.screenshot = [ ];
+            "Mod+Shift+Print".action.screenshot-screen = [ ];
 
-            # Screenshot: region to clipboard
-            "Mod+Shift+S".action.spawn = [
+            # Screenshot: region to clipboard (grim)
+            "Mod+Ctrl+S".action.spawn = [
               "sh"
               "-c"
               "${lib.getExe pkgs.grim} -g \"$(${lib.getExe pkgs.slurp} -w 0)\" - | ${pkgs.wl-clipboard}/bin/wl-copy"
             ];
 
-            # Screenshot: full display to clipboard
-            "Mod+Ctrl+S".action.spawn = [
+            # Screenshot: full display to clipboard (grim)
+            "Mod+Ctrl+Shift+S".action.spawn = [
               "sh"
               "-c"
               "${lib.getExe pkgs.grim} -l 0 - | ${pkgs.wl-clipboard}/bin/wl-copy"
             ];
 
-            # Screenshot: paste to swappy editor
+            # Screenshot: paste from clipboard to swappy editor
             "Mod+Shift+E".action.spawn = [
               "sh"
               "-c"
               "${pkgs.wl-clipboard}/bin/wl-paste | ${lib.getExe pkgs.swappy} -f -"
             ];
 
-            # Lock screen
-            "Mod+L".action.spawn = "hyprlock";
-
-            # Quit niri
-            "Mod+M".action.quit = [ ];
-
-            # Focus navigation (vim-style)
-            # Note: Mod+L not used for focus-right — conflicts with lock-screen binding above.
-            # Use arrow keys or Mod+Right instead.
+            # ── Focus navigation (vim-style) ────────────────────
             "Mod+H".action.focus-column-left = [ ];
-            "Mod+K".action.focus-window-up = [ ];
             "Mod+J".action.focus-window-down = [ ];
-
-            # Arrow key focus
+            "Mod+K".action.focus-window-up = [ ];
+            # ── Arrow key focus ─────────────────────────────────
             "Mod+Left".action.focus-column-left = [ ];
             "Mod+Right".action.focus-column-right = [ ];
             "Mod+Up".action.focus-window-up = [ ];
             "Mod+Down".action.focus-window-down = [ ];
 
-            # Move windows
+            # ── Move windows/columns ────────────────────────────
             "Mod+Shift+H".action.move-column-left = [ ];
             "Mod+Shift+L".action.move-column-right = [ ];
             "Mod+Shift+K".action.move-window-up = [ ];
             "Mod+Shift+J".action.move-window-down = [ ];
+            "Mod+Shift+Left".action.move-column-left = [ ];
+            "Mod+Shift+Right".action.move-column-right = [ ];
+            "Mod+Shift+Up".action.move-window-up = [ ];
+            "Mod+Shift+Down".action.move-window-down = [ ];
 
-            # Resize windows
-            "Mod+Ctrl+H".action.set-column-width = "-5%";
-            "Mod+Ctrl+L".action.set-column-width = "+5%";
-            "Mod+Ctrl+J".action.set-window-height = "-5%";
-            "Mod+Ctrl+K".action.set-window-height = "+5%";
+            # ── Resize windows (Mod+Alt+arrows, matching Hyprland) ──
+            "Mod+Alt+Left".action.set-column-width = "-5%";
+            "Mod+Alt+Right".action.set-column-width = "+5%";
+            "Mod+Alt+Up".action.set-window-height = "-5%";
+            "Mod+Alt+Down".action.set-window-height = "+5%";
 
-            # Workspace switching
+            # ── Workspace switching ─────────────────────────────
             "Mod+1".action.focus-workspace = 1;
             "Mod+2".action.focus-workspace = 2;
             "Mod+3".action.focus-workspace = 3;
@@ -204,7 +219,7 @@ in
             "Mod+9".action.focus-workspace = 9;
             "Mod+0".action.focus-workspace = 10;
 
-            # Move window to workspace
+            # ── Move column to workspace ────────────────────────
             "Mod+Shift+1".action.move-column-to-workspace = 1;
             "Mod+Shift+2".action.move-column-to-workspace = 2;
             "Mod+Shift+3".action.move-column-to-workspace = 3;
@@ -216,7 +231,53 @@ in
             "Mod+Shift+9".action.move-column-to-workspace = 9;
             "Mod+Shift+0".action.move-column-to-workspace = 10;
 
-            # Audio: volume
+            # ── Move window to workspace (silent, keep focus) ───
+            "Mod+Alt+1".action.move-window-to-workspace = [
+              { focus = false; }
+              1
+            ];
+            "Mod+Alt+2".action.move-window-to-workspace = [
+              { focus = false; }
+              2
+            ];
+            "Mod+Alt+3".action.move-window-to-workspace = [
+              { focus = false; }
+              3
+            ];
+            "Mod+Alt+4".action.move-window-to-workspace = [
+              { focus = false; }
+              4
+            ];
+            "Mod+Alt+5".action.move-window-to-workspace = [
+              { focus = false; }
+              5
+            ];
+            "Mod+Alt+6".action.move-window-to-workspace = [
+              { focus = false; }
+              6
+            ];
+            "Mod+Alt+7".action.move-window-to-workspace = [
+              { focus = false; }
+              7
+            ];
+            "Mod+Alt+8".action.move-window-to-workspace = [
+              { focus = false; }
+              8
+            ];
+            "Mod+Alt+9".action.move-window-to-workspace = [
+              { focus = false; }
+              9
+            ];
+            "Mod+Alt+0".action.move-window-to-workspace = [
+              { focus = false; }
+              10
+            ];
+
+            # ── Scratchpad (named workspace "magic") ────────────
+            "Mod+S".action.focus-workspace = "magic";
+            "Mod+Shift+S".action.move-column-to-workspace = "magic";
+
+            # ── Audio ───────────────────────────────────────────
             "XF86AudioRaiseVolume".action.spawn = [
               "wpctl"
               "set-volume"
@@ -246,7 +307,7 @@ in
               "toggle"
             ];
 
-            # Brightness
+            # ── Brightness ──────────────────────────────────────
             "XF86MonBrightnessUp".action.spawn = [
               "brightnessctl"
               "set"
@@ -258,7 +319,7 @@ in
               "10%-"
             ];
 
-            # Media keys
+            # ── Media keys ──────────────────────────────────────
             "XF86AudioPlay".action.spawn = [
               "playerctl"
               "play-pause"
@@ -272,13 +333,17 @@ in
               "previous"
             ];
 
-            # Scroll through workspaces
+            # ── Scroll through apps on same workspace (mouse wheel) ──
             "Mod+WheelScrollDown".action.focus-column-right = [ ];
             "Mod+WheelScrollUp".action.focus-column-left = [ ];
+            # Mod+Ctrl+Wheel → full workspace switching
             "Mod+Ctrl+WheelScrollDown".action.focus-workspace-down = [ ];
             "Mod+Ctrl+WheelScrollUp".action.focus-workspace-up = [ ];
 
-            # Toggle microphone
+            # Overview: show all workspaces and windows (like Mission Control)
+            "Mod+Tab".action.toggle-overview = [ ];
+
+            # ── Misc ────────────────────────────────────────────
             "Mod+Shift+V".action.spawn = [
               "sh"
               "-c"
@@ -315,6 +380,15 @@ in
 
           # Startup applications
           spawn-at-startup = [
+            # Notify UWSM that the Wayland display is ready.
+            # Without this, wayland-session-waitenv.service times out (10s)
+            # and UWSM considers the session failed.
+            {
+              command = [
+                "uwsm"
+                "finalize"
+              ];
+            }
             # Wallpaper
             {
               command = [
@@ -351,7 +425,7 @@ in
           # Compositor-level environment variables
           environment = {
             NIXOS_OZONE_WL = "1";
-            XDG_CURRENT_DESKTOP = "niri";
+            XDG_CURRENT_DESKTOP = "X-NIXOS-SYSTEMD-AWARE:niri";
             XDG_SESSION_DESKTOP = "niri";
             GTK_USE_PORTAL = "1";
             GDK_BACKEND = "wayland,x11";
@@ -359,43 +433,18 @@ in
             QT_QPA_PLATFORM = "wayland";
             QT_QPA_PLATFORMTHEME = "qt5ct";
             QT_STYLE_OVERRIDE = "kvantum";
-            SDL_VIDEODRIVER = "wayland";
+            SDL_VIDEODRIVER = "wayland,x11";
             CLUTTER_BACKEND = "wayland";
             MOZ_DISABLE_RDD_SANDBOX = "1";
           };
         };
 
-        # hyprlock — works on any Wayland compositor
-        programs.hyprlock.enable = true;
-
-        # hypridle — DBus idle inhibitor, compositor-agnostic
-        services.hypridle = lib.mkIf (hostName == "Laptop") {
-          enable = true;
-          settings = {
-            general = {
-              after_sleep_cmd = "niri msg action power-on-monitors";
-              ignore_dbus_inhibit = false;
-              lock_cmd = "hyprlock";
-            };
-            listener = [
-              {
-                timeout = 400;
-                on-timeout = "hyprlock";
-              }
-              {
-                timeout = 180;
-                on-timeout = "niri msg action power-off-monitors";
-                on-resume = "niri msg action power-on-monitors";
-              }
-            ];
-          };
-        };
       };
 
       # ── Wayland env vars (system-level) ─────────────────────
       environment.sessionVariables = {
         NIXOS_OZONE_WL = "1";
-        XDG_CURRENT_DESKTOP = "niri";
+        XDG_CURRENT_DESKTOP = "X-NIXOS-SYSTEMD-AWARE:niri";
       };
     };
 }
