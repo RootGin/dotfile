@@ -1,13 +1,36 @@
 { self, ... }:
 {
   flake.nixosModules.applicationsGamingBase =
-    { config, lib, pkgs, ... }:
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     let
       cfg = config.programs.gaming;
     in
     {
       config = lib.mkIf cfg.enable {
         programs.gamemode.enable = lib.mkDefault cfg.gamemode.enable;
+
+        # GameMode performance tuning
+        programs.gamemode.settings = {
+          general = {
+            softrealtime = "auto";
+            renice = 10;
+          };
+          gpu = {
+            apply_gpu_optimisations = "accept-responsibility";
+            gpu_device = 0;
+            amd_performance_level = "high";
+          };
+          custom = {
+            start = "${pkgs.coreutils}/bin/notify-send \"GameMode started\"";
+            end = "${pkgs.coreutils}/bin/notify-send \"GameMode ended\"";
+          };
+        };
+
         hardware.steam-hardware.enable = lib.mkDefault true;
 
         services.udev.extraRules = ''
@@ -18,10 +41,14 @@
           KERNEL=="uinput", MODE="0660", GROUP="users", OPTIONS+="static_node=uinput"
         '';
 
-        environment.systemPackages = with pkgs; [
-          mangohud
-          goverlay
-        ] ++ cfg.extraPackages;
+        environment.systemPackages =
+          with pkgs;
+          [
+            mangohud
+            goverlay
+            gamescope
+          ]
+          ++ cfg.extraPackages;
       };
     };
 }
