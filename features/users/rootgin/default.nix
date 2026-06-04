@@ -21,6 +21,8 @@
           "docker"
           "wheel"
           "openrazer"
+          "input"
+          "video"
         ];
       }
       // lib.optionalAttrs (config.security.agenix.enable) {
