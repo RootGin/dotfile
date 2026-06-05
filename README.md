@@ -1,6 +1,7 @@
 # nixos
 
 My NixOS configuration with flakes, home-manager, agenix, and stylix.
+Currently messing around to see what i like
 
 ## Credits
 
