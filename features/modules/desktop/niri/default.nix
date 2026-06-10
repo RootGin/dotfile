@@ -104,6 +104,8 @@ in
         pavucontrol
         swaylock
         fuzzel
+        clipman
+        zbar
         kdePackages.dolphin
         gthumb
         yazi
@@ -158,13 +160,18 @@ in
 
             # ── Screenshot (native Niri — saves to ~/Pictures/Screenshots/) ──
             "Print".action.screenshot = [ ];
-            "Mod+Shift+Print".action.screenshot-screen = [ ];
-
-            # Screenshot: region to clipboard (grim)
-            "Mod+Ctrl+S".action.spawn = [
+            # Screenshot: interactive region to clipboard (grim+slurp)
+            "Mod+Shift+Print".action.spawn = [
               "sh"
               "-c"
               "${lib.getExe pkgs.grim} -g \"$(${lib.getExe pkgs.slurp} -w 0)\" - | ${pkgs.wl-clipboard}/bin/wl-copy"
+            ];
+
+            # Screenshot: focused screen to clipboard (grim)
+            "Mod+Ctrl+S".action.spawn = [
+              "sh"
+              "-c"
+              "${lib.getExe pkgs.grim} -l 0 - | ${pkgs.wl-clipboard}/bin/wl-copy"
             ];
 
             # Screenshot: full display to clipboard (grim)
@@ -179,6 +186,14 @@ in
               "sh"
               "-c"
               "${pkgs.wl-clipboard}/bin/wl-paste | ${lib.getExe pkgs.swappy} -f -"
+            ];
+
+            # ── QR code scanner ──────────────────────────────────
+            # Select area → decode QR → copy text → notify result
+            "Mod+Shift+Q".action.spawn = [
+              "sh"
+              "-c"
+              "result=$(${lib.getExe pkgs.grim} -g \"$(${lib.getExe pkgs.slurp} -w 0)\" - | ${pkgs.zbar}/bin/zbarimg -q --raw - 2>/dev/null) && echo \"$result\" | ${pkgs.wl-clipboard}/bin/wl-copy && ${pkgs.libnotify}/bin/notify-send \"QR Code\" \"$result\" || ${pkgs.libnotify}/bin/notify-send \"QR Scan\" \"No QR code found\""
             ];
 
             # ── Focus navigation (vim-style) ────────────────────
@@ -401,6 +416,13 @@ in
             }
             # Notification daemon
             { command = [ "${pkgs.dunst}/bin/dunst" ]; }
+            # Clipboard manager — prevents wl-copy from locking the clipboard
+            {
+              command = [
+                "${pkgs.clipman}/bin/clipman"
+                "--daemon"
+              ];
+            }
             # Network manager applet
             { command = [ "${pkgs.networkmanagerapplet}/bin/nm-applet" ]; }
             # Polkit agent
