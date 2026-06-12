@@ -48,7 +48,7 @@
             xdgOpenUsePortal = true;
             config = {
               common = {
-                default = [ "gtk" ];
+                default = [ "gnome" ];
                 "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
                 "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
               };
@@ -56,6 +56,7 @@
             extraPortals = with pkgs; [
               xdg-desktop-portal
               xdg-desktop-portal-gtk
+              xdg-desktop-portal-gnome
             ];
           };
         };
