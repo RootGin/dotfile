@@ -6,6 +6,7 @@
       config = lib.mkIf config.programs.gaming.enable {
         services.flatpak.packages = [
           "org.vinegarhq.Sober"
+          "org.vinegarhq.Vinegar"
         ];
       };
     };
