@@ -10,31 +10,93 @@
     let
       username = config.userOptions.username;
       librewolf = config.programs.browsing.firefox.package == pkgs.librewolf;
-      chromium = config.programs.browsing.chromium.enable;
+
+      defaultApps = {
+        browser = "zen.desktop";
+        text = "nvim.desktop";
+        image = "gthumb.desktop";
+        audio = "vlc.desktop";
+        video = "vlc.desktop";
+        directory = "thunar.desktop";
+        pdf = "zathura.desktop";
+        terminal = "kitty.desktop";
+      };
+
+      mimeMap = {
+        text = [
+          "text/plain"
+          "text/x-python"
+          "text/x-shellscript"
+        ];
+        image = [
+          "image/bmp"
+          "image/gif"
+          "image/jpeg"
+          "image/jpg"
+          "image/png"
+          "image/svg+xml"
+          "image/tiff"
+          "image/vnd.microsoft.icon"
+          "image/webp"
+        ];
+        audio = [
+          "audio/aac"
+          "audio/mpeg"
+          "audio/ogg"
+          "audio/opus"
+          "audio/wav"
+          "audio/webm"
+          "audio/x-matroska"
+        ];
+        video = [
+          "video/mp2t"
+          "video/mp4"
+          "video/mpeg"
+          "video/ogg"
+          "video/webm"
+          "video/x-flv"
+          "video/x-matroska"
+          "video/x-msvideo"
+          "video/avi"
+        ];
+        directory = [ "inode/directory" ];
+        browser = [
+          "text/html"
+          "x-scheme-handler/http"
+          "x-scheme-handler/https"
+        ];
+        terminal = [
+          "terminal"
+          "x-terminal-emulator"
+          "application/x-shellscript"
+        ];
+        pdf = [ "application/pdf" ];
+      };
     in
     {
       imports = [ inputs.home-manager.nixosModules.home-manager ];
 
-      xdg = {
-        mime = {
-          defaultApplications = {
-            "application/pdf" = [ "zathura.desktop" ];
-            "application/x-gnome-saved-search" = [ "org.kde.dolphin.desktop" ];
-            "image/jpeg" = [ "gthumb.desktop" ];
-            "image/jpg" = [ "gthumb.desktop" ];
-            "image/png" = [ "gthumb.desktop" ];
-            "inode/directory" = [ "org.kde.dolphin.desktop" ];
-            "video/avi" = [ "vlc.desktop" ];
-            "video/mp4" = [ "vlc.desktop" ];
-            "video/x-matroska" = [ "vlc.desktop" ];
-          }
-          // lib.optionalAttrs (librewolf && !chromium) {
+      xdg.mime = {
+        enable = true;
+        defaultApplications =
+          lib.listToAttrs (
+            lib.flatten (
+              lib.mapAttrsToList (
+                category: mimes: map (mime: lib.attrsets.nameValuePair mime [ defaultApps."${category}" ]) mimes
+              ) mimeMap
+            )
+          )
+          // lib.optionalAttrs librewolf {
             "text/html" = [ "librewolf.desktop" ];
             "x-scheme-handler/http" = [ "librewolf.desktop" ];
             "x-scheme-handler/https" = [ "librewolf.desktop" ];
           };
-        };
       };
+
+      environment.systemPackages = with pkgs; [
+        xdg-user-dirs
+        xdg-utils
+      ];
 
       home-manager.users.${username} = _: {
         xdg = {
@@ -42,22 +104,6 @@
             enable = true;
             createDirectories = true;
             setSessionVariables = false;
-          };
-          portal = {
-            enable = true;
-            xdgOpenUsePortal = true;
-            config = {
-              common = {
-                default = [ "gnome" ];
-                "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
-                "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
-              };
-            };
-            extraPortals = with pkgs; [
-              xdg-desktop-portal
-              xdg-desktop-portal-gtk
-              xdg-desktop-portal-gnome
-            ];
           };
         };
         gtk.gtk4.theme = null;

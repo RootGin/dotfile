@@ -10,7 +10,6 @@
 # Keybindings ported from the Hyprland setup. Native Niri actions used where available
 # (screenshot, screenshot-screen, move-window, resize-window) instead of external tools.
 # Screen locker: swaylock (replaces hyprlock for wlroots compatibility).
-# Color scheme: Nord (base16).
 
 { self, inputs, ... }:
 let
@@ -28,36 +27,14 @@ in
       username = config.userOptions.username;
       hostName = config.userOptions.hostName;
 
-      # Nord base16 colors (no hash prefix)
-      nord = {
-        base00 = "2E3440";
-        base01 = "3B4252";
-        base02 = "434C5E";
-        base03 = "4C566A";
-        base04 = "D8DEE9";
-        base05 = "E5E9F0";
-        base06 = "ECEFF4";
-        base07 = "8FBCBB";
-        base08 = "88C0D0";
-        base09 = "81A1C1";
-        base0A = "5E81AC";
-        base0B = "BF616A";
-        base0C = "D08770";
-        base0D = "EBCB8B";
-        base0E = "A3BE8C";
-        base0F = "B48EAD";
-      };
+      colors = config.lib.stylix.colors;
 
       wallpaperPath = "/home/${username}/.config/backgrounds/nord.png";
-      browser = "zen-beta";
+      browser = "zen";
     in
     {
       imports = [
         inputs.home-manager.nixosModules.home-manager
-        # niri-flake's NixOS module:
-        #   - Provides programs.niri.enable / package
-        #   - Sets up display manager session, portals, polkit, etc.
-        #   - Auto-adds homeModules.config to home-manager.sharedModules
         niri-flake.nixosModules.niri
       ];
 
@@ -77,19 +54,25 @@ in
       };
 
       # ── XDG Desktop Portal: niri compositor routes ──────────
+      xdg.portal.extraPortals = [
+        pkgs.xdg-desktop-portal-gnome
+        pkgs.xdg-desktop-portal-gtk
+      ];
       xdg.portal.config.niri = {
-        default = [
-          "gnome"
-          "gtk"
-        ];
-        "org.freedesktop.impl.portal.Access" = "gtk";
-        "org.freedesktop.impl.portal.FileChooser" = "gtk";
-        "org.freedesktop.impl.portal.Notification" = "gtk";
-        "org.freedesktop.impl.portal.Secret" = "gnome-keyring";
+        default = [ "gtk" ];
+        "org.freedesktop.impl.portal.Access" = [ "gtk" ];
+        "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+        "org.freedesktop.impl.portal.Notification" = [ "gtk" ];
+        "org.freedesktop.impl.portal.ScreenCast" = [ "gnome" ];
+        "org.freedesktop.impl.portal.Screenshot" = [ "gnome" ];
+        "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
       };
 
-      # ── Import niri.service systemd user unit ───────────────
-      systemd.packages = [ config.programs.niri.package ];
+      # ── Import niri.service + portal backend systemd user units
+      systemd.packages = [
+        config.programs.niri.package
+        pkgs.xdg-desktop-portal-gtk
+      ];
 
       # ── System packages ──────────────────────────────────────
       environment.systemPackages = with pkgs; [
@@ -106,12 +89,16 @@ in
         fuzzel
         clipman
         zbar
-        kdePackages.dolphin
+        waybar
+        xfce.thunar
+        thunar-archive-plugin
+        xarchiver
+        xfce.thunar-volman
+        xfce.tumbler
         gthumb
         yazi
         networkmanagerapplet
         zenity
-        kdePackages.kio-extras
       ];
 
       # ── Home Manager: user-level ──────────────────────────────
@@ -155,7 +142,7 @@ in
             # ── Applications ────────────────────────────────────
             "Mod+Q".action.spawn = "kitty";
             "Mod+F".action.spawn = browser;
-            "Mod+E".action.spawn = "dolphin";
+            "Mod+E".action.spawn = "thunar";
             "Mod+R".action.spawn = "fuzzel";
 
             # ── Screenshot (native Niri — saves to ~/Pictures/Screenshots/) ──
@@ -372,10 +359,10 @@ in
             focus-ring = {
               width = 2;
               active = {
-                color = "#${nord.base09}";
+                color = "#${colors.base09}";
               };
               inactive = {
-                color = "#${nord.base03}";
+                color = "#${colors.base03}";
               };
             };
 

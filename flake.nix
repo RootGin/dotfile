@@ -59,7 +59,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixvim.url = "github:nix-community/nixvim";
+    nvf.url = "github:notashelf/nvf";
     vicinae = {
       url = "github:vicinaehq/vicinae/v0.20.3";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -68,6 +68,11 @@
     opencode-desktop.url = "github:tomsch/opencode-desktop-nix";
 
     niri.url = "github:sodiboo/niri-flake";
+
+    fcitx5-lotus = {
+      url = "github:LotusInputMethod/fcitx5-lotus";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

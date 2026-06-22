@@ -15,7 +15,7 @@
         networkmanager = {
           dns = "systemd-resolved";
           enable = true;
-          wifi.powersave = true;
+          wifi.powersave = false;
         };
         hostName = config.userOptions.hostName;
         firewall = {
