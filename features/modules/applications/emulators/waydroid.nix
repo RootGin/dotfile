@@ -17,6 +17,7 @@
 
       config = lib.mkIf config.programs.emulation.waydroid.enable {
         virtualisation.waydroid.enable = true;
+        virtualisation.waydroid.package = pkgs.waydroid-nftables;
 
         environment.systemPackages = with pkgs; [
           waydroid-helper
