@@ -11,6 +11,9 @@
       username = config.userOptions.username;
     in
     {
+      imports = [
+        self.nixosModules.applicationsEmulatorsWaydroid
+      ];
       options.programs.emulation = {
         enable = lib.mkEnableOption "Enabled the emulation programs";
       };
