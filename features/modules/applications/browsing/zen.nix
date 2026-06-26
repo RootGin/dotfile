@@ -21,7 +21,7 @@
 
       config = lib.mkIf config.programs.browsing.zen.enable {
         home-manager.users.${username} = {
-          imports = [ inputs.zen-browser.homeModules.default ];
+          imports = [ inputs.zen-browser.homeModules.twilight-official ];
 
           stylix.targets.zen-browser.enable = false;
 
@@ -30,7 +30,45 @@
 
             nativeMessagingHosts = [ pkgs.tridactyl-native ];
 
-            policies = import ./zen/policies.nix { };
+            policies = {
+              DisableAppUpdate = true;
+              DisableFirefoxAccounts = true;
+              DisableFirefoxStudies = true;
+              DisablePocket = true;
+              DisableProfileImport = true;
+              DisableSetDesktopBackground = true;
+              DisableTelemetry = true;
+              DisplayBookmarksToolbar = "never";
+              DNSOverHTTPS = {
+                Enabled = true;
+                Locked = true;
+              };
+              DontCheckDefaultBrowser = true;
+              ExtensionUpdate = true;
+              OfferToSaveLogins = false;
+              PasswordManagerEnabled = false;
+              EnableTrackingProtection = {
+                Value = true;
+                Locked = true;
+                Cryptomining = true;
+                Fingerprinting = true;
+                EmailTracking = true;
+              };
+              HardwareAcceleration = true;
+              OverrideFirstRunPage = "";
+              PopupBlocking.Default = true;
+              Preferences = {
+                "browser.backspace_action" = 0;
+                "privacy.trackingprotection.enabled" = true;
+                "media.peerconnection.ice.default_address_only" = true;
+                "media.rdd-sandbox.enabled" = false; # ponytail: DTLS/WebRTC broken without this
+                "network.captive-portal-service.enabled" = false;
+                "network.dns.echconfig.enabled" = true;
+                "network.dns.http3_echconfig.enabled" = true;
+                "geo.enabled" = false;
+                "webgl.disabled" = true;
+              };
+            };
 
             profiles.extra = {
               isDefault = false;
@@ -71,7 +109,6 @@
               extensions.packages = with inputs.firefox-addons.packages.${system}; [
                 keepassxc-browser
                 multi-account-containers
-                buster-captcha-solver
                 github-file-icons
                 widegithub
                 hover-zoom-plus
@@ -144,8 +181,6 @@
                   icon = "vacation";
                 };
               };
-
-              search = import ./zen/search.nix { inherit pkgs; };
 
               settings = {
                 "general.config.sandbox_enabled" = false;

@@ -30,7 +30,7 @@ in
       colors = config.lib.stylix.colors;
 
       wallpaperPath = "/home/${username}/.config/backgrounds/nord.png";
-      browser = "zen";
+      browser = "zen-twilight";
     in
     {
       imports = [
@@ -54,17 +54,20 @@ in
       };
 
       # ── XDG Desktop Portal: niri compositor routes ──────────
+      # ScreenCast/Screenshot use hyprland backend (wlr-screencopy protocol)
+      # instead of gnome (which needs mutter/GNOME Shell).
       xdg.portal.extraPortals = [
         pkgs.xdg-desktop-portal-gnome
         pkgs.xdg-desktop-portal-gtk
+        pkgs.xdg-desktop-portal-hyprland
       ];
       xdg.portal.config.niri = {
         default = [ "gtk" ];
         "org.freedesktop.impl.portal.Access" = [ "gtk" ];
         "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
         "org.freedesktop.impl.portal.Notification" = [ "gtk" ];
-        "org.freedesktop.impl.portal.ScreenCast" = [ "gnome" ];
-        "org.freedesktop.impl.portal.Screenshot" = [ "gnome" ];
+        "org.freedesktop.impl.portal.ScreenCast" = [ "hyprland" ];
+        "org.freedesktop.impl.portal.Screenshot" = [ "hyprland" ];
         "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
       };
 
@@ -113,8 +116,8 @@ in
 
             keyboard = {
               xkb = {
-                layout = "us,ru,ua";
-                options = "grp:alt_shift_toggle,caps:escape";
+                layout = "us";
+                options = "caps:escape";
               };
               repeat-rate = 40;
               repeat-delay = 250;

@@ -11,12 +11,16 @@
       username = config.userOptions.username;
     in
     {
-      home-manager.users.${username} = {
-        imports = [ inputs.nixcord.homeModules.nixcord ];
-        stylix.targets.nixcord.enable = false;
+        imports = [ inputs.nixcord.nixosModules.nixcord ];
+
         programs.nixcord = {
           enable = true;
-          discord.vencord.enable = true;
+          discord.enable = true;
+          discord.openASAR.enable = false;
+          discord.settings = {
+            SKIP_HOST_UPDATE = true;
+          };
+          user = username;
 
           config = {
             themeLinks = [
@@ -146,6 +150,5 @@
             };
           };
         };
-      };
     };
 }
