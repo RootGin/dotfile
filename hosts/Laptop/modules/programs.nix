@@ -13,6 +13,9 @@
             enable = true;
           };
         };
+        emulation = {
+          waydroid.enable = true;
+        };
         ai = {
           enable = true;
           opencode = {
