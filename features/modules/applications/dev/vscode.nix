@@ -1,7 +1,12 @@
 { self, inputs, ... }:
 {
   flake.nixosModules.applicationsDevVscode =
-    { config, lib, pkgs, ... }:
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     {
       config = lib.mkIf config.programs.dev.enable {
         nixpkgs.overlays = [ inputs.nix4vscode.overlays.default ];
@@ -37,10 +42,14 @@
                 ms-python.python
                 ms-python.vscode-pylance
 
+                # ── LaTeX ─────────────────────────────────────────────────────
+                james-yu.latex-workshop
+
                 # ── Rust ──────────────────────────────────────────────────────
                 rust-lang.rust-analyzer
 
-              ]) ++ pkgs.nix4vscode.forVscode [
+              ])
+              ++ pkgs.nix4vscode.forVscode [
                 "jnoortheen.nix-ide"
                 "eww-yuck.yuck"
 
