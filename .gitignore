@@ -1,0 +1,14 @@
+# Secrets
+secrets/
+# Local-only config not meant for the repo
+features/modules/applications/dev/oracle-local.nix
+# Nix build artifacts
+result
+result-*
+# direnv
+.envrc
+.direnv
+# Editor temp files
+*.swp
+*.swo
+*~
