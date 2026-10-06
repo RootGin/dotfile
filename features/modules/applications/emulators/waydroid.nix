@@ -7,9 +7,6 @@
       pkgs,
       ...
     }:
-    let
-      username = config.userOptions.username;
-    in
     {
       options.programs.emulation.waydroid = {
         enable = lib.mkEnableOption "Waydroid Android container";

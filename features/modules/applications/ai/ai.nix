@@ -43,9 +43,6 @@
           "opencode-worktree"
           "opencode-md-table-formatter"
         ]
-        # Ponytail checkout shared across projects: the .mjs finds its
-        # hooks/ and skills/ relative to its own file, so the nix store
-        # path works as-is (no per-project install needed).
         ++ lib.optionals opencodeCfg.ponytail.enable [
           "${inputs.ponytail}/.opencode/plugins/ponytail.mjs"
         ];

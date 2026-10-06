@@ -7,7 +7,6 @@
         browser = "zen-twilight";
         colorScheme = "nord";
         spicetifyColorScheme = "Nord";
-        discordClient = "equibop";
         dots = "/etc/nixos";
         hostName = "Laptop";
         username = "rootgin";

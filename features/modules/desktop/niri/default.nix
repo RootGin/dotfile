@@ -9,7 +9,6 @@
     }:
     let
       username = config.userOptions.username;
-      hostName = config.userOptions.hostName;
 
       colors = config.lib.stylix.colors;
 
@@ -74,6 +73,7 @@
         swappy
         libnotify
         brightnessctl
+        gammastep
         playerctl
         pavucontrol
         clipman
@@ -145,9 +145,9 @@
           binds {
               // ── System ──────────────────────────────────────────
               Mod+C { close-window; }
-              Mod+M { spawn "/home/${username}/.config/eww/Phobos-dev/scripts/powermenu.sh" "show"; }
+              Mod+M { spawn "/home/${username}/.config/eww/Phobos-dev/scripts/powermenu.sh" "toggle"; }
               Mod+V { toggle-window-floating; }
-              Mod+Shift+R { spawn "dunstctl" "history-pop"; }
+              Mod+Shift+R { spawn "end-rs" "history" "toggle"; }
               Alt+Return { fullscreen-window; }
 
               // ── Applications ────────────────────────────────────
@@ -173,8 +173,8 @@
               Mod+K { focus-window-up; }
               Mod+Left { focus-column-left; }
               Mod+Right { focus-column-right; }
-              Mod+Up { focus-window-up; }
-              Mod+Down { focus-window-down; }
+              Mod+Up { focus-workspace-up; }
+              Mod+Down { focus-workspace-down; }
 
               // ── Move windows/columns ────────────────────────────
               Mod+Shift+H { move-column-left; }
@@ -191,6 +191,7 @@
               Mod+Alt+Right { set-column-width "+5%"; }
               Mod+Alt+Up { set-window-height "-5%"; }
               Mod+Alt+Down { set-window-height "+5%"; }
+              Mod+Space { maximize-column; }
 
               // ── Workspace switching ─────────────────────────────
               Mod+1 { focus-workspace 1; }
@@ -294,7 +295,6 @@
 
           spawn-at-startup "uwsm" "finalize"
           spawn-at-startup "${lib.getExe (pkgs.writeShellScriptBin "niri-wallpaper" "${lib.getExe pkgs.swaybg} -i ${wallpaperPath} -m fill")}"
-          spawn-at-startup "${pkgs.dunst}/bin/dunst"
           spawn-at-startup "${pkgs.clipman}/bin/clipman" "--daemon"
           spawn-at-startup "${pkgs.networkmanagerapplet}/bin/nm-applet"
           spawn-at-startup "${lib.getExe (pkgs.writeShellScriptBin "niri-restart-portals" "while ! busctl --user status org.gnome.Mutter.ScreenCast >/dev/null 2>&1; do sleep 0.2; done; systemctl --user restart xdg-desktop-portal.service")}"

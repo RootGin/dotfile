@@ -16,7 +16,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-minecraft.url = "github:Infinidoge/nix-minecraft";
     nix-flatpak.url = "github:gmodena/nix-flatpak/v0.6.0";
     nix-chromium-webapps.url = "github:chobbledotcom/nix-chromium-webapps";
     firefox-addons.url = "gitlab:rycee/nur-expressions/?dir=pkgs/firefox-addons";
@@ -67,11 +66,6 @@
     };
 
 #    niri.url = "github:sodiboo/niri-flake";
-
-    fcitx5-lotus = {
-      url = "github:LotusInputMethod/fcitx5-lotus";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
     # Ponytail: "laziest senior dev" agent ruleset/skill (github:DietrichGebert/ponytail).
     # Non-flake checkout shared by the opencode plugin (see ai.nix).

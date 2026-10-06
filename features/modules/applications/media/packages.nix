@@ -17,6 +17,7 @@
           bottles
           yt-dlp
           ffmpeg
+          komikku
         ];
       };
     };

@@ -54,17 +54,6 @@
           example = "Nord";
         };
 
-        discordClient = lib.mkOption {
-          type = lib.types.str;
-          description = ''
-            The Discord clients CLI command to use as the default Discord client.
-            This should match the executable name of the client enabled in the gaming module.
-
-            Examples: "discord", "vesktop", "equibop"
-          '';
-          example = "discord";
-        };
-
         dots = lib.mkOption {
           type = lib.types.str;
           description = ''

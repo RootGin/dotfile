@@ -21,12 +21,6 @@
               (with pkgs.vscode-extensions; [
                 # ── Java ──────────────────────────────────────────────────────
                 redhat.vscode-xml
-                redhat.java
-                vscjava.vscode-java-debug
-                vscjava.vscode-java-test
-                vscjava.vscode-maven
-                vscjava.vscode-java-dependency
-                vscjava.vscode-gradle
 
                 # ── Theme ─────────────────────────────────────────────────────
                 arcticicestudio.nord-visual-studio-code
@@ -49,7 +43,30 @@
                 rust-lang.rust-analyzer
 
               ])
-              ++ pkgs.nix4vscode.forVscode [
+              ++ pkgs.nix4vscode.forVscodeExt (
+                {
+                  # vscode-java-debug mkdirs ".noConfigDebugAdapterEndpoints" inside
+                  # extensionPath at activation; the nix store is read-only so
+                  # activation throws and every java.debug.* command goes missing.
+                  "vscjava.vscode-java-debug" = {
+                    postPatch = ''
+                      substituteInPlace dist/extension.js \
+                        --replace-fail \
+                          ',v=o.join(t,".noConfigDebugAdapterEndpoints")' \
+                          ',v=o.join(require("os").tmpdir(),"vscode-java-debug")'
+                    '';
+                  };
+                }
+              ) [
+                # Extension Pack for Java members, from the marketplace directly
+                # (nixpkgs' redhat.java is not kept up to date)
+                "redhat.java"
+                "vscjava.vscode-java-debug"
+                "vscjava.vscode-java-test"
+                "vscjava.vscode-maven"
+                "vscjava.vscode-gradle"
+                "vscjava.vscode-java-dependency"
+
                 "jnoortheen.nix-ide"
                 "eww-yuck.yuck"
 
