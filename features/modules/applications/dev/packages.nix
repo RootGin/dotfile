@@ -13,8 +13,7 @@
         jdk17
         maven
         gradle
-        docker-compose
-        (python3.withPackages (ps: [ ps.pygobject3 ps.pyyaml ]))
+        (python3.withPackages (ps: [ ps.pygobject3 ]))
         rustc
         cargo
       ];
@@ -23,6 +22,7 @@
       config = lib.mkIf config.programs.dev.enable {
         environment.systemPackages =
           defaultPackages ++ config.programs.dev.optionalPackages;
+        # Default JDK for Maven builds (qlctkt-service = Java 17).
         environment.sessionVariables.JAVA_HOME = "${pkgs.jdk17}";
       };
     };
