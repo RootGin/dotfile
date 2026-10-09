@@ -8,10 +8,10 @@
       ...
     }:
     {
-      imports = [ inputs.nvf.nixosModules.default ]
+      imports = [ inputs.nvf.nixosModules.default ];
 
       config = lib.mkIf config.programs.dev.enable {
-        stylix.targets.nvf.enable = false;
+        # stylix.targets.nvf.enable = false;
         programs.nvf = {
           enable = true;
         };
