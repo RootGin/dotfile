@@ -5,7 +5,7 @@
       blueman.enable = true;
       flatpak.enable = true;
       vicinae.enable = true;
-      tailscale.enable = false;
+      netbird.enable = true;
     };
   };
 }

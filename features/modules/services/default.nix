@@ -5,7 +5,7 @@
       self.nixosModules.modulesServicesBlueman
       self.nixosModules.modulesServicesFlatpak
       self.nixosModules.modulesServicesVicinae
-      self.nixosModules.modulesServicesTailscale
+      self.nixosModules.modulesServicesNetbird
     ];
   };
 }

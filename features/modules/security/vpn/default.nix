@@ -11,14 +11,11 @@
       environment.systemPackages = with pkgs;[
         proton-vpn
         proton-vpn-cli
-        netbird-ui
         networkmanager-openvpn
       ];
 
       services.dbus.packages = [ pkgs.networkmanager-openvpn ];
       networking.networkmanager.plugins = [ pkgs.networkmanager-openvpn ];
-      
-      services.netbird.enable = true;
 
       services.zerotierone = {
         enable = true;
