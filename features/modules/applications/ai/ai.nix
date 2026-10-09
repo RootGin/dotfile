@@ -51,9 +51,7 @@
     in
     {
       config = lib.mkIf cfg.enable {
-
-        environment.systemPackages = lib.optionals opencodeCfg.enable (with pkgs; [ opencode mcp-nixos ]);
-
+        environment.systemPackages = (with pkgs; [ antigravity-cli antigravity-hub antigravity-ide]) ++ lib.optionals opencodeCfg.enable (with pkgs; [ opencode mcp-nixos ]);
         home-manager.users.${username} = lib.mkIf opencodeCfg.enable {
           xdg.configFile."opencode/opencode.json" = {
             force = true;

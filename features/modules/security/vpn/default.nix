@@ -11,24 +11,18 @@
       environment.systemPackages = with pkgs;[
         proton-vpn
         proton-vpn-cli
+        netbird-ui
         networkmanager-openvpn
       ];
 
       services.dbus.packages = [ pkgs.networkmanager-openvpn ];
       networking.networkmanager.plugins = [ pkgs.networkmanager-openvpn ];
+      
+      services.netbird.enable = true;
 
-      # Disabled: ZeroTier not used (proton-vpn instead).
-      # services.zerotierone = {
-      #   enable = true;
-      # };
-      #
-      # systemd.services.zerotierone = lib.mkIf config.security.agenix.enable {
-      #   postStart = ''
-      #     ${pkgs.zerotierone}/bin/zerotier-cli join "$(cat ${
-      #       config.age.secrets."zerotier-network-id".path
-      #     })" || true
-      #   '';
-      # };
+      services.zerotierone = {
+        enable = true;
+      };
 
       networking.firewall.allowedTCPPorts = [ 25565 ];
       networking.firewall.allowedUDPPorts = [ 19132 ];
