@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   # Preview a GRUB 2.x theme in KVM/QEMU without rebooting.
   # Not in nixpkgs; pure-stdlib Python package, so package it here.
@@ -34,7 +39,8 @@ let
   };
 in
 {
-  options.my.boot.grub.enable = lib.mkEnableOption "GRUB with the custom theme (instead of systemd-boot)";
+  options.my.boot.grub.enable =
+    lib.mkEnableOption "GRUB with the custom theme (instead of systemd-boot)";
 
   config = lib.mkMerge [
     {

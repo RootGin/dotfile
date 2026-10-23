@@ -25,11 +25,11 @@ in
 {
 
   config = lib.mkIf config.my.desktop.enable {
-  environment.systemPackages = with pkgs; [ eww ];
+    environment.systemPackages = with pkgs; [ eww ];
 
-  home-manager.users.${username} = {
-    #        xdg.configFile."eww/eww.yuck".source = ./eww.yuck;
-    #        xdg.configFile."eww/eww.scss".source = ./eww.scss;
-  };
+    home-manager.users.${username} = {
+      #        xdg.configFile."eww/eww.yuck".source = ./eww.yuck;
+      #        xdg.configFile."eww/eww.scss".source = ./eww.scss;
+    };
   };
 }

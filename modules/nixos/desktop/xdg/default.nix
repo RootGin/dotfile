@@ -80,55 +80,55 @@ in
 
   config = lib.mkIf config.my.desktop.enable {
 
-  # ── MIME type associations ───────────────────────────────
-  xdg.mime = {
-    enable = true;
-    defaultApplications =
-      lib.listToAttrs (
-        lib.flatten (
-          lib.mapAttrsToList (
-            category: mimes: map (mime: lib.attrsets.nameValuePair mime [ defaultApps."${category}" ]) mimes
-          ) mimeMap
+    # ── MIME type associations ───────────────────────────────
+    xdg.mime = {
+      enable = true;
+      defaultApplications =
+        lib.listToAttrs (
+          lib.flatten (
+            lib.mapAttrsToList (
+              category: mimes: map (mime: lib.attrsets.nameValuePair mime [ defaultApps."${category}" ]) mimes
+            ) mimeMap
+          )
         )
-      )
-      # If librewolf is the firefox package AND chromium isn't enabled,
-      # register it as the default browser. Otherwise the default
-      # (zen.desktop) applies.
-      // lib.optionalAttrs (librewolf && !chromium) {
-        "text/html" = [ "librewolf.desktop" ];
-        "x-scheme-handler/http" = [ "librewolf.desktop" ];
-        "x-scheme-handler/https" = [ "librewolf.desktop" ];
-      };
-  };
-
-  # ── Portal fallback (common) — compositor‑specific config  ──
-  # (e.g. hyprland) takes priority over config.common at runtime.
-  xdg.portal.config.common = {
-    default = [
-      "hyprland"
-      "gtk"
-    ];
-    "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
-    "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
-  };
-
-  environment.systemPackages = with pkgs; [
-    xdg-user-dirs
-    xdg-utils
-  ];
-
-  home-manager.users.${username} = _: {
-    xdg = {
-      userDirs = {
-        enable = true;
-        createDirectories = true;
-        setSessionVariables = false;
-      };
+        # If librewolf is the firefox package AND chromium isn't enabled,
+        # register it as the default browser. Otherwise the default
+        # (zen.desktop) applies.
+        // lib.optionalAttrs (librewolf && !chromium) {
+          "text/html" = [ "librewolf.desktop" ];
+          "x-scheme-handler/http" = [ "librewolf.desktop" ];
+          "x-scheme-handler/https" = [ "librewolf.desktop" ];
+        };
     };
-    # Force-disable GTK4 theming. stylix (gtk target) defines a non-null
-    # gtk.gtk4.theme; mkForce preserves the intent (no GTK4 theme) and
-    # keeps stylix theming GTK3 only.
-    gtk.gtk4.theme = lib.mkForce null;
-  };
+
+    # ── Portal fallback (common) — compositor‑specific config  ──
+    # (e.g. hyprland) takes priority over config.common at runtime.
+    xdg.portal.config.common = {
+      default = [
+        "hyprland"
+        "gtk"
+      ];
+      "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
+      "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+    };
+
+    environment.systemPackages = with pkgs; [
+      xdg-user-dirs
+      xdg-utils
+    ];
+
+    home-manager.users.${username} = _: {
+      xdg = {
+        userDirs = {
+          enable = true;
+          createDirectories = true;
+          setSessionVariables = false;
+        };
+      };
+      # Force-disable GTK4 theming. stylix (gtk target) defines a non-null
+      # gtk.gtk4.theme; mkForce preserves the intent (no GTK4 theme) and
+      # keeps stylix theming GTK3 only.
+      gtk.gtk4.theme = lib.mkForce null;
+    };
   };
 }
