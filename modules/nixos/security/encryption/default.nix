@@ -8,11 +8,11 @@
       ...
     }:
     {
-      options.securityModule.encryption.passwords = {
+      options.my.security.encryption.passwords = {
         enable = lib.mkEnableOption "Enable passwords module";
       };
 
-      config = lib.mkIf config.securityModule.encryption.passwords.enable {
+      config = lib.mkIf config.my.security.encryption.passwords.enable {
         environment = {
           systemPackages = with pkgs; [
             bitwarden-desktop

@@ -12,11 +12,11 @@
     in
     {
       imports = [ inputs.home-manager.nixosModules.home-manager ];
-      options.securityModule.gpg = {
+      options.my.security.gpg = {
         enable = lib.mkEnableOption "Enable the gpg module";
       };
 
-      config = lib.mkIf config.securityModule.gpg.enable {
+      config = lib.mkIf config.my.security.gpg.enable {
         home-manager.users.${username} = _: {
           programs.gpg.enable = true;
 

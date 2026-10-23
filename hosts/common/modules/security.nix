@@ -1,7 +1,7 @@
 { self, inputs, ... }:
 {
   flake.nixosModules.hostCommonModulesSecurity = {
-    config.securityModule = {
+    config.my.security = {
       encryption = {
         passwords.enable = true;
       };
