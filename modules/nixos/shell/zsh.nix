@@ -13,11 +13,11 @@
     in
     {
       imports = [ inputs.home-manager.nixosModules.home-manager ];
-      options.shell.zsh = {
+      options.my.shell.zsh = {
         enable = lib.mkEnableOption "Enable zsh Module";
       };
 
-      config = lib.mkIf config.shell.zsh.enable {
+      config = lib.mkIf config.my.shell.zsh.enable {
         environment.shells = with pkgs; [ zsh ];
         environment.systemPackages = with pkgs; [ zsh-autocomplete ];
 

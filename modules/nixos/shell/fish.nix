@@ -13,11 +13,11 @@
     in
     {
       imports = [ inputs.home-manager.nixosModules.home-manager ];
-      options.shell.fish = {
+      options.my.shell.fish = {
         enable = lib.mkEnableOption "Enable fish Module";
       };
 
-      config = lib.mkIf config.shell.fish.enable {
+      config = lib.mkIf config.my.shell.fish.enable {
         environment.shells = with pkgs; [ fish ];
         environment.systemPackages = with pkgs; [ fzf ];
 
