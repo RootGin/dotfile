@@ -4,13 +4,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    flake-parts = {
-      url = "github:hercules-ci/flake-parts";
-      inputs.nixpkgs-lib.follows = "nixpkgs";
-    };
-
-    import-tree.url = "github:vic/import-tree";
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -65,26 +58,27 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-#    niri.url = "github:sodiboo/niri-flake";
-
-    # Ponytail: "laziest senior dev" agent ruleset/skill (github:DietrichGebert/ponytail).
-    # Non-flake checkout shared by the opencode plugin (see ai.nix).
     ponytail = {
       url = "github:DietrichGebert/ponytail";
       flake = false;
     };
   };
 
-  outputs =
-    inputs:
-    inputs.flake-parts.lib.mkFlake { inherit inputs; } (
-      { self, inputs, ... }:
-      {
-        imports = [
-          (inputs.import-tree ./features)
-          (inputs.import-tree ./hosts)
-        ];
+  outputs = { self, nixpkgs, ... }@inputs:
+    let
+      system = "x86_64-linux";
+      mkHost = hostPath: nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs self; };
+        modules = [ hostPath ];
+      };
+    in
+    {
+      nixosConfigurations = {
+        Laptop = mkHost ./hosts/laptop;
+        thumb  = mkHost ./hosts/thumb;
+      };
 
-      }
-    );
+      formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;
+    };
 }

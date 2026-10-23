@@ -1,6 +1,4 @@
-{ self, inputs, ... }:
 {
-  flake.nixosModules.hostCommonLocale = {
     time.timeZone = "Asia/Ho_Chi_Minh";
 
     services.timesyncd.enable = true;
@@ -23,5 +21,4 @@
       xkb.layout = "us";
       xkb.variant = "";
     };
-  };
-}
+  }
