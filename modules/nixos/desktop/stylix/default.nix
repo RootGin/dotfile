@@ -8,7 +8,7 @@
       ...
     }:
     let
-      inherit (config.userOptions) colorScheme;
+      inherit (config.my.user) colorScheme;
     in
     {
       imports = [

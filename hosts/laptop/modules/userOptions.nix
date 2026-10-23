@@ -3,7 +3,7 @@
   flake.nixosModules.hostLaptopModulesUserOptions =
     { config, ... }:
     {
-      config.userOptions = {
+      config.my.user = {
         browser = "zen-twilight";
         colorScheme = "nord";
         spicetifyColorScheme = "Nord";

@@ -7,7 +7,7 @@
 # Usage:
 #   Set these options in your host configuration (e.g., hosts/Desktop/modules/userOptions.nix):
 #
-#   config.userOptions = {
+#   config.my.user = {
 #     username = "myuser";
 #     hostName = "myhost";
 #     browser = "firefox";
@@ -16,7 +16,7 @@
 #     dots = "/home/myuser/.dotfiles";
 #   };
 #
-# These options are then accessible throughout all modules via `config.userOptions.*`
+# These options are then accessible throughout all modules via `config.my.user.*`
 { self, inputs, ... }:
 {
 
@@ -24,7 +24,7 @@
     { lib, ... }:
 
     {
-      options.userOptions = {
+      options.my.user = {
         browser = lib.mkOption {
           type = lib.types.str;
           description = ''

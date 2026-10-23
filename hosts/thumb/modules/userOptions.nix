@@ -3,7 +3,7 @@
   flake.nixosModules.hostThumbModulesUserOptions =
     { config, ... }:
     {
-      config.userOptions = {
+      config.my.user = {
         hostName = "thumb";
         username = "rootgin";
         dots = "/etc/nixos";

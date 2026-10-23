@@ -3,7 +3,7 @@
   flake.nixosModules.coreProgramsMonitoringFastfetch =
     { config, pkgs, ... }:
     let
-      username = config.userOptions.username;
+      username = config.my.user.username;
     in
     {
       imports = [ inputs.home-manager.nixosModules.home-manager ];

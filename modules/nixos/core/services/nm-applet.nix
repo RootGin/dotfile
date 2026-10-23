@@ -3,7 +3,7 @@
   flake.nixosModules.coreServicesNmapplet =
     { config, ... }:
     let
-      username = config.userOptions.username;
+      username = config.my.user.username;
     in
     {
       home-manager.users.${username} = _: {

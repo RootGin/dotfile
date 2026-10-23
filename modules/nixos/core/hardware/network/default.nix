@@ -7,7 +7,7 @@
       ...
     }:
     let
-      username = config.userOptions.username;
+      username = config.my.user.username;
     in
     {
       networking = {
@@ -19,7 +19,7 @@
         };
         # No WWAN modem in this laptop -> drop ModemManager
         modemmanager.enable = false;
-        hostName = config.userOptions.hostName;
+        hostName = config.my.user.hostName;
         firewall = {
           allowedTCPPorts = [
             53317 # localsend

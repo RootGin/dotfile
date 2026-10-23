@@ -7,7 +7,7 @@
     ...
   }:
   let
-    username = config.userOptions.username;
+    username = config.my.user.username;
   in {
     config = lib.mkIf config.my.programs.comms.enable {
       home-manager.users.${username} = {

@@ -8,7 +8,7 @@
       ...
     }:
     let
-      username = config.userOptions.username;
+      username = config.my.user.username;
     in
     {
       imports = [ inputs.nixcord.nixosModules.nixcord ];

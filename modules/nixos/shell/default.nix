@@ -3,7 +3,7 @@
   flake.nixosModules.modulesShell =
     { config, pkgs, ... }:
     let
-      username = config.userOptions.username;
+      username = config.my.user.username;
     in
     {
       imports = [

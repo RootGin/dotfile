@@ -7,8 +7,8 @@
       ...
     }:
     let
-      dots = config.userOptions.dots;
-      username = config.userOptions.username;
+      dots = config.my.user.dots;
+      username = config.my.user.username;
     in
     {
       imports = [
@@ -21,7 +21,7 @@
       system = {
         autoUpgrade = {
           enable = true;
-          flake = "${config.userOptions.dots}";
+          flake = "${config.my.user.dots}";
           flags = [
             "-L"
           ];

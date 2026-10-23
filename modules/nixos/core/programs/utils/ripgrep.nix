@@ -7,7 +7,7 @@
       ...
     }:
     let
-      username = config.userOptions.username;
+      username = config.my.user.username;
     in
     {
       environment.sessionVariables = {

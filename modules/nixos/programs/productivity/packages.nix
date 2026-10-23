@@ -3,7 +3,7 @@
   flake.nixosModules.applicationsProductivityPackages =
     { config, lib, pkgs, ... }:
     let
-      username = config.userOptions.username;
+      username = config.my.user.username;
 
       # Upstream ships a glibc binary only; no nixpkgs package.
       end-rs = pkgs.stdenvNoCC.mkDerivation {

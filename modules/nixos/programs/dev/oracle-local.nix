@@ -11,7 +11,7 @@
       cfg = config.my.programs.dev.oracleLocal;
       containerName = "oracle-free";
       dbPassword = "qlctkt#123";
-      schemaDir = "/home/${config.userOptions.username}/Documents/Viettel/qlctkt/qlctkt-service/db";
+      schemaDir = "/home/${config.my.user.username}/Documents/Viettel/qlctkt/qlctkt-service/db";
     in
     {
       options.my.programs.dev.oracleLocal = {

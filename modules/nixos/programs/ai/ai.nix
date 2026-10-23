@@ -8,7 +8,7 @@
       ...
     }:
     let
-      inherit (config.userOptions) username;
+      inherit (config.my.user) username;
       cfg = config.my.programs.ai;
       opencodeCfg = cfg.opencode;
 

@@ -8,7 +8,7 @@
       ...
     }:
     let
-      username = config.userOptions.username;
+      username = config.my.user.username;
       system = pkgs.stdenv.hostPlatform.system;
       colors = config.lib.stylix.colors;
     in

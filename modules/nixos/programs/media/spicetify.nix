@@ -15,7 +15,7 @@
         programs.spicetify = {
           enable = true;
           theme = spicePkgs.themes.text;
-          colorScheme = config.userOptions.spicetifyColorScheme;
+          colorScheme = config.my.user.spicetifyColorScheme;
 
           enabledSnippets = with spicePkgs.snippets; [
             autoHideFriends

@@ -8,7 +8,7 @@
       ...
     }:
     let
-      inherit (config.userOptions) username;
+      inherit (config.my.user) username;
 
       # Browser detection — match by package name (librewolf‑branded Firefox vs vanilla).
       firefoxPkg = config.my.programs.browsing.firefox.package;

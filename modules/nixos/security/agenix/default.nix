@@ -8,7 +8,7 @@
       ...
     }:
     let
-      username = config.userOptions.username;
+      username = config.my.user.username;
       secretsDir = "${self.outPath}/secrets";
 
       hasSecret = name: builtins.pathExists "${secretsDir}/${name}.age";
