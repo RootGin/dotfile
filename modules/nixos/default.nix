@@ -1,8 +1,8 @@
 {
-    imports = [
-      ./assets
-      ./modules.nix
-      ./core
-      ../../users/rootgin
-    ];
-  }
+  imports = [
+    ./assets
+    ./modules.nix
+    ./core
+    ../../users/rootgin
+  ];
+}

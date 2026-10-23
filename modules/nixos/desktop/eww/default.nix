@@ -14,18 +14,18 @@
 #   Reload config:    eww reload
 
 {
-      config,
-      pkgs,
-      ...
-    }:
-    let
-      username = config.my.user.username;
-    in
-    {
-      environment.systemPackages = with pkgs; [ eww ];
+  config,
+  pkgs,
+  ...
+}:
+let
+  username = config.my.user.username;
+in
+{
+  environment.systemPackages = with pkgs; [ eww ];
 
-      home-manager.users.${username} = {
-#        xdg.configFile."eww/eww.yuck".source = ./eww.yuck;
-#        xdg.configFile."eww/eww.scss".source = ./eww.scss;
-      };
-    }
+  home-manager.users.${username} = {
+    #        xdg.configFile."eww/eww.yuck".source = ./eww.yuck;
+    #        xdg.configFile."eww/eww.scss".source = ./eww.scss;
+  };
+}

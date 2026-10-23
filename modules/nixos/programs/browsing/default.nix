@@ -1,9 +1,9 @@
 { pkgs, lib, ... }:
-    {
-      imports = [
-        ./chromium.nix
-        ./chromium-webapps.nix
-        ./firefox.nix
-        ./zen.nix
-      ];
-    }
+{
+  imports = [
+    ./chromium.nix
+    ./chromium-webapps.nix
+    ./firefox.nix
+    ./zen.nix
+  ];
+}

@@ -1,7 +1,7 @@
 {
-    imports = [
-      ./options.nix
-      ./spicetify.nix
-      ./packages.nix
-    ];
-  }
+  imports = [
+    ./options.nix
+    ./spicetify.nix
+    ./packages.nix
+  ];
+}

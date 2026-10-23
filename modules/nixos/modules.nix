@@ -1,11 +1,11 @@
 {
-    imports = [
-      ./programs
-      ./desktop
-      ./hardware
-      ./security
-      ./services
-      ./shell
-      ./user
-    ];
-  }
+  imports = [
+    ./programs
+    ./desktop
+    ./hardware
+    ./security
+    ./services
+    ./shell
+    ./user
+  ];
+}

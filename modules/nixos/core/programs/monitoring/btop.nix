@@ -1,10 +1,10 @@
 {
-      pkgs,
-      ...
-    }:
-    {
-      environment.systemPackages = with pkgs; [
-        btop
-        resources
-      ];
-    }
+  pkgs,
+  ...
+}:
+{
+  environment.systemPackages = with pkgs; [
+    btop
+    resources
+  ];
+}

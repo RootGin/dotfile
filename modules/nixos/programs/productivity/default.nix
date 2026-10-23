@@ -1,7 +1,7 @@
 {
-    imports = [
-      ./options.nix
-      ./packages.nix
-      ./drawio.nix
-    ];
-  }
+  imports = [
+    ./options.nix
+    ./packages.nix
+    ./drawio.nix
+  ];
+}

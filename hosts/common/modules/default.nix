@@ -1,6 +1,6 @@
 {
-    imports = [
-      ./security.nix
-      ./shell.nix
-    ];
-  }
+  imports = [
+    ./security.nix
+    ./shell.nix
+  ];
+}

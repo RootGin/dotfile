@@ -1,12 +1,12 @@
 { ... }:
-    {
-      imports = [
-        ./eww
-        ./ly
-        ./stylix
-        ./xdg
-        ./niri
-      ];
+{
+  imports = [
+    ./eww
+    ./ly
+    ./stylix
+    ./xdg
+    ./niri
+  ];
 
-      home-manager.backupFileExtension = "hm-backup";
-    }
+  home-manager.backupFileExtension = "hm-backup";
+}

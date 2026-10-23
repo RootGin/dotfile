@@ -64,19 +64,22 @@
     };
   };
 
-  outputs = { self, nixpkgs, ... }@inputs:
+  outputs =
+    { self, nixpkgs, ... }@inputs:
     let
       system = "x86_64-linux";
-      mkHost = hostPath: nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = { inherit inputs self; };
-        modules = [ hostPath ];
-      };
+      mkHost =
+        hostPath:
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = { inherit inputs self; };
+          modules = [ hostPath ];
+        };
     in
     {
       nixosConfigurations = {
         Laptop = mkHost ./hosts/laptop;
-        thumb  = mkHost ./hosts/thumb;
+        thumb = mkHost ./hosts/thumb;
       };
 
       formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;

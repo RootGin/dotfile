@@ -1,6 +1,6 @@
 {
-    imports = [
-      ./monitoring
-      ./utils
-    ];
-  }
+  imports = [
+    ./monitoring
+    ./utils
+  ];
+}

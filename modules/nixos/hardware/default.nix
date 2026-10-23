@@ -1,6 +1,6 @@
 {
-    imports = [
-      ./graphics
-      ./razer
-    ];
-  }
+  imports = [
+    ./graphics
+    ./razer
+  ];
+}
