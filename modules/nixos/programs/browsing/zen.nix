@@ -11,7 +11,6 @@ let
   colors = config.lib.stylix.colors;
 in
 {
-  imports = [ inputs.home-manager.nixosModules.home-manager ];
 
   options.my.programs.browsing.zen = {
     enable = lib.mkEnableOption "Zen browser";

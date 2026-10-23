@@ -14,9 +14,6 @@ let
   browser = "zen-twilight";
 in
 {
-  imports = [
-    inputs.home-manager.nixosModules.home-manager
-  ];
 
   config = lib.mkIf config.my.desktop.enable {
 

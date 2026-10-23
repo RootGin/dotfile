@@ -3,7 +3,6 @@ let
   username = config.my.user.username;
 in
 {
-  imports = [ inputs.home-manager.nixosModules.home-manager ];
   home-manager.users.${username} = _: {
     home.file = {
       ".config/zsh/.p10k.zsh".source = ./p10k.zsh;

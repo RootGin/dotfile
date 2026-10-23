@@ -8,9 +8,6 @@ let
   username = config.my.user.username;
 in
 {
-  imports = [
-    inputs.home-manager.nixosModules.home-manager
-  ];
 
   options.my.services.vicinae = {
     enable = lib.mkEnableOption "Enable vicinae service";

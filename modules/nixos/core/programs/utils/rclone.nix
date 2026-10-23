@@ -9,7 +9,6 @@ let
   username = config.my.user.username;
 in
 {
-  imports = [ inputs.home-manager.nixosModules.home-manager ];
   environment.systemPackages = with pkgs; [ rclone ];
 
   home-manager.users.${username} = {

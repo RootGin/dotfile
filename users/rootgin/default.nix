@@ -9,7 +9,6 @@ let
   username = config.my.user.username;
 in
 {
-  imports = [ inputs.home-manager.nixosModules.home-manager ];
   programs.fish.enable = true;
   users.users.${username} = {
     shell = pkgs.fish;

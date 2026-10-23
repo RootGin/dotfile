@@ -9,7 +9,6 @@ let
   username = config.my.user.username;
 in
 {
-  imports = [ inputs.home-manager.nixosModules.home-manager ];
 
   options.my.programs.terminal = {
     enable = lib.mkEnableOption "Enable terminal module";

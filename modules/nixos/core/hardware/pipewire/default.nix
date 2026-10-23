@@ -9,7 +9,6 @@ let
   username = config.my.user.username;
 in
 {
-  imports = [ inputs.home-manager.nixosModules.home-manager ];
   services.pipewire = {
     enable = config.my.desktop.enable;
     alsa.enable = true;

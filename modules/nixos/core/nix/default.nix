@@ -13,7 +13,6 @@ in
     ./btrfs.nix
     ./gc.nix
     ./settings.nix
-    inputs.home-manager.nixosModules.home-manager
   ];
 
   system = {

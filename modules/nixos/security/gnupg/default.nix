@@ -9,7 +9,6 @@ let
   username = config.my.user.username;
 in
 {
-  imports = [ inputs.home-manager.nixosModules.home-manager ];
   options.my.security.gpg = {
     enable = lib.mkEnableOption "Enable the gpg module";
   };

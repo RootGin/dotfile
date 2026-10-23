@@ -8,7 +8,6 @@ let
   username = config.my.user.username;
 in
 {
-  imports = [ inputs.home-manager.nixosModules.home-manager ];
   environment.systemPackages = with pkgs; [ fastfetch ];
 
   home-manager.users.${username} = _: {

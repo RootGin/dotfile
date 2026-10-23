@@ -9,8 +9,6 @@ let
 in
 {
   imports = [
-    inputs.home-manager.nixosModules.home-manager
-
     ./bash.nix
     ./p10k
     ./zsh.nix
