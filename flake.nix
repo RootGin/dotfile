@@ -83,6 +83,7 @@
         imports = [
           (inputs.import-tree ./features)
           (inputs.import-tree ./hosts)
+          (inputs.import-tree ./users)
           (inputs.import-tree ./flake)
           (inputs.import-tree ./profiles)
         ];
