@@ -3,7 +3,7 @@
   flake.nixosModules.modulesHardwareGraphics =
     { lib, ... }:
     {
-      options.hardwareModule = {
+      options.my.hardware = {
         gpu = {
           enable = lib.mkEnableOption "Enable GPU support";
           brand = lib.mkOption {

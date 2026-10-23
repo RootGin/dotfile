@@ -8,11 +8,11 @@
       ...
     }:
     {
-      options.hardwareModule.razer = {
+      options.my.hardware.razer = {
         enable = lib.mkEnableOption "Enable razer module";
       };
 
-      config = lib.mkIf config.hardwareModule.razer.enable {
+      config = lib.mkIf config.my.hardware.razer.enable {
         hardware.openrazer.enable = true;
         environment.systemPackages = with pkgs; [
           openrazer-daemon

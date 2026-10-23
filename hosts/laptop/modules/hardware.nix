@@ -1,7 +1,7 @@
 { self, inputs, ... }:
 {
   flake.nixosModules.hostLaptopModulesHardware = {
-    config.hardwareModule = {
+    config.my.hardware = {
       gpu.enable = true;
       gpu.brand = "amd";
     };

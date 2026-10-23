@@ -10,7 +10,7 @@
 
     let
       inherit (lib) mkIf mkMerge;
-      cfg = config.hardwareModule;
+      cfg = config.my.hardware;
     in
     {
       config = mkMerge [
