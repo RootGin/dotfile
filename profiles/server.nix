@@ -23,6 +23,5 @@
 
     # Headless power & display savings.
     # Display manager, bluetooth and pipewire follow my.desktop.enable (off by default).
-    services.xserver.enable = lib.mkForce false;
   };
 }
