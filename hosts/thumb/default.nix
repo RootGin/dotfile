@@ -2,14 +2,12 @@
 {
   flake.nixosConfigurations.thumb = inputs.nixpkgs.lib.nixosSystem {
     modules = [
-      self.nixosModules.features
-
-      self.nixosModules.hostCommon
-      self.nixosModules.profileServer
-
-      self.nixosModules.hostThumbModulesUserOptions
-      self.nixosModules.hostThumbModulesServices
-      self.nixosModules.hostThumbHardware
+      ../../modules/nixos
+      ../common
+      ../../profiles/server.nix
+      ./modules/userOptions.nix
+      ./modules/services.nix
+      ./hardware-configuration.nix
     ];
   };
 }

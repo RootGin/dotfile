@@ -1,14 +1,11 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.modulesShellFish =
-    {
+{ inputs,
       config,
       lib,
       pkgs,
       ...
     }:
     let
-      myAliases = self.lib.commonAliases;
+      myAliases = (import ./commonAliases.nix);
       username = config.my.user.username;
     in
     {
@@ -57,5 +54,4 @@
           };
         };
       };
-    };
-}
+    }

@@ -1,7 +1,4 @@
-{ self, ... }:
 {
-  flake.nixosModules.applicationsMediaPackages =
-    {
       config,
       lib,
       pkgs,
@@ -20,5 +17,4 @@
           komikku
         ];
       };
-    };
-}
+    }

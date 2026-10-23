@@ -1,6 +1,4 @@
-{ self, inputs, ... }:
 {
-  flake.nixosModules.coreHardwareBluetooth = {
     hardware.bluetooth = {
       enable = true;
       powerOnBoot = true;
@@ -10,5 +8,4 @@
         };
       };
     };
-  };
-}
+  }

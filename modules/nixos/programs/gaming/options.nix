@@ -1,7 +1,4 @@
-{ self, ... }:
-{
-  flake.nixosModules.applicationsGamingOptions =
-    { lib, pkgs, ... }:
+{ lib, pkgs, ... }:
     {
       options.my.programs.gaming = {
         enable = lib.mkEnableOption "Complete gaming profile";
@@ -18,5 +15,4 @@
           description = "Enable gamemode performance optimizations";
         };
       };  
-    };
-}
+    }

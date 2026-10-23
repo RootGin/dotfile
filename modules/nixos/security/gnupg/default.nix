@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.modulesSecurityGnupg =
-    {
+{ inputs,
       config,
       lib,
       pkgs,
@@ -34,5 +31,4 @@
           };
         };
       };
-    };
-}
+    }

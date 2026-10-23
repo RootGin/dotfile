@@ -1,6 +1,4 @@
-{ self, inputs, ... }:
 {
-  flake.nixosModules.coreNixBtrfs = {
     # NOTE: the root filesystem on this host is ext4 (see
     # hosts/Laptop/hardware-configuration.nix), not Btrfs. Running
     # `btrfs scrub`/`btrfs balance` against it fails every week, so both
@@ -46,5 +44,4 @@
       enable = true;
       interval = "weekly";
     };
-  };
-}
+  }

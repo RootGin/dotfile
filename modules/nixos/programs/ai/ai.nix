@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.applicationsAiConfig =
-    {
+{ inputs,
       config,
       lib,
       pkgs,
@@ -59,5 +56,4 @@
           };
         };
       };
-    };
-}
+    }

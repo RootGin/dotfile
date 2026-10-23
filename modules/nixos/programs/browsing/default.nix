@@ -1,13 +1,9 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.applicationsBrowsing =
-    { pkgs, lib, ... }:
+{ pkgs, lib, ... }:
     {
       imports = [
-        self.nixosModules.applicationsBrowsingChromium
-        self.nixosModules.applicationsBrowsingChromiumWebapps
-        self.nixosModules.applicationsBrowsingFirefox
-        self.nixosModules.applicationsBrowsingZen
+        ./chromium.nix
+        ./chromium-webapps.nix
+        ./firefox.nix
+        ./zen.nix
       ];
-    };
-}
+    }

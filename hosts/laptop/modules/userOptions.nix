@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.hostLaptopModulesUserOptions =
-    { config, ... }:
+{ config, ... }:
     {
       config.my.user = {
         browser = "zen-twilight";
@@ -12,5 +9,4 @@
         username = "rootgin";
         wallpaper = "nord.png";
       };
-    };
-}
+    }

@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
 {
-  flake.nixosModules.coreHardwarePrinting =
-    {
       pkgs,
       ...
     }:
@@ -17,5 +14,4 @@
           openFirewall = true;
         };
       };
-    };
-}
+    }

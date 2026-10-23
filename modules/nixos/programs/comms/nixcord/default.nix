@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.applicationsCommsNixcord =
-    {
+{ inputs,
       config,
       lib,
       pkgs,
@@ -148,5 +145,4 @@
           };
         };
       };
-    };
-}
+    }

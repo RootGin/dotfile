@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
 {
-  flake.nixosModules.applicationsContent =
-    {
       config,
       lib,
       pkgs,
@@ -41,5 +38,4 @@
           ];
         };
       };
-    };
-}
+    }

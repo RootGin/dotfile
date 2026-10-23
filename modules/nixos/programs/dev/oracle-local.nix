@@ -1,7 +1,4 @@
-{ self, ... }:
 {
-  flake.nixosModules.applicationsDevOracleLocal =
-    {
       config,
       lib,
       pkgs,
@@ -85,5 +82,4 @@
           '';
         };
       };
-    };
-}
+    }

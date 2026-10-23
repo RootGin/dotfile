@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
 {
-  flake.nixosModules.applicationsEmulators =
-    {
       config,
       lib,
       pkgs,
@@ -12,7 +9,7 @@
     in
     {
       imports = [
-        self.nixosModules.applicationsEmulatorsWaydroid
+        ./waydroid.nix
       ];
       options.my.programs.emulation = {
         enable = lib.mkEnableOption "Enabled the emulation programs";
@@ -35,5 +32,4 @@
           spiceUSBRedirection.enable = true;
         };
       };
-    };
-}
+    }

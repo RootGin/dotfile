@@ -1,11 +1,8 @@
-{ self, inputs, ... }:
 {
-  flake.nixosModules.hostLaptopModules = {
     imports = [
-      self.nixosModules.hostLaptopModulesHardware
-      self.nixosModules.hostLaptopModulesPrograms
-      self.nixosModules.hostLaptopModulesServices
-      self.nixosModules.hostLaptopModulesUserOptions
+      ./hardware.nix
+      ./programs.nix
+      ./service.nix
+      ./userOptions.nix
     ];
-  };
-}
+  }

@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.modulesServicesFlatpak =
-    { config, lib, ... }:
+{ inputs, config, lib, ... }:
     {
       imports = [ inputs.nix-flatpak.nixosModules.nix-flatpak ];
 
@@ -15,5 +12,4 @@
           update.onActivation = true;
         };
       };
-    };
-}
+    }

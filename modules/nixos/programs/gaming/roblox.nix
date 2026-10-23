@@ -1,7 +1,4 @@
-{ self, ... }:
-{
-  flake.nixosModules.applicationsGamingRoblox =
-    { config, lib, ... }:
+{ config, lib, ... }:
     {
       config = lib.mkIf config.my.programs.gaming.enable {
         services.flatpak.packages = [
@@ -9,5 +6,4 @@
           "org.vinegarhq.Vinegar"
         ];
       };
-    };
-}
+    }

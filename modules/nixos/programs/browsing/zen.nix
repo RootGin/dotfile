@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.applicationsBrowsingZen =
-    {
+{ inputs,
       config,
       lib,
       pkgs,
@@ -284,5 +281,4 @@
           };
         };
       };
-    };
-}
+    }

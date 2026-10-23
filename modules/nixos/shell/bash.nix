@@ -1,8 +1,5 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.modulesShellBash =
-    let
-      myAliases = self.lib.commonAliases;
+let
+      myAliases = (import ./commonAliases.nix);
     in
     {
       programs.bash = {
@@ -12,5 +9,4 @@
           eval "$(zoxide init --cmd cd bash)"
         '';
       };
-    };
-}
+    }

@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.applicationsBrowsingFirefox =
-    { config, lib, ... }:
+{ config, lib, ... }:
     {
       options.my.programs.browsing.firefox = {
         enable = lib.mkOption {
@@ -160,5 +157,4 @@
         };
         environment.etc."firefox/policies/policies.json".target = "librewolf/policies/policies.json";
       };
-    };
-}
+    }

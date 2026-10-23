@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.hostThumbModulesUserOptions =
-    { config, ... }:
+{ config, ... }:
     {
       config.my.user = {
         hostName = "thumb";
@@ -13,5 +10,4 @@
         spicetifyColorScheme = "Nord";
         wallpaper = "nord.png";
       };
-    };
-}
+    }

@@ -1,7 +1,4 @@
-{ self, ... }:
 {
-  flake.nixosModules.applicationsGamingLutris =
-    {
       config,
       lib,
       pkgs,
@@ -20,5 +17,4 @@
 
         programs.steam.enable = lib.mkDefault true;
       };
-    };
-}
+    }

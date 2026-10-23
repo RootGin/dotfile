@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.coreProgramsMonitoringFastfetch =
-    { config, pkgs, ... }:
+{ inputs, config, pkgs, ... }:
     let
       username = config.my.user.username;
     in
@@ -15,5 +12,4 @@
           ".config/fastfetch/nixos.png".source = ./nixos.png;
         };
       };
-    };
-}
+    }

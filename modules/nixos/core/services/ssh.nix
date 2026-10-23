@@ -1,6 +1,4 @@
-{ self, inputs, ... }:
 {
-  flake.nixosModules.coreServicesSsh = {
     programs.ssh.extraConfig = ''
       Host *
         AddKeysToAgent yes
@@ -13,5 +11,4 @@
       settings.KbdInteractiveAuthentication = false;
       settings.X11Forwarding = true;
     };
-  };
-}
+  }

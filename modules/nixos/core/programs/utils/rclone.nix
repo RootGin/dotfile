@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.coreProgramsUtilsRclone =
-    {
+{ inputs,
       config,
       lib,
       pkgs,
@@ -55,5 +52,4 @@
       environment.etc."fuse.conf".text = ''
         user_allow_other
       '';
-    };
-}
+    }

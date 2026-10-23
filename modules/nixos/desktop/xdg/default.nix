@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.modulesDesktopXdg =
-    {
+{ inputs,
       config,
       lib,
       pkgs,
@@ -131,5 +128,4 @@
         # keeps stylix theming GTK3 only.
         gtk.gtk4.theme = lib.mkForce null;
       };
-    };
-}
+    }

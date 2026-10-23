@@ -1,10 +1,7 @@
-{ self, ... }:
 {
-  flake.nixosModules.applicationsComms = {
     imports = [
-      self.nixosModules.applicationsCommsMisc
-      self.nixosModules.applicationsCommsOptions
-      self.nixosModules.applicationsCommsNixcord
+      ./misc.nix
+      ./options.nix
+      ./nixcord
     ];
-  };
-}
+  }

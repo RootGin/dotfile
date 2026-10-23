@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.modulesShell =
-    { config, pkgs, ... }:
+{ inputs, config, pkgs, ... }:
     let
       username = config.my.user.username;
     in
@@ -9,10 +6,10 @@
       imports = [
         inputs.home-manager.nixosModules.home-manager
 
-        self.nixosModules.modulesShellBash
-        self.nixosModules.modulesShellP10k
-        self.nixosModules.modulesShellZsh
-        self.nixosModules.modulesShellFish
+        ./bash.nix
+        ./p10k
+        ./zsh.nix
+        ./fish.nix
       ];
 
       home-manager.users.${username} = {
@@ -48,5 +45,4 @@
         unzip
         zoxide
       ];
-    };
-}
+    }

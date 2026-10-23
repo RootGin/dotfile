@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.applicationsTerminal =
-    { config, lib, pkgs, ... }:
+{ inputs, config, lib, pkgs, ... }:
     let
       username = config.my.user.username;
     in
@@ -28,5 +25,4 @@
           };
         };
       };
-    };
-}
+    }

@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
 {
-  flake.nixosModules.applicationsEmulatorsWaydroid =
-    {
       config,
       lib,
       pkgs,
@@ -20,5 +17,4 @@
           waydroid-helper
         ];
       };
-    };
-}
+    }

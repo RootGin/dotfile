@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.modulesServicesNetbird =
-    { config, lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
     {
       options.my.services.netbird = {
         enable = lib.mkEnableOption "Enable NetBird VPN";
@@ -29,5 +26,4 @@
 
         networking.firewall.trustedInterfaces = [ "wt0" ];
       };
-    };
-}
+    }

@@ -1,7 +1,4 @@
-{ self, ... }:
-{
-  flake.nixosModules.applicationsDevPackages =
-    { config, lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
     let
       defaultPackages = with pkgs; [
         devenv
@@ -25,5 +22,4 @@
         # Default JDK for Maven builds (qlctkt-service = Java 17).
         environment.sessionVariables.JAVA_HOME = "${pkgs.jdk17}";
       };
-    };
-}
+    }

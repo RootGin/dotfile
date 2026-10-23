@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.modulesShellP10k =
-    { config, ... }:
+{ inputs, config, ... }:
     let
       username = config.my.user.username;
     in
@@ -12,5 +9,4 @@
           ".config/zsh/.p10k.zsh".source = ./p10k.zsh;
         };
       };
-    };
-}
+    }

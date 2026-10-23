@@ -1,8 +1,4 @@
-{ self, inputs, ... }:
-{
-
-  flake.nixosModules.usersRootgin =
-    {
+{ inputs,
       config,
       lib,
       pkgs,
@@ -29,5 +25,4 @@
         hashedPasswordFile = config.age.secrets."rootgin-password-hash".path;
       };
       users.defaultUserShell = pkgs.fish;
-    };
-}
+    }

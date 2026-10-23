@@ -1,7 +1,4 @@
-{ self, ... }:
-{
-  flake.nixosModules.profileServer =
-    { lib, ... }:
+{ lib, ... }:
     {
       config = {
         my.programs = {
@@ -31,5 +28,4 @@
         hardware.bluetooth.enable = lib.mkForce false;
         services.pipewire.enable = lib.mkForce false;
       };
-    };
-}
+    }

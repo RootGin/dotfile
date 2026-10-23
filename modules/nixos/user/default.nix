@@ -17,11 +17,7 @@
 #   };
 #
 # These options are then accessible throughout all modules via `config.my.user.*`
-{ self, inputs, ... }:
-{
-
-  flake.nixosModules.modulesUser =
-    { lib, ... }:
+{ lib, ... }:
 
     {
       options.my.user = {
@@ -91,5 +87,4 @@
           example = "kanagawa.png";
         };
       };
-    };
-}
+    }

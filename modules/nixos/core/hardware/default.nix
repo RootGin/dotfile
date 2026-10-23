@@ -1,13 +1,4 @@
-{
-  self,
-  inputs,
-  lib,
-  pkgs,
-  ...
-}:
-{
-  flake.nixosModules.coreHardware =
-    { config, ... }:
+{ lib, pkgs, config, ... }:
     let
       cfg = config.services.battery-manager;
 
@@ -93,12 +84,12 @@
     in
     {
       imports = [
-        self.nixosModules.coreHardwareBluetooth
-        self.nixosModules.coreHardwareGraphics
-        self.nixosModules.coreHardwareNetwork
-        self.nixosModules.coreHardwarePipewire
-        self.nixosModules.coreHardwarePrinting
-        self.nixosModules.coreHardwareWebcam
+        ./bluetooth
+        ./graphics
+        ./network
+        ./pipewire
+        ./printing
+        ./webcam
       ];
 
       options.services.battery-manager = {
@@ -177,5 +168,4 @@
           };
         }
       ];
-    };
-}
+    }

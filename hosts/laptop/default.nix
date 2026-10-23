@@ -2,12 +2,11 @@
 {
   flake.nixosConfigurations.Laptop = inputs.nixpkgs.lib.nixosSystem {
     modules = [
-      self.nixosModules.features
-
-      self.nixosModules.hostCommon
-      self.nixosModules.profileWorkstation
-      self.nixosModules.hostLaptopHardware
-      self.nixosModules.hostLaptopModules
+      ../../modules/nixos
+      ../common
+      ../../profiles/workstation.nix
+      ./hardware-configuration.nix
+      ./modules
     ];
   };
 }

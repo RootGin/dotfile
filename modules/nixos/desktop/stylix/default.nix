@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.modulesDesktopStylix =
-    {
+{ inputs,
       config,
       pkgs,
       lib,
@@ -86,5 +83,4 @@
       home-manager.sharedModules = [
         { stylix.targets.rofi.enable = false; }
       ];
-    };
-}
+    }

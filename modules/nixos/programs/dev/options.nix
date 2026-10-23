@@ -1,7 +1,4 @@
-{ self, ... }:
-{
-  flake.nixosModules.applicationsDevOptions =
-    { lib, pkgs, ... }:
+{ lib, pkgs, ... }:
     {
       options.my.programs.dev = {
         enable = lib.mkEnableOption "Enable developer tools";
@@ -16,5 +13,4 @@
           description = "List of optional packages to install alongside the default ones.";
         };
       };
-    };
-}
+    }

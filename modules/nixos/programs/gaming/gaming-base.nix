@@ -1,7 +1,4 @@
-{ self, ... }:
 {
-  flake.nixosModules.applicationsGamingBase =
-    {
       config,
       lib,
       pkgs,
@@ -50,5 +47,4 @@
           ]
           ++ cfg.extraPackages;
       };
-    };
-}
+    }

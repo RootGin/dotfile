@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
 {
-  flake.nixosModules.applicationsUni =
-    {
       config,
       lib,
       pkgs,
@@ -17,5 +14,4 @@
           texliveFull
         ];
       };
-    };
-}
+    }

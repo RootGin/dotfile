@@ -1,6 +1,4 @@
-{ self, ... }:
 {
-  flake.nixosModules.profileWorkstation = {
     config.my.programs = {
       comms.enable = true;
       content.enable = true;
@@ -20,5 +18,4 @@
       netbird.enable = true;
       netbird.ui = true;
     };
-  };
-}
+  }

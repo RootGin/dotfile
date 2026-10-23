@@ -1,8 +1,4 @@
-{ self, inputs, ... }:
-{
-
-  flake.nixosModules.assets =
-    { config, ... }:
+{ inputs, config, ... }:
     let
       username = config.my.user.username;
     in
@@ -14,5 +10,4 @@
           ".config/nixlogo.png".source = ./logo/nix-snowflake.png;
         };
       };
-    };
-}
+    }

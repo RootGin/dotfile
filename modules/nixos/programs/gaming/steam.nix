@@ -1,7 +1,4 @@
-{ self, ... }:
-{
-  flake.nixosModules.applicationsGamingSteam =
-    { config, lib, ... }:
+{ config, lib, ... }:
     {
       config = lib.mkIf config.my.programs.gaming.enable {
         programs = {
@@ -22,5 +19,4 @@
           };
         };
       };
-    };
-}
+    }

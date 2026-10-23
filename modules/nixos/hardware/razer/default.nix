@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
 {
-  flake.nixosModules.modulesHardwareRazer =
-    {
       config,
       lib,
       pkgs,
@@ -19,5 +16,4 @@
           polychromatic
         ];
       };
-    };
-}
+    }

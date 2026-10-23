@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
 {
-  flake.nixosModules.coreProgramsUtilsRipgrep =
-    {
       config,
       pkgs,
       ...
@@ -23,5 +20,4 @@
           --glob=!flake.lock
         '';
       };
-    };
-}
+    }

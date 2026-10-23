@@ -1,7 +1,4 @@
-{ self, ... }:
 {
-  flake.nixosModules.applicationsGamingWine =
-    {
       config,
       lib,
       pkgs,
@@ -22,5 +19,4 @@
           dxvk
         ];
       };
-    };
-}
+    }

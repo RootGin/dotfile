@@ -1,8 +1,4 @@
-{ self, inputs, ... }:
-{
-
-  flake.nixosModules.modulesServicesVicinae =
-    {
+{ inputs,
       config,
       lib,
       ...
@@ -42,5 +38,4 @@
           };
         };
       };
-    };
-}
+    }

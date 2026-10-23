@@ -1,6 +1,4 @@
-{ self, ... }:
 {
-  flake.nixosModules.applicationsCommsMisc = {
     config,
     lib,
     pkgs,
@@ -21,5 +19,4 @@
         ];
       };
     };
-  };
-}
+  }

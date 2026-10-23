@@ -1,7 +1,4 @@
-{ self, ... }:
-{
-  flake.nixosModules.coreBootBoot =
-    { pkgs, ... }:
+{ pkgs, ... }:
     let
       # Preview a GRUB 2.x theme in KVM/QEMU without rebooting.
       # Not in nixpkgs; pure-stdlib Python package, so package it here.
@@ -63,5 +60,4 @@
       environment.systemPackages = [ grub2-theme-preview ];
 
       stylix.targets.grub.enable = false;
-    };
-}
+    }

@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.modulesDesktopNiri =
-    {
+{ inputs,
       config,
       lib,
       pkgs,
@@ -329,5 +326,4 @@
         NIXOS_OZONE_WL = "1";
         XDG_CURRENT_DESKTOP = "X-NIXOS-SYSTEMD-AWARE:niri";
       };
-    };
-}
+    }

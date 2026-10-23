@@ -1,7 +1,4 @@
-{ self, ... }:
-{
-  flake.nixosModules.applicationsAiOptions =
-    { lib, ... }:
+{ lib, ... }:
     {
       options.my.programs.ai = {
         enable = lib.mkEnableOption "Enable AI tools";
@@ -20,5 +17,4 @@
           };
         };
       };
-    };
-}
+    }

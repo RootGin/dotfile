@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.applicationsMediaSpicetify =
-    { config, lib, pkgs, ... }:
+{ inputs, config, lib, pkgs, ... }:
     let
       system = pkgs.stdenv.hostPlatform.system; 
       spicePkgs = inputs.spicetify-nix.legacyPackages.${system};
@@ -51,5 +48,4 @@
           ];
         };
       };
-    };
-}
+    }

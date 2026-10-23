@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.hostLaptopModulesPrograms =
-    { pkgs, ... }:
+{ pkgs, ... }:
     {
       config.my.programs = {
         browsing = {
@@ -33,5 +30,4 @@
           };
         };
       };
-    };
-}
+    }

@@ -1,6 +1,4 @@
-{ self, inputs, ... }:
 {
-  flake.nixosModules.modulesDesktopLy = {
     services.displayManager.ly = {
       enable = true;
       settings = {
@@ -10,5 +8,4 @@
         vi_mode = true;
       };
     };
-  };
-}
+  }

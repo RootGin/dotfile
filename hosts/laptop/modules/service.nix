@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
 {
-  flake.nixosModules.hostLaptopModulesServices =
-    {
       config,
       lib,
       pkgs,
@@ -37,5 +34,4 @@
           AllowSuspendThenHibernate = false;
         };
       };
-    };
-}
+    }

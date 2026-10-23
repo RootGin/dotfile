@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
 {
-  flake.nixosModules.coreProgramsMonitoringBtop =
-    {
       pkgs,
       ...
     }:
@@ -10,5 +7,4 @@
         btop
         resources
       ];
-    };
-}
+    }

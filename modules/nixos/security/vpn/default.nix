@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
 {
-  flake.nixosModules.modulesSecurityVpn =
-    {
       config,
       lib,
       pkgs,
@@ -23,5 +20,4 @@
 
       networking.firewall.allowedTCPPorts = [ 25565 ];
       networking.firewall.allowedUDPPorts = [ 19132 ];
-    };
-}
+    }

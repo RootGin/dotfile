@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
 {
-  flake.nixosModules.modulesServicesBlueman =
-    {
       config,
       lib,
       ...
@@ -14,5 +11,4 @@
       config = lib.mkIf config.my.services.blueman.enable {
         services.blueman.enable = true;
       };
-    };
-}
+    }

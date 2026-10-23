@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.applicationsDevVscode =
-    {
+{ inputs,
       config,
       lib,
       pkgs,
@@ -88,5 +85,4 @@
           })
         ];
       };
-    };
-}
+    }

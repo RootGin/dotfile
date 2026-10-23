@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
 {
-  flake.nixosModules.coreHardwareNetwork =
-    {
       config,
       lib,
       ...
@@ -49,8 +46,7 @@
       };
 
       programs.traceroute.enable = true;
-    };
-}
+    }
 
 /*
   Open TCP port:

@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.modulesSecurityAgenix =
-    {
+{ self, inputs,
       config,
       lib,
       pkgs,
@@ -58,5 +55,4 @@
           inputs.agenix.packages.${pkgs.stdenv.hostPlatform.system}.default
         ];
       };
-    };
-}
+    }

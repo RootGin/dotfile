@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.applicationsBrowsingChromium =
-    {
+{ inputs,
       config,
       lib,
       pkgs,
@@ -87,5 +84,4 @@
           '';
         };
       };
-    };
-}
+    }

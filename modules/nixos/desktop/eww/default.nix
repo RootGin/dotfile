@@ -13,10 +13,7 @@
 #   Kill all widgets: eww kill
 #   Reload config:    eww reload
 
-{ self, inputs, ... }:
 {
-  flake.nixosModules.modulesDesktopEww =
-    {
       config,
       pkgs,
       ...
@@ -31,5 +28,4 @@
 #        xdg.configFile."eww/eww.yuck".source = ./eww.yuck;
 #        xdg.configFile."eww/eww.scss".source = ./eww.scss;
       };
-    };
-}
+    }

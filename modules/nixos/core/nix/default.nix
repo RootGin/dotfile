@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.coreNix =
-    {
+{ inputs,
       config,
       pkgs,
       ...
@@ -12,9 +9,9 @@
     in
     {
       imports = [
-        self.nixosModules.coreNixBtrfs
-        self.nixosModules.coreNixGc
-        self.nixosModules.coreNixSettings
+        ./btrfs.nix
+        ./gc.nix
+        ./settings.nix
         inputs.home-manager.nixosModules.home-manager
       ];
 
@@ -78,5 +75,4 @@
         better-control
         sbctl
       ];
-    };
-}
+    }

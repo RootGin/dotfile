@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.coreProgramsMonitoringNetorbit =
-    { pkgs, ... }:
+{ pkgs, ... }:
     let
       netorbit = pkgs.python3Packages.buildPythonApplication {
         pname = "netorbit";
@@ -28,5 +25,4 @@
         netorbit
         pkgs.libpcap
       ];
-    };
-}
+    }

@@ -1,7 +1,4 @@
-{ self, ... }:
-{
-  flake.nixosModules.applicationsAiAgentSkills =
-    { config, lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
     let
       inherit (config.my.user) username;
       skillsCfg = config.my.programs.ai."agent-skills";
@@ -135,5 +132,4 @@
             ));
         };
       };
-    };
-}
+    }

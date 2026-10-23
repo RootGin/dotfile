@@ -1,15 +1,12 @@
-{ self, inputs, ... }:
 {
-  flake.nixosModules.coreServices = {
     imports = [
-      self.nixosModules.coreServicesGnome
-      self.nixosModules.coreServicesFwupd
-      self.nixosModules.coreServicesGvfs
-      self.nixosModules.coreServicesNmapplet
-      self.nixosModules.coreServicesPowerProfiles
-      self.nixosModules.coreServicesRtkit
-      self.nixosModules.coreServicesSsh
-      self.nixosModules.coreServicesUpower
+      ./gnome.nix
+      ./fwupd.nix
+      ./gvfs.nix
+      ./nm-applet.nix
+      ./power-profiles-daemon.nix
+      ./rtkit.nix
+      ./ssh.nix
+      ./upower.nix
     ];
-  };
-}
+  }

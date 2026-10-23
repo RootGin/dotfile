@@ -1,7 +1,4 @@
-{ self, ... }:
-{
-  flake.nixosModules.applicationsGamingMinecraft =
-    { config, lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
     let
       cfg = config.my.programs.gaming; 
     in
@@ -19,5 +16,4 @@
           AutoUpdate=true
         '';
       };
-    };
-}
+    }

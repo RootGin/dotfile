@@ -1,10 +1,7 @@
-{ self, ... }:
 {
-  flake.nixosModules.applicationsAi = {
     imports = [
-      self.nixosModules.applicationsAiOptions
-      self.nixosModules.applicationsAiConfig
-      self.nixosModules.applicationsAiAgentSkills
+      ./options.nix
+      ./ai.nix
+      ./agent-skills.nix
     ];
-  };
-}
+  }

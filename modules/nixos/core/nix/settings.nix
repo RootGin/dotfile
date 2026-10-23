@@ -1,6 +1,4 @@
-{ self, inputs, ... }:
 {
-  flake.nixosModules.coreNixSettings = {
     nix.settings = {
       experimental-features = [
         "nix-command"
@@ -23,5 +21,4 @@
         "vicinae.cachix.org-1:1kDrfienkGHPYbkpNj1mWTr7Fm1+zcenzgTizIcI3oc="
       ];
     };
-  };
-}
+  }

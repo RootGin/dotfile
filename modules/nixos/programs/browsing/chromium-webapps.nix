@@ -1,7 +1,4 @@
-{ self, ... }:
 {
-  flake.nixosModules.applicationsBrowsingChromiumWebapps =
-    {
       config,
       pkgs,
       lib,
@@ -150,5 +147,4 @@
           };
         };
       };
-    };
-}
+    }

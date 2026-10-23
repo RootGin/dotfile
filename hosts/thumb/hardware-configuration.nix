@@ -1,8 +1,5 @@
 # PLACEHOLDER - replace with the real `nixos-generate-config` output once hardware exists.
-{ self, inputs, ... }:
-{
-  flake.nixosModules.hostThumbHardware =
-    { config, lib, pkgs, modulesPath, ... }:
+{ config, lib, pkgs, modulesPath, ... }:
     {
       # mkForce: features/system/boot/boot.nix hardcodes GRUB for the Laptop.
       boot.loader.grub.enable = lib.mkForce false;
@@ -14,5 +11,4 @@
       };
 
       nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-    };
-}
+    }

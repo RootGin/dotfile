@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
 {
-  flake.nixosModules.coreHardwareGraphics =
-    {
       config,
       lib,
       pkgs,
@@ -45,5 +42,4 @@
           ];
         })
       ];
-    };
-}
+    }

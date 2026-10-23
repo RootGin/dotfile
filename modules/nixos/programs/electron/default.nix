@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.applicationsElectron =
-    { config, ... }:
+{ inputs, config, ... }:
     let
       username = config.my.user.username;
     in
@@ -12,5 +9,4 @@
           ".config/electron-flags.conf".source = ./electron-flags.conf;
         };
       };
-    };
-}
+    }

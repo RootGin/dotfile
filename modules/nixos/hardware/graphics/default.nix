@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.modulesHardwareGraphics =
-    { lib, ... }:
+{ lib, ... }:
     {
       options.my.hardware = {
         gpu = {
@@ -20,5 +17,4 @@
           };
         };
       };
-    };
-}
+    }

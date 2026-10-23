@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.applicationsDevNeovim =
-    {
+{ inputs,
       config,
       lib,
       pkgs,
@@ -16,5 +13,4 @@
           enable = true;
         };
       };
-    };
-}
+    }

@@ -1,7 +1,4 @@
-{ self, ... }:
-{
-  flake.nixosModules.applicationsProductivityPackages =
-    { config, lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
     let
       username = config.my.user.username;
 
@@ -48,5 +45,4 @@
           };
         };
       };
-    };
-}
+    }

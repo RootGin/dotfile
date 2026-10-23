@@ -1,7 +1,4 @@
-{ self, inputs, ... }:
-{
-  flake.nixosModules.coreHardwarePipewire =
-    {
+{ inputs,
       config,
       pkgs,
       ...
@@ -54,5 +51,4 @@
           ".config/pipewire/EQ.txt".source = ./parametric.txt;
         };
       };
-    };
-}
+    }
