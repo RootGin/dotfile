@@ -11,7 +11,7 @@ in
 {
   imports = [ inputs.home-manager.nixosModules.home-manager ];
   services.pipewire = {
-    enable = true;
+    enable = config.my.desktop.enable;
     alsa.enable = true;
     alsa.support32Bit = true;
     audio.enable = true;

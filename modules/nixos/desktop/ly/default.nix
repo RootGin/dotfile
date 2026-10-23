@@ -1,6 +1,7 @@
+{ config, ... }:
 {
   services.displayManager.ly = {
-    enable = true;
+    enable = config.my.desktop.enable;
     settings = {
       bigclock = "en";
       save = true;

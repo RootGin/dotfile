@@ -22,10 +22,7 @@
     };
 
     # Headless power & display savings.
-    # mkForce: bluetooth/pipewire/ly are hardcoded to true in features/.
+    # Display manager, bluetooth and pipewire follow my.desktop.enable (off by default).
     services.xserver.enable = lib.mkForce false;
-    services.displayManager.ly.enable = lib.mkForce false;
-    hardware.bluetooth.enable = lib.mkForce false;
-    services.pipewire.enable = lib.mkForce false;
   };
 }

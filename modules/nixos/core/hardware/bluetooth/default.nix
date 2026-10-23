@@ -1,6 +1,7 @@
+{ config, ... }:
 {
   hardware.bluetooth = {
-    enable = true;
+    enable = config.my.desktop.enable;
     powerOnBoot = true;
     settings = {
       General = {

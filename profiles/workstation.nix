@@ -1,4 +1,6 @@
 {
+  config.my.desktop.enable = true;
+
   config.my.programs = {
     comms.enable = true;
     content.enable = true;
