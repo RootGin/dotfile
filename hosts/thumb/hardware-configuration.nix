@@ -7,9 +7,7 @@
   ...
 }:
 {
-  # mkForce: features/system/boot/boot.nix hardcodes GRUB for the Laptop.
-  boot.loader.grub.enable = lib.mkForce false;
-  boot.loader.systemd-boot.enable = lib.mkForce true;
+  boot.loader.systemd-boot.enable = true;
 
   fileSystems."/" = {
     device = "/dev/dummy";

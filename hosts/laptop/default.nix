@@ -6,4 +6,6 @@
     ./hardware-configuration.nix
     ./modules
   ];
+
+  my.boot.grub.enable = true;
 }

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, lib, pkgs, ... }:
 let
   # Preview a GRUB 2.x theme in KVM/QEMU without rebooting.
   # Not in nixpkgs; pure-stdlib Python package, so package it here.
@@ -34,30 +34,41 @@ let
   };
 in
 {
-  boot = {
-    loader = {
-      timeout = 30;
-      systemd-boot.enable = false;
+  options.my.boot.grub.enable = lib.mkEnableOption "GRUB with the custom theme (instead of systemd-boot)";
 
-      efi = {
-        canTouchEfiVariables = true;
-        efiSysMountPoint = "/boot";
+  config = lib.mkMerge [
+    {
+      boot = {
+        loader = {
+          timeout = 30;
+
+          efi = {
+            canTouchEfiVariables = true;
+            efiSysMountPoint = "/boot";
+          };
+        };
+
+        initrd.systemd.enable = true;
+        kernelPackages = pkgs.linuxPackages_latest;
+      };
+    }
+
+    (lib.mkIf config.my.boot.grub.enable {
+      boot.loader = {
+        systemd-boot.enable = false;
+
+        grub = {
+          enable = true;
+          device = "nodev";
+          useOSProber = true;
+          efiSupport = true;
+          theme = ./grub-themes/loq-15arp10e;
+        };
       };
 
-      grub = {
-        enable = true;
-        device = "nodev";
-        useOSProber = true;
-        efiSupport = true;
-        theme = ./grub-themes/loq-15arp10e;
-      };
-    };
+      environment.systemPackages = [ grub2-theme-preview ];
 
-    initrd.systemd.enable = true;
-    kernelPackages = pkgs.linuxPackages_latest;
-  };
-
-  environment.systemPackages = [ grub2-theme-preview ];
-
-  stylix.targets.grub.enable = false;
+      stylix.targets.grub.enable = false;
+    })
+  ];
 }
