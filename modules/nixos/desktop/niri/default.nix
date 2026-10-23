@@ -18,6 +18,8 @@ in
     inputs.home-manager.nixosModules.home-manager
   ];
 
+  config = lib.mkIf config.my.desktop.enable {
+
   # ── Niri compositor (system integration) ────────────────
   programs.niri.enable = true;
 
@@ -326,5 +328,6 @@ in
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
     XDG_CURRENT_DESKTOP = "X-NIXOS-SYSTEMD-AWARE:niri";
+  };
   };
 }

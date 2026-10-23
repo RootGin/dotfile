@@ -15,6 +15,7 @@
 
 {
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -22,10 +23,13 @@ let
   username = config.my.user.username;
 in
 {
+
+  config = lib.mkIf config.my.desktop.enable {
   environment.systemPackages = with pkgs; [ eww ];
 
   home-manager.users.${username} = {
     #        xdg.configFile."eww/eww.yuck".source = ./eww.yuck;
     #        xdg.configFile."eww/eww.scss".source = ./eww.scss;
+  };
   };
 }

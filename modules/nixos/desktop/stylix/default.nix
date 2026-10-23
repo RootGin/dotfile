@@ -13,6 +13,8 @@ in
     inputs.stylix.nixosModules.stylix
   ];
 
+  config = lib.mkIf config.my.desktop.enable {
+
   fonts = {
     packages = [
       # Universal coverage (Noto Sans/Serif, Latin/Greek/Cyrillic + many scripts).
@@ -84,4 +86,5 @@ in
   home-manager.sharedModules = [
     { stylix.targets.rofi.enable = false; }
   ];
+  };
 }

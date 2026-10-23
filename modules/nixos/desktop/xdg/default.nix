@@ -79,6 +79,8 @@ in
 {
   imports = [ inputs.home-manager.nixosModules.home-manager ];
 
+  config = lib.mkIf config.my.desktop.enable {
+
   # ── MIME type associations ───────────────────────────────
   xdg.mime = {
     enable = true;
@@ -128,5 +130,6 @@ in
     # gtk.gtk4.theme; mkForce preserves the intent (no GTK4 theme) and
     # keeps stylix theming GTK3 only.
     gtk.gtk4.theme = lib.mkForce null;
+  };
   };
 }
