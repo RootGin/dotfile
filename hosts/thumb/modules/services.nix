@@ -4,7 +4,7 @@
     { config, ... }:
     {
       # NetBird routing peer for the homelab; headless, so no UI.
-      config.servicesModule.netbird = {
+      config.my.services.netbird = {
         enable = true;
         routingPeer = true;
         ui = false;

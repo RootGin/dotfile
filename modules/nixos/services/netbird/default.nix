@@ -3,7 +3,7 @@
   flake.nixosModules.modulesServicesNetbird =
     { config, lib, pkgs, ... }:
     {
-      options.servicesModule.netbird = {
+      options.my.services.netbird = {
         enable = lib.mkEnableOption "Enable NetBird VPN";
 
         ui = lib.mkOption {
@@ -19,11 +19,11 @@
         };
       };
 
-      config = lib.mkIf config.servicesModule.netbird.enable {
+      config = lib.mkIf config.my.services.netbird.enable {
         services.netbird = {
           enable = true;
-          ui.enable = config.servicesModule.netbird.ui;
-        } // lib.optionalAttrs config.servicesModule.netbird.routingPeer {
+          ui.enable = config.my.services.netbird.ui;
+        } // lib.optionalAttrs config.my.services.netbird.routingPeer {
           useRoutingFeatures = "client";
         };
 

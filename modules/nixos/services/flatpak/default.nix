@@ -5,11 +5,11 @@
     {
       imports = [ inputs.nix-flatpak.nixosModules.nix-flatpak ];
 
-      options.servicesModule.flatpak = {
+      options.my.services.flatpak = {
         enable = lib.mkEnableOption "Enable flatpak service";
       };
 
-      config = lib.mkIf config.servicesModule.flatpak.enable {
+      config = lib.mkIf config.my.services.flatpak.enable {
         services.flatpak = {
           enable = true;
           update.onActivation = true;

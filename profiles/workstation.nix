@@ -13,7 +13,7 @@
       uni.enable = true;
     };
 
-    config.servicesModule = {
+    config.my.services = {
       blueman.enable = true;
       flatpak.enable = true;
       vicinae.enable = true;

@@ -16,7 +16,7 @@
           uni.enable = false;
         };
 
-        servicesModule = {
+        my.services = {
           blueman.enable = false;
           flatpak.enable = false;
           vicinae.enable = false;

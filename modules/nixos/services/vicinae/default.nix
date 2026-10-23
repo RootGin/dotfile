@@ -15,11 +15,11 @@
         inputs.home-manager.nixosModules.home-manager
       ];
 
-      options.servicesModule.vicinae = {
+      options.my.services.vicinae = {
         enable = lib.mkEnableOption "Enable vicinae service";
       };
 
-      config = lib.mkIf config.servicesModule.vicinae.enable {
+      config = lib.mkIf config.my.services.vicinae.enable {
         home-manager.users.${username} = {
           imports = [
             inputs.vicinae.homeManagerModules.default
