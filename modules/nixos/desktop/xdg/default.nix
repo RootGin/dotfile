@@ -11,10 +11,10 @@
       inherit (config.userOptions) username;
 
       # Browser detection — match by package name (librewolf‑branded Firefox vs vanilla).
-      firefoxPkg = config.programs.browsing.firefox.package;
+      firefoxPkg = config.my.programs.browsing.firefox.package;
       librewolf =
         firefoxPkg != null && lib.hasPrefix "librewolf" (firefoxPkg.pname or firefoxPkg.name or "");
-      chromium = config.programs.browsing.chromium.enable;
+      chromium = config.my.programs.browsing.chromium.enable;
 
       defaultApps = {
         browser = "zen.desktop";

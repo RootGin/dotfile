@@ -3,7 +3,7 @@
   flake.nixosModules.applicationsProductivityOptions =
     { lib, ... }:
     {
-      options.programs.productivity = {
+      options.my.programs.productivity = {
         enable = lib.mkEnableOption "Enable the productivity module";
       };
     };

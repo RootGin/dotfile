@@ -3,7 +3,7 @@
   flake.nixosModules.applicationsBrowsingFirefox =
     { config, lib, ... }:
     {
-      options.programs.browsing.firefox = {
+      options.my.programs.browsing.firefox = {
         enable = lib.mkOption {
           type = lib.types.bool;
           default = false;
@@ -18,11 +18,11 @@
         };
       };
 
-      config = lib.mkIf config.programs.browsing.firefox.enable {
+      config = lib.mkIf config.my.programs.browsing.firefox.enable {
         programs = {
           firefox = {
             enable = lib.mkDefault true;
-            package = config.programs.browsing.firefox.package;
+            package = config.my.programs.browsing.firefox.package;
             # Broken somehow?
             # languagePacks = [
             #   "de"

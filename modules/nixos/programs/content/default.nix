@@ -14,7 +14,7 @@
       defaultPackages = with pkgs; [ ];
     in
     {
-      options.programs.content = {
+      options.my.programs.content = {
         enable = mkEnableOption "Enable content creation tools";
 
         optionalPackages = mkOption {
@@ -27,8 +27,8 @@
         };
       };
 
-      config = mkIf config.programs.content.enable {
-        environment.systemPackages = defaultPackages ++ config.programs.content.optionalPackages;
+      config = mkIf config.my.programs.content.enable {
+        environment.systemPackages = defaultPackages ++ config.my.programs.content.optionalPackages;
 
         programs.obs-studio = {
           enable = true;

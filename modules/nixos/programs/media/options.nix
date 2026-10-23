@@ -3,7 +3,7 @@
   flake.nixosModules.applicationsMediaOptions =
     { lib, ... }:
     {
-      options.programs.media = {
+      options.my.programs.media = {
         enable = lib.mkEnableOption "Enables media module";
       };
     };

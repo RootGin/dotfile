@@ -8,7 +8,7 @@
       ...
     }:
     let
-      cfg = config.programs.gaming;
+      cfg = config.my.programs.gaming;
     in
     {
       config = lib.mkIf cfg.enable {

@@ -4,7 +4,7 @@
     { config, lib, pkgs, ... }:
     let
       inherit (config.userOptions) username;
-      skillsCfg = config.programs.ai."agent-skills";
+      skillsCfg = config.my.programs.ai."agent-skills";
 
       # ── Sources ──
       uiUxProMaxSrc = pkgs.fetchFromGitHub {
@@ -74,7 +74,7 @@
         );
     in
     {
-      options.programs.ai."agent-skills" = {
+      options.my.programs.ai."agent-skills" = {
         enable = lib.mkEnableOption "Enable AI agent skills for OpenCode";
 
         "ui-ux-pro-max" = {
@@ -88,7 +88,7 @@
         };
       };
 
-      config = lib.mkIf (config.programs.ai.enable && skillsCfg.enable) {
+      config = lib.mkIf (config.my.programs.ai.enable && skillsCfg.enable) {
         home-manager.users.${username} = {
           # ── xdg.configFile → ~/.config/opencode/skills/ ──
           xdg.configFile =

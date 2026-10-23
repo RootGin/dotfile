@@ -8,7 +8,7 @@
       ...
     }:
     {
-      config = lib.mkIf config.programs.dev.enable {
+      config = lib.mkIf config.my.programs.dev.enable {
         nixpkgs.overlays = [ inputs.nix4vscode.overlays.default ];
 
         environment.systemPackages = [

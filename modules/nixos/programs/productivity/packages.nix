@@ -20,7 +20,7 @@
       };
     in
     {
-      config = lib.mkIf config.programs.productivity.enable {
+      config = lib.mkIf config.my.programs.productivity.enable {
         environment.systemPackages = with pkgs; [
           kdePackages.kdenlive
           obsidian

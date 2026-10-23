@@ -3,7 +3,7 @@
   flake.nixosModules.applicationsProductivityDrawio =
     { config, lib, pkgs, ... }:
     {
-      config = lib.mkIf config.programs.productivity.enable {
+      config = lib.mkIf config.my.programs.productivity.enable {
         environment.systemPackages = [ pkgs.drawio ];
       };
     };

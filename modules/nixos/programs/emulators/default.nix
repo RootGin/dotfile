@@ -14,11 +14,11 @@
       imports = [
         self.nixosModules.applicationsEmulatorsWaydroid
       ];
-      options.programs.emulation = {
+      options.my.programs.emulation = {
         enable = lib.mkEnableOption "Enabled the emulation programs";
       };
 
-      config = lib.mkIf config.programs.emulation.enable {
+      config = lib.mkIf config.my.programs.emulation.enable {
         environment.systemPackages = with pkgs; [
           docker-compose
           #winboat

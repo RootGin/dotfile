@@ -13,7 +13,7 @@
     {
       imports = [ inputs.home-manager.nixosModules.home-manager ];
 
-      options.programs.browsing.chromium = {
+      options.my.programs.browsing.chromium = {
         enable = lib.mkOption {
           type = lib.types.bool;
           default = false;
@@ -28,9 +28,9 @@
         };
       };
 
-      config = lib.mkIf config.programs.browsing.chromium.enable {
+      config = lib.mkIf config.my.programs.browsing.chromium.enable {
         environment.systemPackages = [
-          config.programs.browsing.chromium.package
+          config.my.programs.browsing.chromium.package
         ];
 
         programs.chromium = {

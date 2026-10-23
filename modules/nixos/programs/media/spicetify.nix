@@ -9,7 +9,7 @@
     {
       imports = [ inputs.spicetify-nix.nixosModules.default ];
 
-      config = lib.mkIf config.programs.media.enable {
+      config = lib.mkIf config.my.programs.media.enable {
         stylix.targets.spicetify.enable = false;
 
         programs.spicetify = {

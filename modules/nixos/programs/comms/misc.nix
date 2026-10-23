@@ -9,7 +9,7 @@
   let
     username = config.userOptions.username;
   in {
-    config = lib.mkIf config.programs.comms.enable {
+    config = lib.mkIf config.my.programs.comms.enable {
       home-manager.users.${username} = {
         home.packages = with pkgs; [
           element-desktop

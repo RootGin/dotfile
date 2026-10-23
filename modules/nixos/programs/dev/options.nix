@@ -3,7 +3,7 @@
   flake.nixosModules.applicationsDevOptions =
     { lib, pkgs, ... }:
     {
-      options.programs.dev = {
+      options.my.programs.dev = {
         enable = lib.mkEnableOption "Enable developer tools";
 
         optionalPackages = lib.mkOption {

@@ -1,7 +1,7 @@
 { self, ... }:
 {
   flake.nixosModules.profileWorkstation = {
-    config.programs = {
+    config.my.programs = {
       comms.enable = true;
       content.enable = true;
       dev.enable = true;

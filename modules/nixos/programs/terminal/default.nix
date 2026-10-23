@@ -8,11 +8,11 @@
     {
       imports = [ inputs.home-manager.nixosModules.home-manager ];
 
-      options.programs.terminal = {
+      options.my.programs.terminal = {
         enable = lib.mkEnableOption "Enable terminal module";
       };
 
-      config = lib.mkIf config.programs.terminal.enable {
+      config = lib.mkIf config.my.programs.terminal.enable {
         home-manager.users.${username} = {
           programs.kitty = {
             enable = true;

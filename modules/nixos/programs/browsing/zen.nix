@@ -15,11 +15,11 @@
     {
       imports = [ inputs.home-manager.nixosModules.home-manager ];
 
-      options.programs.browsing.zen = {
+      options.my.programs.browsing.zen = {
         enable = lib.mkEnableOption "Zen browser";
       };
 
-      config = lib.mkIf config.programs.browsing.zen.enable {
+      config = lib.mkIf config.my.programs.browsing.zen.enable {
         home-manager.users.${username} = {
           imports = [ inputs.zen-browser.homeModules.twilight-official ];
 

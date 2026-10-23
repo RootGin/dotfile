@@ -19,9 +19,9 @@
       ];
     in
     {
-      config = lib.mkIf config.programs.dev.enable {
+      config = lib.mkIf config.my.programs.dev.enable {
         environment.systemPackages =
-          defaultPackages ++ config.programs.dev.optionalPackages;
+          defaultPackages ++ config.my.programs.dev.optionalPackages;
         # Default JDK for Maven builds (qlctkt-service = Java 17).
         environment.sessionVariables.JAVA_HOME = "${pkgs.jdk17}";
       };

@@ -3,7 +3,7 @@
   flake.nixosModules.applicationsAiOptions =
     { lib, ... }:
     {
-      options.programs.ai = {
+      options.my.programs.ai = {
         enable = lib.mkEnableOption "Enable AI tools";
 
         opencode = {

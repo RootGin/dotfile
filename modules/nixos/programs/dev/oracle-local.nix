@@ -8,13 +8,13 @@
       ...
     }:
     let
-      cfg = config.programs.dev.oracleLocal;
+      cfg = config.my.programs.dev.oracleLocal;
       containerName = "oracle-free";
       dbPassword = "qlctkt#123";
       schemaDir = "/home/${config.userOptions.username}/Documents/Viettel/qlctkt/qlctkt-service/db";
     in
     {
-      options.programs.dev.oracleLocal = {
+      options.my.programs.dev.oracleLocal = {
         enable = lib.mkOption {
           type = lib.types.bool;
           default = true;
@@ -22,7 +22,7 @@
         };
       };
 
-      config = lib.mkIf (config.programs.dev.enable && cfg.enable) {
+      config = lib.mkIf (config.my.programs.dev.enable && cfg.enable) {
         virtualisation = {
           podman = {
             enable = true;

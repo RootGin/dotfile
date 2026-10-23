@@ -3,7 +3,7 @@
   flake.nixosModules.applicationsCommsOptions =
     { lib, ... }:
     {
-      options.programs.comms = {
+      options.my.programs.comms = {
         enable = lib.mkEnableOption "Enables communication module";
       };
     };

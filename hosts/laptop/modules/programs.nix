@@ -3,7 +3,7 @@
   flake.nixosModules.hostLaptopModulesPrograms =
     { pkgs, ... }:
     {
-      config.programs = {
+      config.my.programs = {
         browsing = {
           chromium = {
             enable = true;

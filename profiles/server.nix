@@ -4,7 +4,7 @@
     { lib, ... }:
     {
       config = {
-        programs = {
+        my.programs = {
           comms.enable = false;
           content.enable = false;
           dev.enable = false;

@@ -3,7 +3,7 @@
   flake.nixosModules.applicationsGamingOptions =
     { lib, pkgs, ... }:
     {
-      options.programs.gaming = {
+      options.my.programs.gaming = {
         enable = lib.mkEnableOption "Complete gaming profile";
 
         extraPackages = lib.mkOption {
