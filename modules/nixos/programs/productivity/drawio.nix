@@ -1,6 +1,11 @@
-{ config, lib, pkgs, ... }:
-    {
-      config = lib.mkIf config.my.programs.productivity.enable {
-        environment.systemPackages = [ pkgs.drawio ];
-      };
-    }
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
+  config = lib.mkIf config.my.programs.productivity.enable {
+    environment.systemPackages = [ pkgs.drawio ];
+  };
+}

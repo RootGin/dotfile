@@ -1,8 +1,8 @@
 {
-    imports = [
-      ./blueman
-      ./flatpak
-      ./vicinae
-      ./netbird
-    ];
-  }
+  imports = [
+    ./blueman
+    ./flatpak
+    ./vicinae
+    ./netbird
+  ];
+}

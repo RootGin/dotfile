@@ -1,7 +1,7 @@
 {
-    imports = [
-      ./modules
-      ./environment.nix
-      ./locale.nix
-    ];
-  }
+  imports = [
+    ./modules
+    ./environment.nix
+    ./locale.nix
+  ];
+}

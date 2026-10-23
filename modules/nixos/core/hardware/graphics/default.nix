@@ -1,45 +1,45 @@
 {
-      config,
-      lib,
-      pkgs,
-      ...
-    }:
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
-    let
-      inherit (lib) mkIf mkMerge;
-      cfg = config.my.hardware;
-    in
+let
+  inherit (lib) mkIf mkMerge;
+  cfg = config.my.hardware;
+in
+{
+  config = mkMerge [
     {
-      config = mkMerge [
-        {
-          hardware.graphics = {
-            enable = true;
-            enable32Bit = true;
-          };
-        }
-
-        # NVIDIA specifics
-        (mkIf (cfg.gpu.enable && cfg.gpu.brand == "nvidia") {
-          services.xserver.videoDrivers = [ "nvidia" ];
-
-          boot.kernelModules = [ "nvidia-uvm" ];
-
-          hardware.nvidia = {
-            modesetting.enable = true;
-            powerManagement.enable = true;
-            powerManagement.finegrained = false;
-            open = true;
-            nvidiaSettings = true;
-            #package = config.boot.kernelPackages.nvidiaPackages.stable;
-          };
-        })
-
-        # Intel specifics
-        (mkIf (cfg.gpu.enable && cfg.gpu.brand == "intel") {
-          hardware.graphics.extraPackages = with pkgs; [
-            vpl-gpu-rt
-            # intel-media-sdk  # uncomment for older Gen (pre-Xe) iGPUs
-          ];
-        })
-      ];
+      hardware.graphics = {
+        enable = true;
+        enable32Bit = true;
+      };
     }
+
+    # NVIDIA specifics
+    (mkIf (cfg.gpu.enable && cfg.gpu.brand == "nvidia") {
+      services.xserver.videoDrivers = [ "nvidia" ];
+
+      boot.kernelModules = [ "nvidia-uvm" ];
+
+      hardware.nvidia = {
+        modesetting.enable = true;
+        powerManagement.enable = true;
+        powerManagement.finegrained = false;
+        open = true;
+        nvidiaSettings = true;
+        #package = config.boot.kernelPackages.nvidiaPackages.stable;
+      };
+    })
+
+    # Intel specifics
+    (mkIf (cfg.gpu.enable && cfg.gpu.brand == "intel") {
+      hardware.graphics.extraPackages = with pkgs; [
+        vpl-gpu-rt
+        # intel-media-sdk  # uncomment for older Gen (pre-Xe) iGPUs
+      ];
+    })
+  ];
+}

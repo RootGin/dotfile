@@ -1,9 +1,9 @@
 {
-    imports = [
-      ./btop.nix
-      ./cava.nix
-      ./fastfetch
-      ./vul.nix
-      ./netorbit.nix
-    ];
-  }
+  imports = [
+    ./btop.nix
+    ./cava.nix
+    ./fastfetch
+    ./vul.nix
+    ./netorbit.nix
+  ];
+}

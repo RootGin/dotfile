@@ -1,6 +1,6 @@
 {
-    imports = [
-      ./server.nix
-      ./workstation.nix
-    ];
-  }
+  imports = [
+    ./server.nix
+    ./workstation.nix
+  ];
+}

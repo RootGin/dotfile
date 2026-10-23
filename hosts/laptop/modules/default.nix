@@ -1,8 +1,8 @@
 {
-    imports = [
-      ./hardware.nix
-      ./programs.nix
-      ./service.nix
-      ./userOptions.nix
-    ];
-  }
+  imports = [
+    ./hardware.nix
+    ./programs.nix
+    ./service.nix
+    ./userOptions.nix
+  ];
+}

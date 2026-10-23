@@ -1,9 +1,9 @@
 {
-    imports = [
-      ./auth
-      ./encryption
-      ./gnupg
-      ./vpn
-      ./agenix
-    ];
-  }
+  imports = [
+    ./auth
+    ./encryption
+    ./gnupg
+    ./vpn
+    ./agenix
+  ];
+}

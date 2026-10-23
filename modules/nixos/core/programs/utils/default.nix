@@ -1,8 +1,8 @@
 {
-    imports = [
-      ./appimage.nix
-      ./localsend.nix
-      ./rclone.nix
-      ./ripgrep.nix
-    ];
-  }
+  imports = [
+    ./appimage.nix
+    ./localsend.nix
+    ./rclone.nix
+    ./ripgrep.nix
+  ];
+}

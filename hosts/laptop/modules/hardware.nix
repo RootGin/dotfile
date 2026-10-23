@@ -1,8 +1,8 @@
 {
-    config.my.hardware = {
-      gpu.enable = true;
-      gpu.brand = "amd";
-    };
+  config.my.hardware = {
+    gpu.enable = true;
+    gpu.brand = "amd";
+  };
 
-    config.boot.blacklistedKernelModules = [ "nouveau" ];
-  }
+  config.boot.blacklistedKernelModules = [ "nouveau" ];
+}

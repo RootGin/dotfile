@@ -1,52 +1,52 @@
 {
-      config,
-      lib,
-      ...
-    }:
-    let
-      username = config.my.user.username;
-    in
-    {
-      networking = {
-        useDHCP = lib.mkDefault true;
-        networkmanager = {
-          dns = "systemd-resolved";
-          enable = true;
-          wifi.powersave = false;
-        };
-        # No WWAN modem in this laptop -> drop ModemManager
-        modemmanager.enable = false;
-        hostName = config.my.user.hostName;
-        firewall = {
-          allowedTCPPorts = [
-            53317 # localsend
-          ];
-          allowedUDPPorts = [
-            53317 # localsend
-          ];
-        };
-      };
+  config,
+  lib,
+  ...
+}:
+let
+  username = config.my.user.username;
+in
+{
+  networking = {
+    useDHCP = lib.mkDefault true;
+    networkmanager = {
+      dns = "systemd-resolved";
+      enable = true;
+      wifi.powersave = false;
+    };
+    # No WWAN modem in this laptop -> drop ModemManager
+    modemmanager.enable = false;
+    hostName = config.my.user.hostName;
+    firewall = {
+      allowedTCPPorts = [
+        53317 # localsend
+      ];
+      allowedUDPPorts = [
+        53317 # localsend
+      ];
+    };
+  };
 
-      services.resolved = {
-        enable = true;
-        settings = {
-          Resolve = {
-            DNSSEC = false;
-            DNSOverTLS = false;
-            DNS = [
-              "9.9.9.11"
-              "149.112.112.11"
-            ];
-          };
-        };
+  services.resolved = {
+    enable = true;
+    settings = {
+      Resolve = {
+        DNSSEC = false;
+        DNSOverTLS = false;
+        DNS = [
+          "9.9.9.11"
+          "149.112.112.11"
+        ];
       };
+    };
+  };
 
-      users.users.${username} = {
-        extraGroups = [ "networkmanager" ];
-      };
+  users.users.${username} = {
+    extraGroups = [ "networkmanager" ];
+  };
 
-      programs.traceroute.enable = true;
-    }
+  programs.traceroute.enable = true;
+}
 
 /*
   Open TCP port:

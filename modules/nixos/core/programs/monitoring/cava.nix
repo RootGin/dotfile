@@ -1,9 +1,9 @@
 {
-      pkgs,
-      ...
-    }:
-    {
-      environment.systemPackages = with pkgs; [
-        cava
-      ];
-    }
+  pkgs,
+  ...
+}:
+{
+  environment.systemPackages = with pkgs; [
+    cava
+  ];
+}

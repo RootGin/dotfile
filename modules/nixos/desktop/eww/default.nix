@@ -14,18 +14,22 @@
 #   Reload config:    eww reload
 
 {
-      config,
-      pkgs,
-      ...
-    }:
-    let
-      username = config.my.user.username;
-    in
-    {
-      environment.systemPackages = with pkgs; [ eww ];
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  username = config.my.user.username;
+in
+{
 
-      home-manager.users.${username} = {
-#        xdg.configFile."eww/eww.yuck".source = ./eww.yuck;
-#        xdg.configFile."eww/eww.scss".source = ./eww.scss;
-      };
-    }
+  config = lib.mkIf config.my.desktop.enable {
+    environment.systemPackages = with pkgs; [ eww ];
+
+    home-manager.users.${username} = {
+      #        xdg.configFile."eww/eww.yuck".source = ./eww.yuck;
+      #        xdg.configFile."eww/eww.scss".source = ./eww.scss;
+    };
+  };
+}

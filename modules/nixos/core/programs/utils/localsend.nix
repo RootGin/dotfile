@@ -1,7 +1,7 @@
 {
-      pkgs,
-      ...
-    }:
-    {
-      environment.systemPackages = with pkgs; [ localsend ];
-    }
+  pkgs,
+  ...
+}:
+{
+  environment.systemPackages = with pkgs; [ localsend ];
+}
