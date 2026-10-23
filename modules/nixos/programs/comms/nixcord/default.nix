@@ -12,7 +12,7 @@ in
   imports = [ inputs.nixcord.nixosModules.nixcord ];
 
   programs.nixcord = {
-    enable = true;
+    enable = config.my.programs.comms.enable;
     discord.enable = true;
     # Note: nixcord now requires an explicit client mod selection.
     discord.vencord.enable = true;

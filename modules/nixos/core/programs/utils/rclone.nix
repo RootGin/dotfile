@@ -9,47 +9,49 @@ let
   username = config.my.user.username;
 in
 {
-  environment.systemPackages = with pkgs; [ rclone ];
+  config = lib.mkIf config.my.desktop.enable {
+    environment.systemPackages = with pkgs; [ rclone ];
 
-  home-manager.users.${username} = {
-    systemd.user.services = {
-      protondrive =
-        let
-          mountdir = "/home/${username}/ProtonDrive";
-          rcloneConf = "/home/${username}/.config/rclone/rclone.conf";
-        in
-        {
-          Unit = {
-            Description = "Mount Proton Drive";
-            After = [ "network-online.target" ];
-            # Don't restart-loop when rclone isn't configured yet
-            ConditionPathExists = rcloneConf;
+    home-manager.users.${username} = {
+      systemd.user.services = {
+        protondrive =
+          let
+            mountdir = "/home/${username}/ProtonDrive";
+            rcloneConf = "/home/${username}/.config/rclone/rclone.conf";
+          in
+          {
+            Unit = {
+              Description = "Mount Proton Drive";
+              After = [ "network-online.target" ];
+              # Don't restart-loop when rclone isn't configured yet
+              ConditionPathExists = rcloneConf;
+            };
+
+            Service = {
+              Type = "simple";
+              Environment = [ "PATH=/run/wrappers/bin/:$PATH" ];
+              ExecStartPre = "${lib.getExe' pkgs.uutils-coreutils-noprefix "mkdir"} -p ${mountdir}";
+
+              ExecStart = ''
+                ${lib.getExe pkgs.rclone} mount proton: "${mountdir}" \
+                  --config=${rcloneConf} \
+                  --vfs-cache-mode full \
+                  --vfs-cache-max-age 1m \
+                  --dir-cache-time 30s \
+                  --poll-interval 15s \
+              '';
+
+              ExecStop = "${lib.getExe' pkgs.fuse "fusermount"} -u ${mountdir}";
+              Restart = "on-failure";
+              RestartSec = 5;
+            };
+
+            Install.WantedBy = [ "default.target" ];
           };
-
-          Service = {
-            Type = "simple";
-            Environment = [ "PATH=/run/wrappers/bin/:$PATH" ];
-            ExecStartPre = "${lib.getExe' pkgs.uutils-coreutils-noprefix "mkdir"} -p ${mountdir}";
-
-            ExecStart = ''
-              ${lib.getExe pkgs.rclone} mount proton: "${mountdir}" \
-                --config=${rcloneConf} \
-                --vfs-cache-mode full \
-                --vfs-cache-max-age 1m \
-                --dir-cache-time 30s \
-                --poll-interval 15s \
-            '';
-
-            ExecStop = "${lib.getExe' pkgs.fuse "fusermount"} -u ${mountdir}";
-            Restart = "on-failure";
-            RestartSec = 5;
-          };
-
-          Install.WantedBy = [ "default.target" ];
-        };
+      };
     };
+    environment.etc."fuse.conf".text = ''
+      user_allow_other
+    '';
   };
-  environment.etc."fuse.conf".text = ''
-    user_allow_other
-  '';
 }

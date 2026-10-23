@@ -20,4 +20,9 @@
     netbird.enable = true;
     netbird.ui = true;
   };
+
+  config.my.security = {
+    gpg.enable = true;
+    encryption.passwords.enable = true;
+  };
 }

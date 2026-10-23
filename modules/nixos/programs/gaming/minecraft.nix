@@ -20,5 +20,8 @@ in
       JavaPath=${pkgs.jdk21}/bin/java
       AutoUpdate=true
     '';
+
+    networking.firewall.allowedTCPPorts = [ 25565 ];
+    networking.firewall.allowedUDPPorts = [ 19132 ];
   };
 }

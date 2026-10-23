@@ -1,9 +1,9 @@
 {
+  config,
+  lib,
   pkgs,
   ...
 }:
 {
-  environment.systemPackages = with pkgs; [
-    cava
-  ];
+  environment.systemPackages = lib.optionals config.my.desktop.enable [ pkgs.cava ];
 }
