@@ -81,7 +81,7 @@
       { self, inputs, ... }:
       {
         imports = [
-          (inputs.import-tree ./features)
+          (inputs.import-tree ./modules/nixos)
           (inputs.import-tree ./hosts)
           (inputs.import-tree ./users)
           (inputs.import-tree ./flake)
