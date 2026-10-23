@@ -10,9 +10,7 @@
 #   config.my.user = {
 #     username = "myuser";
 #     hostName = "myhost";
-#     browser = "firefox";
 #     colorScheme = "kanagawa";
-#     wallpaper = "kanagawa.png";
 #     dots = "/home/myuser/.dotfiles";
 #   };
 #
@@ -21,16 +19,6 @@
 
 {
   options.my.user = {
-    browser = lib.mkOption {
-      type = lib.types.str;
-      description = ''
-        The browser CLI command to use as the default browser.
-        This should match the executable name of a browser enabled in the browsing module.
-
-        Examples: "firefox", "chromium", "librewolf"
-      '';
-    };
-
     colorScheme = lib.mkOption {
       type = lib.types.str;
       description = ''
@@ -75,16 +63,6 @@
         This is used throughout the configuration for Home Manager and user-specific settings.
       '';
       example = "myuser";
-    };
-
-    wallpaper = lib.mkOption {
-      type = lib.types.str;
-      description = ''
-        The wallpaper filename (without path).
-        The file should be located in the assets/ directory of this repository.
-        Stylix will use this wallpaper and can optionally generate colors from it.
-      '';
-      example = "kanagawa.png";
     };
   };
 }
