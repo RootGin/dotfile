@@ -1,6 +1,7 @@
 { ... }:
 {
   imports = [
+    ./options.nix
     ./eww
     ./ly
     ./stylix
