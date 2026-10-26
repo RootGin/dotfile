@@ -1,11 +1,18 @@
-# Secrets
-secrets/
+# Secrets / Keys
+*.key
+*.agekey
+
+# Baseline
+.baseline/
+
 # Nix build artifacts
 result
 result-*
+
 # direnv
 .envrc
 .direnv
+
 # Editor temp files
 *.swp
 *.swo

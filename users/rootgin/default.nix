@@ -10,9 +10,12 @@ let
 in
 {
   programs.fish.enable = true;
+  users.mutableUsers = lib.mkDefault true;
   users.users.${username} = {
     shell = pkgs.fish;
     isNormalUser = true;
+    initialPassword = lib.mkDefault "rootgin";
+    openssh.authorizedKeys.keys = lib.mkDefault [ ];
     extraGroups = [
       "docker"
       "wheel"

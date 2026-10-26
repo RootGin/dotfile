@@ -29,5 +29,8 @@
         };
       };
     };
+    dev = {
+      oracleLocal.enable = true;
+    };
   };
 }

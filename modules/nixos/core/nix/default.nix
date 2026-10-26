@@ -1,6 +1,7 @@
 {
   inputs,
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -21,24 +22,21 @@ in
       flake = "${config.my.user.dots}";
       flags = [
         "-L"
+        "--update-input"
+        "nixpkgs"
       ];
       dates = "weekly";
-      upgrade = true;
     };
-    systemBuilderCommands = ''
-      ln -sv ${pkgs.path} $out/nixpkgs
-    '';
     stateVersion = "26.05";
   };
 
   nix = {
     package = pkgs.nixVersions.latest;
-    nixPath = [ "nixpkgs=/run/current-system/nixpkgs/" ];
+    nixPath = [ "nixpkgs=flake:nixpkgs" ];
   };
 
   home-manager.users.${username} = {
     home.stateVersion = "26.05";
-    nixpkgs.config.allowUnfree = true;
     dconf.settings = {
       "org/gnome/desktop/interface" = {
         color-scheme = "prefer-dark";
@@ -71,8 +69,12 @@ in
     permittedInsecurePackages = [ ];
   };
 
-  environment.systemPackages = with pkgs; [
-    better-control
-    sbctl
-  ];
+  environment.systemPackages =
+    with pkgs;
+    [
+      sbctl
+    ]
+    ++ lib.optionals config.my.desktop.enable [
+      better-control
+    ];
 }

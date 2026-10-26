@@ -18,6 +18,7 @@ let
     (python3.withPackages (ps: [ ps.pygobject3 ]))
     rustc
     cargo
+    kubectl
   ];
 in
 {

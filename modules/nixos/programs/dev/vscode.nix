@@ -83,6 +83,10 @@
                 "humao.rest-client"
                 "shengchen.vscode-checkstyle"
                 "Oracle.sql-developer"
+
+                # ── CI/CD & Kubernetes ───────────────────────
+                "jmmeessen.jenkins-declarative-support"
+                "ms-kubernetes-tools.vscode-kubernetes-tools"
               ];
       })
     ];

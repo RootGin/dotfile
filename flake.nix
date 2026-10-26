@@ -1,6 +1,19 @@
 {
   description = "My NixOS Configuration";
 
+  nixConfig = {
+    extra-substituters = [
+      "https://vicinae.cachix.org"
+      "https://devenv.cachix.org"
+      "https://zed-industries.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "vicinae.cachix.org-1:1kDrfgsx52l9AAlVbeoal8e9sp0ckWBttqzs2bWb9/8="
+      "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
+      "zed-industries.cachix.org-1:5b6JRtm9/B8/iSpxa85dG73HwN/kZ+dfyW1f1Tj5Dmg="
+    ];
+  };
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
@@ -10,8 +23,11 @@
     };
 
     nix-flatpak.url = "github:gmodena/nix-flatpak/v0.6.0";
-    nix-chromium-webapps.url = "github:chobbledotcom/nix-chromium-webapps";
-    firefox-addons.url = "gitlab:rycee/nur-expressions/?dir=pkgs/firefox-addons";
+
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions/?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
@@ -33,7 +49,10 @@
 
     nixcord = {
       url = "github:FlameFlag/nixcord";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
     };
 
     agenix = {
@@ -51,7 +70,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nvf.url = "github:notashelf/nvf";
+    nvf = {
+      url = "github:notashelf/nvf";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     vicinae = {
       url = "github:vicinaehq/vicinae/v0.20.3";

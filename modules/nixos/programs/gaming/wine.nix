@@ -11,7 +11,6 @@ in
   config = lib.mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       wineWow64Packages.stable
-      wine-staging
       winetricks
       protontricks
       vulkan-tools

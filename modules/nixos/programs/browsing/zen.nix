@@ -247,8 +247,6 @@ in
             "gfx.canvas.accelerated" = true;
             "gfx.canvas.accelerated.cache-items" = 32768;
             "gfx.canvas.accelerated.cache-size" = 4096;
-            "dom.ipc.processCount" = 1;
-            "fission.autostart" = false;
             "browser.cache.disk.capacity" = 0;
             "browser.cache.disk.enable" = false;
             "layers.mlgpu.enabled" = true;

@@ -47,7 +47,7 @@ in
         "BraveP3AEnabled" = false;
         "BravePlaylistEnabled" = false;
         "DefaultSearchProviderEnabled" = true;
-        "DefaultSearchProviderAlternateURLs" = [ "https://search.v3rm1n.dev/?q={searchTerms}" ];
+        "DefaultSearchProviderAlternateURLs" = [ "https://duckduckgo.com/?q={searchTerms}" ];
         "DnsOverHttpsMode" = "secure";
         "DnsOverHttpsTemplates" = "https://dns11.quad9.net/dns-query{?dns}";
         "RestoreOnStartup" = 4; # Restore specified pages
@@ -55,6 +55,7 @@ in
         "PasswordManagerEnabled" = false;
         "SafeBrowsingExtendedReportingEnabled" = false;
       };
+
       extensions = [
         #"nngceckbapebfimnlniiiahkandclblb" # Bitwarden
         "enamippconapkdmgfgjchkhakpfinmaj" # DeArrow
@@ -68,6 +69,9 @@ in
         "ponfpcnoihfmfllpaingbgckeeldkhle" # YouTube Enhancer
       ];
     };
+
+    environment.etc."brave/policies/managed/default.json".text =
+      builtins.toJSON config.programs.chromium.extraOpts;
 
     # Enable vertical tabs in Brave declaratively via user preferences.
     # Brave does not expose an enterprise policy for vertical tabs, so we

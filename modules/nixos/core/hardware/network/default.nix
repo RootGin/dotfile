@@ -17,14 +17,6 @@ in
     # No WWAN modem in this laptop -> drop ModemManager
     modemmanager.enable = false;
     hostName = config.my.user.hostName;
-    firewall = {
-      allowedTCPPorts = [
-        53317 # localsend
-      ];
-      allowedUDPPorts = [
-        53317 # localsend
-      ];
-    };
   };
 
   services.resolved = {
@@ -32,7 +24,7 @@ in
     settings = {
       Resolve = {
         DNSSEC = false;
-        DNSOverTLS = false;
+        DNSOverTLS = "opportunistic";
         DNS = [
           "9.9.9.11"
           "149.112.112.11"

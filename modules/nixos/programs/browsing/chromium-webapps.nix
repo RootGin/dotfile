@@ -86,7 +86,7 @@ in
     default = { };
   };
 
-  config = {
+  config = lib.mkIf config.my.desktop.enable {
     environment.systemPackages = lib.mapAttrsToList (
       name: app: mkChromiumApp (lib.removeAttrs app [ "enable" ] // { appName = name; })
     ) (lib.filterAttrs (_: v: v.enable or true) cfg);

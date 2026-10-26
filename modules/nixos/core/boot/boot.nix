@@ -46,7 +46,7 @@ in
     {
       boot = {
         loader = {
-          timeout = 30;
+          timeout = 3;
 
           efi = {
             canTouchEfiVariables = true;

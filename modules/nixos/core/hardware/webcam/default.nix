@@ -5,14 +5,18 @@
   ...
 }:
 let
-  webcam-conf = pkgs.writeScriptBin "my-configure-webcam" ''
-    # UGREEN 2K Webcam
-    v4l2-ctl --set-ctrl=brightness=-30
-    v4l2-ctl --set-ctrl=contrast=41
-    v4l2-ctl --set-ctrl=saturation=80
-    v4l2-ctl --set-ctrl white_balance_automatic=0
-    v4l2-ctl --set-fmt-video=width=2560,height=1440,pixelformat=MJPG
-  '';
+  webcam-conf = pkgs.writeShellApplication {
+    name = "fix-webcam";
+    runtimeInputs = [ pkgs.v4l-utils ];
+    text = ''
+      # UGREEN 2K Webcam
+      v4l2-ctl --set-ctrl=brightness=-30
+      v4l2-ctl --set-ctrl=contrast=41
+      v4l2-ctl --set-ctrl=saturation=80
+      v4l2-ctl --set-ctrl white_balance_automatic=0
+      v4l2-ctl --set-fmt-video=width=2560,height=1440,pixelformat=MJPG
+    '';
+  };
 in
 {
   config = lib.mkIf config.my.desktop.enable {
@@ -25,10 +29,10 @@ in
 
     systemd.user.services.webcam-conf = {
       description = "Overwrite webcam default settings";
-      wantedBy = [ "multi-user.target" ];
+      wantedBy = [ "default.target" ];
       serviceConfig = {
         Type = "oneshot";
-        ExecStart = "${webcam-conf}/bin/my-configure-webcam";
+        ExecStart = "${webcam-conf}/bin/fix-webcam";
         RemainAfterExit = true;
         StandardOutput = "journal";
       };

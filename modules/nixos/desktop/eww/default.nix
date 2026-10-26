@@ -1,17 +1,14 @@
 # Elkowar's Wacky Widgets (EWW)
 #
-# A standalone widget system written in Rust for creating custom widgets
-# in any window manager.
+# Custom widget system used with draftpaper-eww widgets and Niri.
 #
-# Config files:
-#   eww.yuck  — widget layout (yuck DSL) → ~/.config/eww/eww.yuck
-#   eww.scss  — widget styling            → ~/.config/eww/eww.scss
+# Widget repository:
+#   Currently located at ~/.config/eww/draftpaper-eww (standalone git repo)
+#   Spawned by Niri keybindings (Mod+X, Mod+B, Mod+Escape).
 #
-# Usage:
-#   Launch the bar:   eww open bar
-#   Close the bar:    eww close bar
-#   Kill all widgets: eww kill
-#   Reload config:    eww reload
+# If imported into this dotfile repository in the future:
+#   Can link via home-manager:
+#     xdg.configFile."eww/draftpaper-eww".source = ./draftpaper-eww;
 
 {
   config,
@@ -23,13 +20,15 @@ let
   username = config.my.user.username;
 in
 {
-
   config = lib.mkIf config.my.desktop.enable {
-    environment.systemPackages = with pkgs; [ eww ];
+    environment.systemPackages = with pkgs; [
+      eww
+      python3
+    ];
 
     home-manager.users.${username} = {
-      #        xdg.configFile."eww/eww.yuck".source = ./eww.yuck;
-      #        xdg.configFile."eww/eww.scss".source = ./eww.scss;
+      # draftpaper-eww is currently maintained in ~/.config/eww/draftpaper-eww
+      # xdg.configFile."eww/draftpaper-eww".source = ./draftpaper-eww;
     };
   };
 }

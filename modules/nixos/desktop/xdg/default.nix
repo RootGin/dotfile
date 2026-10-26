@@ -15,7 +15,7 @@ let
   chromium = config.my.programs.browsing.chromium.enable;
 
   defaultApps = {
-    browser = "zen.desktop";
+    browser = "zen-twilight.desktop";
     text = "nvim.desktop";
     image = "gthumb.desktop";
     audio = "vlc.desktop";
@@ -93,7 +93,7 @@ in
         )
         # If librewolf is the firefox package AND chromium isn't enabled,
         # register it as the default browser. Otherwise the default
-        # (zen.desktop) applies.
+        # (zen-twilight.desktop) applies.
         // lib.optionalAttrs (librewolf && !chromium) {
           "text/html" = [ "librewolf.desktop" ];
           "x-scheme-handler/http" = [ "librewolf.desktop" ];
@@ -102,10 +102,10 @@ in
     };
 
     # ── Portal fallback (common) — compositor‑specific config  ──
-    # (e.g. hyprland) takes priority over config.common at runtime.
+    # (e.g. niri) takes priority over config.common at runtime.
     xdg.portal.config.common = {
       default = [
-        "hyprland"
+        "gnome"
         "gtk"
       ];
       "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];

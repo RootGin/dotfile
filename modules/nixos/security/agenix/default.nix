@@ -8,7 +8,7 @@
 }:
 let
   username = config.my.user.username;
-  secretsDir = "${self.outPath}/secrets";
+  secretsDir = "${self}/secrets";
 
   hasSecret = name: builtins.pathExists "${secretsDir}/${name}.age";
 
@@ -33,17 +33,22 @@ in
   };
 
   config = lib.mkIf config.security.agenix.enable {
-    age = lib.mkIf allSecretsExist {
+    age = {
       identityPaths = [
         "/home/${username}/.config/agenix/age.key"
       ];
 
       secrets = {
-        "deepseek-api-key" = { };
+        "deepseek-api-key" = {
+          file = "${secretsDir}/deepseek-api-key.age";
+        };
 
-        "qwen-api-key" = { };
+        "qwen-api-key" = {
+          file = "${secretsDir}/qwen-api-key.age";
+        };
 
         "rootgin-password-hash" = {
+          file = "${secretsDir}/rootgin-password-hash.age";
           owner = "root";
           group = config.users.users.${username}.group;
           mode = "0440";

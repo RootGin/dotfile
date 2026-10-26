@@ -1,3 +1,4 @@
+{ lib, ... }:
 {
   programs.ssh.extraConfig = ''
     Host *
@@ -7,8 +8,8 @@
   services.openssh = {
     enable = true;
     ports = [ 4545 ];
-    settings.PasswordAuthentication = false;
-    settings.KbdInteractiveAuthentication = false;
-    settings.X11Forwarding = true;
+    settings.PasswordAuthentication = lib.mkDefault false;
+    settings.KbdInteractiveAuthentication = lib.mkDefault false;
+    settings.X11Forwarding = false;
   };
 }
