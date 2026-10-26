@@ -42,6 +42,12 @@ in
       default = "qlctkt";
       description = "Application database user name for schema initialization.";
     };
+
+    autoStart = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Whether to start the Oracle database container automatically on boot. Default false to conserve RAM and tasks.";
+    };
   };
 
   config = lib.mkIf (config.my.programs.dev.enable && cfg.enable) {
@@ -62,6 +68,7 @@ in
         backend = "podman";
         containers.${containerName} = {
           image = "docker.io/gvenzl/oracle-free:23-slim";
+          autoStart = cfg.autoStart;
           ports = [ "1521:1521" ];
           environmentFiles = lib.optional (cfg.environmentFile != null) cfg.environmentFile;
           volumes = [
@@ -106,7 +113,7 @@ in
       description = "Import schema into local Oracle FREEPDB1";
       after = [ "podman-${containerName}.service" ];
       requires = [ "podman-${containerName}.service" ];
-      wantedBy = [ "multi-user.target" ];
+      wantedBy = lib.mkIf cfg.autoStart [ "multi-user.target" ];
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;

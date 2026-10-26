@@ -297,7 +297,6 @@ in
             spawn-at-startup "uwsm" "finalize"
             spawn-at-startup "${lib.getExe (pkgs.writeShellScriptBin "niri-wallpaper" "${lib.getExe pkgs.swaybg} -i ${wallpaperPath} -m fill")}"
             spawn-at-startup "${pkgs.clipman}/bin/clipman" "--daemon"
-            spawn-at-startup "${pkgs.networkmanagerapplet}/bin/nm-applet"
             spawn-at-startup "${lib.getExe (pkgs.writeShellScriptBin "niri-restart-portals" "while ! busctl --user status org.gnome.Mutter.ScreenCast >/dev/null 2>&1; do sleep 0.2; done; systemctl --user restart xdg-desktop-portal.service")}"
 
             cursor {

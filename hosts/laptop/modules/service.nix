@@ -6,7 +6,7 @@
 }:
 {
   services = {
-    node-red.enable = true;
+    node-red.enable = false;
 
 
     logind.settings.Login = {

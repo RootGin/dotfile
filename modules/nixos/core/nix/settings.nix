@@ -10,6 +10,9 @@
       config.my.user.username
       "@wheel"
     ];
+    max-jobs = "auto";
+    cores = 0;
+    auto-optimise-store = false;
     extra-substituters = [
       "https://devenv.cachix.org"
       "https://zed-industries.cachix.org"

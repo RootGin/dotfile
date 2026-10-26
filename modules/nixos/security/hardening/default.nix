@@ -13,7 +13,7 @@ in
     fail2ban = {
       enable = lib.mkOption {
         type = lib.types.bool;
-        default = true;
+        default = false;
         description = "Enable fail2ban intrusion prevention for services like SSH.";
       };
     };

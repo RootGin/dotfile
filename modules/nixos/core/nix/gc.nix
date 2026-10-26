@@ -4,5 +4,8 @@
     dates = "daily";
     options = "--delete-older-than 10d";
   };
-  nix.settings.auto-optimise-store = true;
+  nix.optimise = {
+    automatic = true;
+    dates = [ "weekly" ];
+  };
 }

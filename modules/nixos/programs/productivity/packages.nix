@@ -35,7 +35,7 @@ in
         zathura.enable = true;
       };
 
-      systemd.user.services.end-rs = {
+      systemd.user.services.end-rs = lib.mkIf config.my.programs.productivity.end-rs.enable {
         Unit = {
           Description = "end-rs eww notification daemon";
           After = [ "graphical-session.target" ];
@@ -44,9 +44,9 @@ in
         Service = {
           ExecStart = "${end-rs}/bin/end-rs daemon";
           Restart = "on-failure";
-          RestartSec = 5;
+          RestartSec = 10;
         };
-        Install.WantedBy = [ "default.target" ];
+        Install.WantedBy = [ "graphical-session.target" ];
       };
     };
   };
