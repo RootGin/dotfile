@@ -24,5 +24,6 @@
   config.my.security = {
     gpg.enable = true;
     encryption.passwords.enable = true;
+    hardening.enable = true;
   };
 }
