@@ -23,6 +23,5 @@ in
 {
   environment.systemPackages = [
     netorbit
-    pkgs.libpcap
   ];
 }

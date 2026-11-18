@@ -18,7 +18,7 @@ in
 
   config = lib.mkIf config.my.programs.browsing.zen.enable {
     home-manager.users.${username} = {
-      imports = [ inputs.zen-browser.homeModules.twilight-official ];
+      imports = [ inputs.zen-browser.homeModules.twilight ];
 
       stylix.targets.zen-browser.enable = false;
 
@@ -251,14 +251,6 @@ in
             "layers.mlgpu.enabled" = true;
             "media.ffmpeg.vaapi.enabled" = true;
             "dom.ipc.processCount.webIsolated" = 1;
-            "browser.backspace_action" = 0;
-            "privacy.trackingprotection.enabled" = true;
-            "media.peerconnection.ice.default_address_only" = true;
-            "network.captive-portal-service.enabled" = false;
-            "network.dns.echconfig.enabled" = true;
-            "network.dns.http3_echconfig.enabled" = true;
-            "geo.enabled" = false;
-            "webgl.disabled" = true;
             "dom.ipc.forkserver.enable" = true;
             "zen.urlbar.behavior" = "float";
             "zen.urlbar.replace-newtab" = false;

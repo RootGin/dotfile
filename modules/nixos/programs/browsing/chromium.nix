@@ -26,9 +26,9 @@ in
   };
 
   config = lib.mkIf config.my.programs.browsing.chromium.enable {
-    environment.systemPackages = [
-      config.my.programs.browsing.chromium.package
-    ];
+    environment.systemPackages = lib.optional (
+      config.my.programs.browsing.chromium.package != null
+    ) config.my.programs.browsing.chromium.package;
 
     programs.chromium = {
       enable = lib.mkDefault true;
@@ -76,8 +76,10 @@ in
     # Enable vertical tabs in Brave declaratively via user preferences.
     # Brave does not expose an enterprise policy for vertical tabs, so we
     # write the preference directly to the profile's Preferences file.
-    home-manager.users.${username} = {
-      home.activation.braveVerticalTabs = ''
+    home-manager.users.${username} =
+      { lib, ... }:
+      {
+        home.activation.braveVerticalTabs = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
         if [[ -f "$HOME/.config/BraveSoftware/Brave-Browser/Default/Preferences" ]]; then
           ${pkgs.jq}/bin/jq '.brave.tabs.vertical_tabs_enabled = true | .brave.tabs.vertical_tabs_collapsed = false' \
             "$HOME/.config/BraveSoftware/Brave-Browser/Default/Preferences" \

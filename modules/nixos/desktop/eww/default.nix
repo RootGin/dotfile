@@ -16,19 +16,10 @@
   pkgs,
   ...
 }:
-let
-  username = config.my.user.username;
-in
 {
   config = lib.mkIf config.my.desktop.enable {
     environment.systemPackages = with pkgs; [
       eww
-      python3
     ];
-
-    home-manager.users.${username} = {
-      # draftpaper-eww is currently maintained in ~/.config/eww/draftpaper-eww
-      # xdg.configFile."eww/draftpaper-eww".source = ./draftpaper-eww;
-    };
   };
 }

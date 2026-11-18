@@ -19,7 +19,9 @@
     programs = {
       firefox = {
         enable = lib.mkDefault true;
-        package = config.my.programs.browsing.firefox.package;
+        package = lib.mkIf (
+          config.my.programs.browsing.firefox.package != null
+        ) config.my.programs.browsing.firefox.package;
         # Broken somehow?
         # languagePacks = [
         #   "de"
@@ -155,6 +157,9 @@
         };
       };
     };
-    environment.etc."firefox/policies/policies.json".target = "librewolf/policies/policies.json";
+    environment.etc."firefox/policies/policies.json".target = lib.mkIf (
+      config.my.programs.browsing.firefox.package != null
+      && lib.getName config.my.programs.browsing.firefox.package == "librewolf"
+    ) "librewolf/policies/policies.json";
   };
 }

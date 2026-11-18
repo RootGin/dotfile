@@ -55,12 +55,6 @@ in
       };
     };
 
-    # ── Systemd user units integration ───────────────────────
-    systemd.packages = [
-      pkgs.niri
-      pkgs.xdg-desktop-portal-gtk
-    ];
-
     # ── System packages ──────────────────────────────────────
     environment.systemPackages = with pkgs; [
       wl-clipboard
@@ -299,24 +293,15 @@ in
             spawn-at-startup "${pkgs.clipman}/bin/clipman" "--daemon"
             spawn-at-startup "${lib.getExe (pkgs.writeShellScriptBin "niri-restart-portals" "while ! busctl --user status org.gnome.Mutter.ScreenCast >/dev/null 2>&1; do sleep 0.2; done; systemctl --user restart xdg-desktop-portal.service")}"
 
-            cursor {
-                xcursor-theme "GoogleDot-White"
-                xcursor-size 25
-            }
-
             xwayland-satellite {
                 path "${lib.getExe pkgs.xwayland-satellite}"
             }
 
             environment {
-                NIXOS_OZONE_WL "1"
-                XDG_CURRENT_DESKTOP "X-NIXOS-SYSTEMD-AWARE:niri"
                 XDG_SESSION_DESKTOP "niri"
                 GTK_USE_PORTAL "1"
                 MOZ_ENABLE_WAYLAND "1"
                 QT_QPA_PLATFORM "wayland"
-                QT_QPA_PLATFORMTHEME "qt5ct"
-                QT_STYLE_OVERRIDE "kvantum"
                 SDL_VIDEODRIVER "wayland,x11"
                 CLUTTER_BACKEND "wayland"
                 MOZ_DISABLE_RDD_SANDBOX "1"
@@ -335,7 +320,6 @@ in
 
     # ── System-level environment variables ─────────────────
     environment.sessionVariables = {
-      NIXOS_OZONE_WL = "1";
       XDG_CURRENT_DESKTOP = "X-NIXOS-SYSTEMD-AWARE:niri";
     };
   };

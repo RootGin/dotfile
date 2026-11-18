@@ -16,7 +16,6 @@ in
 
   config = lib.mkIf config.my.shell.zsh.enable {
     environment.shells = with pkgs; [ zsh ];
-    environment.systemPackages = with pkgs; [ zsh-autocomplete ];
 
     home-manager.users.${username} = {
       programs.zsh = {
@@ -24,10 +23,15 @@ in
         autosuggestion.enable = true;
         autosuggestion.strategy = [ "completion" ];
         dotDir = "/home/${username}/.config/zsh";
-        enableCompletion = false;
+        enableCompletion = true;
         syntaxHighlighting.enable = true;
         shellAliases = myAliases;
         plugins = [
+          {
+            name = "powerlevel10k";
+            src = pkgs.zsh-powerlevel10k;
+            file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+          }
           {
             name = "zsh-nix-shell";
             file = "nix-shell.plugin.zsh";
@@ -39,21 +43,9 @@ in
             };
           }
         ];
-        zplug = {
-          enable = true;
-          plugins = [
-            {
-              name = "romkatv/powerlevel10k";
-              tags = [
-                "as:theme"
-                "depth:1"
-              ];
-            }
-          ];
-        };
         initContent = ''
-          source ~/.config/zsh/.p10k.zsh
           POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
+          source ~/.config/zsh/.p10k.zsh
           eval "$(direnv hook zsh)"
           eval "$(zoxide init --cmd cd zsh)"
         '';

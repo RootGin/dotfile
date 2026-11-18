@@ -18,7 +18,7 @@ in
     home-manager.users.${username} = {
       programs.kitty = {
         enable = true;
-        shellIntegration.enableZshIntegration = true;
+        shellIntegration.enableFishIntegration = true;
         settings = {
           background_opacity = lib.mkForce "0.5";
           cursor_shape = "block";

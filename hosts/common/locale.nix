@@ -16,9 +16,4 @@
     LC_TELEPHONE = "vi_VN";
     LC_TIME = "vi_VN";
   };
-
-  services.xserver = {
-    xkb.layout = "us";
-    xkb.variant = "";
-  };
 }

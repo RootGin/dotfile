@@ -43,7 +43,6 @@ in
       [
         mangohud
         goverlay
-        gamescope
       ]
       ++ cfg.extraPackages;
   };

@@ -6,8 +6,7 @@
 }:
 {
   services = {
-    node-red.enable = false;
-
+    fwupd.enable = true;
 
     logind.settings.Login = {
       HandleLidSwitch = "ignore";

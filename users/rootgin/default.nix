@@ -9,7 +9,6 @@ let
   username = config.my.user.username;
 in
 {
-  programs.fish.enable = true;
   users.mutableUsers = lib.mkDefault true;
   users.users.${username} = {
     shell = pkgs.fish;
@@ -17,12 +16,12 @@ in
     initialPassword = lib.mkDefault "rootgin";
     openssh.authorizedKeys.keys = lib.mkDefault [ ];
     extraGroups = [
-      "docker"
       "wheel"
-      "openrazer"
       "input"
       "video"
-    ];
+    ]
+    ++ lib.optional config.virtualisation.docker.enable "docker"
+    ++ lib.optional config.my.hardware.razer.enable "openrazer";
   }
   // lib.optionalAttrs (config.security.agenix.enable) {
     hashedPasswordFile = config.age.secrets."rootgin-password-hash".path;

@@ -23,11 +23,13 @@ let
 in
 {
   config = lib.mkIf config.my.programs.productivity.enable {
-    environment.systemPackages = with pkgs; [
-      kdePackages.kdenlive
-      obsidian
-      end-rs
-    ];
+    environment.systemPackages =
+      with pkgs;
+      [
+        kdePackages.kdenlive
+        obsidian
+      ]
+      ++ lib.optional config.my.programs.productivity.end-rs.enable end-rs;
 
     home-manager.users.${username} = {
       programs = {

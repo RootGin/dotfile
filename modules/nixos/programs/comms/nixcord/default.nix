@@ -51,7 +51,7 @@ in
         hideMedia.enable = true;
         ignoreActivities = {
           enable = true;
-          ignoreListening = true;
+          ignoreListening = false;
           ignoreWatching = true;
           ignoreCompeting = true;
         };

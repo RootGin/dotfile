@@ -5,8 +5,8 @@
   ...
 }:
 let
-  EQPath = ".config/pipewire/EQ.txt";
   username = config.my.user.username;
+  EQPath = "/home/${username}/.config/pipewire/EQ.txt";
 in
 {
   services.pipewire = {

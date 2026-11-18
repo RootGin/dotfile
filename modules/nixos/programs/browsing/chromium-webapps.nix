@@ -19,8 +19,13 @@ let
       icon ? "chromium",
     }:
     let
+      chromiumPkg =
+        if config.my.programs.browsing.chromium.package != null then
+          config.my.programs.browsing.chromium.package
+        else
+          pkgs.chromium;
       wrapper = pkgs.writeShellScriptBin "${appName}-web" ''
-        exec ${pkgs.chromium}/bin/chromium \
+        exec ${lib.getExe chromiumPkg} \
           --app=${url} \
           --user-data-dir="$HOME/.config/chromium-${profile}" \
           --class=${class} \

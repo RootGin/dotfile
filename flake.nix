@@ -5,12 +5,10 @@
     extra-substituters = [
       "https://vicinae.cachix.org"
       "https://devenv.cachix.org"
-      "https://zed-industries.cachix.org"
     ];
     extra-trusted-public-keys = [
-      "vicinae.cachix.org-1:1kDrfgsx52l9AAlVbeoal8e9sp0ckWBttqzs2bWb9/8="
+      "vicinae.cachix.org-1:1kDrfienkGHPYbkpNj1mWTr7Fm1+zcenzgTizIcI3oc="
       "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
-      "zed-industries.cachix.org-1:5b6JRtm9/B8/iSpxa85dG73HwN/kZ+dfyW1f1Tj5Dmg="
     ];
   };
 

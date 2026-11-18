@@ -10,11 +10,21 @@ let
     runtimeInputs = [ pkgs.v4l-utils ];
     text = ''
       # UGREEN 2K Webcam
-      v4l2-ctl --set-ctrl=brightness=-30
-      v4l2-ctl --set-ctrl=contrast=41
-      v4l2-ctl --set-ctrl=saturation=80
-      v4l2-ctl --set-ctrl white_balance_automatic=0
-      v4l2-ctl --set-fmt-video=width=2560,height=1440,pixelformat=MJPG
+      shopt -s nullglob nocasematch
+      for sysdev in /sys/class/video4linux/video*; do
+        name=$(<"$sysdev/name")
+        if [[ "$name" == *ugreen* ]]; then
+          dev="/dev/''${sysdev##*/}"
+          if v4l2-ctl -d "$dev" --get-fmt-video >/dev/null 2>&1; then
+            v4l2-ctl -d "$dev" \
+              --set-ctrl=brightness=-30 \
+              --set-ctrl=contrast=41 \
+              --set-ctrl=saturation=80 \
+              --set-ctrl=white_balance_automatic=0 \
+              --set-fmt-video=width=2560,height=1440,pixelformat=MJPG
+          fi
+        fi
+      done
     '';
   };
 in
