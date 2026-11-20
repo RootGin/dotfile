@@ -1,12 +1,21 @@
+{ config, ... }:
 let
-  myAliases = (import ./commonAliases.nix);
+  myAliases = import ./commonAliases.nix;
+  username = config.my.user.username;
 in
 {
-  programs.bash = {
-    completion.enable = true;
-    shellAliases = myAliases;
-    interactiveShellInit = ''
-      eval "$(zoxide init --cmd cd bash)"
-    '';
+  home-manager.users.${username} = {
+    programs.bash = {
+      enable = true;
+      enableCompletion = true;
+      shellAliases = myAliases;
+    };
+
+    programs.direnv.enableBashIntegration = true;
+    programs.zoxide = {
+      enable = true;
+      enableBashIntegration = true;
+      options = [ "--cmd cd" ];
+    };
   };
 }

@@ -1,5 +1,4 @@
 {
-  inputs,
   config,
   lib,
   pkgs,
@@ -8,14 +7,8 @@
 let
   inherit (config.my.user) username;
 
-  # Browser detection — match by package name (librewolf‑branded Firefox vs vanilla).
-  firefoxPkg = config.my.programs.browsing.firefox.package;
-  librewolf =
-    firefoxPkg != null && lib.hasPrefix "librewolf" (firefoxPkg.pname or firefoxPkg.name or "");
-  chromium = config.my.programs.browsing.chromium.enable;
-
   defaultApps = {
-    browser = "zen.desktop";
+    browser = "zen-twilight.desktop";
     text = "nvim.desktop";
     image = "gthumb.desktop";
     audio = "vlc.desktop";
@@ -83,29 +76,20 @@ in
     # ── MIME type associations ───────────────────────────────
     xdg.mime = {
       enable = true;
-      defaultApplications =
-        lib.listToAttrs (
-          lib.flatten (
-            lib.mapAttrsToList (
-              category: mimes: map (mime: lib.attrsets.nameValuePair mime [ defaultApps."${category}" ]) mimes
-            ) mimeMap
-          )
+      defaultApplications = lib.listToAttrs (
+        lib.flatten (
+          lib.mapAttrsToList (
+            category: mimes: map (mime: lib.attrsets.nameValuePair mime [ defaultApps."${category}" ]) mimes
+          ) mimeMap
         )
-        # If librewolf is the firefox package AND chromium isn't enabled,
-        # register it as the default browser. Otherwise the default
-        # (zen.desktop) applies.
-        // lib.optionalAttrs (librewolf && !chromium) {
-          "text/html" = [ "librewolf.desktop" ];
-          "x-scheme-handler/http" = [ "librewolf.desktop" ];
-          "x-scheme-handler/https" = [ "librewolf.desktop" ];
-        };
+      );
     };
 
     # ── Portal fallback (common) — compositor‑specific config  ──
-    # (e.g. hyprland) takes priority over config.common at runtime.
+    # (e.g. niri) takes priority over config.common at runtime.
     xdg.portal.config.common = {
       default = [
-        "hyprland"
+        "gnome"
         "gtk"
       ];
       "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];

@@ -79,7 +79,7 @@ in
 
     # Stylix's rofi target still sets programs.rofi.font (renamed to
     # programs.rofi.settings.font in home-manager), which emits an eval
-    # warning. Rofi isn't used (fuzzel/vicinae instead), so disable
+    # warning. Rofi isn't used (fuzzel instead), so disable
     # stylix's rofi target to silence it. Note: rofi is a home-manager-only
     # target, so the toggle must live in home-manager namespace, not in
     # the NixOS-level stylix.targets above.

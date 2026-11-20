@@ -5,7 +5,6 @@
     comms.enable = true;
     content.enable = true;
     dev.enable = true;
-    emulation.enable = false;
     gaming.enable = true;
     media.enable = true;
     productivity.enable = true;
@@ -16,8 +15,13 @@
   config.my.services = {
     blueman.enable = true;
     flatpak.enable = true;
-    vicinae.enable = true;
     netbird.enable = true;
     netbird.ui = true;
+  };
+
+  config.my.security = {
+    gpg.enable = true;
+    encryption.passwords.enable = true;
+    hardening.enable = true;
   };
 }

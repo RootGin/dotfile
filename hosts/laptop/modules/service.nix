@@ -6,11 +6,7 @@
 }:
 {
   services = {
-    node-red.enable = true;
-
-    gvfs.package = pkgs.gvfs.overrideAttrs (old: {
-      mesonFlags = old.mesonFlags ++ [ "-Dgphoto2=false" ];
-    });
+    fwupd.enable = true;
 
     logind.settings.Login = {
       HandleLidSwitch = "ignore";

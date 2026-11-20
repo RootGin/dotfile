@@ -1,5 +1,4 @@
 {
-  inputs,
   config,
   lib,
   pkgs,
@@ -9,20 +8,20 @@ let
   username = config.my.user.username;
 in
 {
-  programs.fish.enable = true;
+  users.mutableUsers = lib.mkDefault true;
   users.users.${username} = {
-    shell = pkgs.fish;
+    shell = lib.mkIf config.my.shell.fish.enable pkgs.fish;
     isNormalUser = true;
+    initialPassword = lib.mkIf (!config.security.agenix.enable) (lib.mkDefault "rootgin");
+    hashedPasswordFile = lib.mkIf config.security.agenix.enable config.age.secrets."rootgin-password-hash".path;
+    openssh.authorizedKeys.keys = lib.mkDefault [ ];
     extraGroups = [
-      "docker"
       "wheel"
-      "openrazer"
       "input"
       "video"
-    ];
-  }
-  // lib.optionalAttrs (config.security.agenix.enable) {
-    hashedPasswordFile = config.age.secrets."rootgin-password-hash".path;
+    ]
+    ++ lib.optional config.virtualisation.docker.enable "docker"
+    ++ lib.optional config.my.hardware.razer.enable "openrazer";
   };
-  users.defaultUserShell = pkgs.fish;
+  users.defaultUserShell = lib.mkIf config.my.shell.fish.enable pkgs.fish;
 }

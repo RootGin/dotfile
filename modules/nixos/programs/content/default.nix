@@ -5,17 +5,17 @@
   ...
 }:
 
-with lib;
-
 let
-  defaultPackages = with pkgs; [ ];
+  defaultPackages = [
+    pkgs.blockbench
+  ];
 in
 {
   options.my.programs.content = {
-    enable = mkEnableOption "Enable content creation tools";
+    enable = lib.mkEnableOption "Enable content creation tools";
 
-    optionalPackages = mkOption {
-      type = types.listOf types.package;
+    optionalPackages = lib.mkOption {
+      type = lib.types.listOf lib.types.package;
       default = [ ];
       example = [
         pkgs.davinci-resolve-studio
@@ -24,12 +24,12 @@ in
     };
   };
 
-  config = mkIf config.my.programs.content.enable {
+  config = lib.mkIf config.my.programs.content.enable {
     environment.systemPackages = defaultPackages ++ config.my.programs.content.optionalPackages;
 
     programs.obs-studio = {
       enable = true;
-      package = (pkgs.obs-studio.override { cudaSupport = true; });
+      package = pkgs.obs-studio;
       plugins = with pkgs.obs-studio-plugins; [
         wlrobs
         obs-vaapi

@@ -5,5 +5,6 @@
     ./gnupg
     ./vpn
     ./agenix
+    ./hardening
   ];
 }

@@ -10,9 +10,6 @@
         enable = true;
       };
     };
-    emulation = {
-      waydroid.enable = false;
-    };
     ai = {
       enable = true;
       opencode = {
@@ -28,6 +25,9 @@
           productivity = true;
         };
       };
+    };
+    dev = {
+      oracleLocal.enable = true;
     };
   };
 }

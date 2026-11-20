@@ -5,13 +5,14 @@
   pkgs,
   ...
 }:
+let
+  # Evaluate overlay locally so nixpkgs.overlays is not polluted globally
+  nix4vscode = (inputs.nix4vscode.overlays.default pkgs pkgs).nix4vscode;
+in
 {
   config = lib.mkIf config.my.programs.dev.enable {
-    nixpkgs.overlays = [ inputs.nix4vscode.overlays.default ];
-
     environment.systemPackages = [
       pkgs.nil
-      pkgs.nixfmt
 
       (pkgs.vscode-with-extensions.override {
         vscode = pkgs.vscode;
@@ -41,22 +42,7 @@
             rust-lang.rust-analyzer
 
           ])
-          ++
-            pkgs.nix4vscode.forVscodeExt
-              ({
-                # vscode-java-debug mkdirs ".noConfigDebugAdapterEndpoints" inside
-                # extensionPath at activation; the nix store is read-only so
-                # activation throws and every java.debug.* command goes missing.
-                "vscjava.vscode-java-debug" = {
-                  postPatch = ''
-                    substituteInPlace dist/extension.js \
-                      --replace-fail \
-                        ',v=o.join(t,".noConfigDebugAdapterEndpoints")' \
-                        ',v=o.join(require("os").tmpdir(),"vscode-java-debug")'
-                  '';
-                };
-              })
-              [
+          ++ nix4vscode.forVscode [
                 # Extension Pack for Java members, from the marketplace directly
                 # (nixpkgs' redhat.java is not kept up to date)
                 "redhat.java"
@@ -83,6 +69,10 @@
                 "humao.rest-client"
                 "shengchen.vscode-checkstyle"
                 "Oracle.sql-developer"
+
+                # ── CI/CD & Kubernetes ───────────────────────
+                "jmmeessen.jenkins-declarative-support"
+                "ms-kubernetes-tools.vscode-kubernetes-tools"
               ];
       })
     ];

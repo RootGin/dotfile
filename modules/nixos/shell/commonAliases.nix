@@ -16,4 +16,9 @@
 
   cat = "bat";
   man = "batman";
+
+  # On-demand development services
+  oracle-start = "sudo systemctl start podman-oracle-free";
+  oracle-stop = "sudo systemctl stop podman-oracle-free";
+  oracle-status = "sudo systemctl status podman-oracle-free";
 }

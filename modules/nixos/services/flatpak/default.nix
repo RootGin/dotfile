@@ -14,7 +14,7 @@
   config = lib.mkIf config.my.services.flatpak.enable {
     services.flatpak = {
       enable = true;
-      update.onActivation = true;
+      update.onActivation = false;
     };
   };
 }

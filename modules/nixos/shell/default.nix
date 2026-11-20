@@ -1,6 +1,6 @@
 {
-  inputs,
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -15,7 +15,7 @@ in
     ./fish.nix
   ];
 
-  home-manager.users.${username} = {
+  home-manager.users.${username} = lib.mkIf config.my.desktop.enable {
     programs.git = {
       enable = true;
       signing.format = "openpgp";
@@ -31,21 +31,25 @@ in
       };
     };
   };
-  environment.systemPackages = with pkgs; [
-    direnv
-    nix-direnv
-    acpi
-    bat
-    bat-extras.batman
-    clang
-    deadnix
-    eza
-    gh
-    glow
-    nixd
-    nixfmt
-    statix
-    unzip
-    zoxide
-  ];
+  environment.systemPackages =
+    (with pkgs; [
+      acpi
+      bat
+      bat-extras.batman
+      eza
+      glow
+      unzip
+      zoxide
+    ])
+    ++ lib.optionals config.my.desktop.enable (
+      with pkgs;
+      [
+        clang
+        deadnix
+        gh
+        nixd
+        nixfmt
+        statix
+      ]
+    );
 }

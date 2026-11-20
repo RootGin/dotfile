@@ -23,8 +23,8 @@ in
         amd_performance_level = "high";
       };
       custom = {
-        start = "${pkgs.coreutils}/bin/notify-send \"GameMode started\"";
-        end = "${pkgs.coreutils}/bin/notify-send \"GameMode ended\"";
+        start = "${pkgs.libnotify}/bin/notify-send \"GameMode started\"";
+        end = "${pkgs.libnotify}/bin/notify-send \"GameMode ended\"";
       };
     };
 
@@ -43,7 +43,6 @@ in
       [
         mangohud
         goverlay
-        gamescope
       ]
       ++ cfg.extraPackages;
   };

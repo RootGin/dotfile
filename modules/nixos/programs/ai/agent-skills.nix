@@ -25,18 +25,13 @@ let
     hash = "sha256-L3CpIT2DeI+fUFl9fcygojtQo2DzEen69rMD1XqR1vM=";
   };
 
-  # ── Pre-built skill content ──
-  rawUiUxProMaxSkill = builtins.readFile "${uiUxProMaxSrc}/.claude/skills/ui-ux-pro-max/SKILL.md";
-
-  fixedUiUxProMaxSkill =
-    builtins.replaceStrings
-      [
-        "python3 skills/ui-ux-pro-max/scripts/"
-      ]
-      [
-        "python3 ~/.config/opencode/skills/ui-ux-pro-max/scripts/"
-      ]
-      rawUiUxProMaxSkill;
+  # ── Pre-built skill package ──
+  uiUxProMaxSkill = pkgs.runCommandLocal "ui-ux-pro-max-skill" { } ''
+    cp -r ${uiUxProMaxSrc}/.claude/skills/ui-ux-pro-max $out
+    chmod -R u+w $out
+    substituteInPlace $out/SKILL.md \
+      --replace-fail "python3 skills/ui-ux-pro-max/scripts/" "python3 ~/.config/opencode/skills/ui-ux-pro-max/scripts/"
+  '';
 
   # ── Matt Pocock skill lists (folder names under skills/<category>/) ──
   mattpocockEngineering = [
@@ -75,8 +70,8 @@ let
     category: names:
     builtins.listToAttrs (
       map (name: {
-        name = "opencode/skills/${name}/SKILL.md";
-        value.text = builtins.readFile "${mattpocockSrc}/skills/${category}/${name}/SKILL.md";
+        name = "opencode/skills/${name}";
+        value.source = "${mattpocockSrc}/skills/${category}/${name}";
       }) names
     );
 in
@@ -100,71 +95,8 @@ in
       # ── xdg.configFile → ~/.config/opencode/skills/ ──
       xdg.configFile =
         (lib.optionalAttrs skillsCfg."ui-ux-pro-max".enable {
-          "opencode/skills/ui-ux-pro-max/SKILL.md".text = fixedUiUxProMaxSkill;
+          "opencode/skills/ui-ux-pro-max".source = uiUxProMaxSkill;
         })
-        // (lib.optionalAttrs skillsCfg."ui-ux-pro-max".enable (
-          builtins.listToAttrs (
-            map
-              (name: {
-                name = "opencode/skills/ui-ux-pro-max/scripts/${name}";
-                value.source = "${uiUxProMaxSrc}/.claude/skills/ui-ux-pro-max/scripts/${name}";
-              })
-              [
-                "search.py"
-                "core.py"
-                "design_system.py"
-              ]
-          )
-          // builtins.listToAttrs (
-            map
-              (name: {
-                name = "opencode/skills/ui-ux-pro-max/data/${name}";
-                value.source = "${uiUxProMaxSrc}/.claude/skills/ui-ux-pro-max/data/${name}";
-              })
-              [
-                "_sync_all.py"
-                "app-interface.csv"
-                "charts.csv"
-                "colors.csv"
-                "design.csv"
-                "draft.csv"
-                "google-fonts.csv"
-                "icons.csv"
-                "landing.csv"
-                "products.csv"
-                "react-performance.csv"
-                "styles.csv"
-                "typography.csv"
-                "ui-reasoning.csv"
-                "ux-guidelines.csv"
-              ]
-          )
-          // builtins.listToAttrs (
-            map
-              (name: {
-                name = "opencode/skills/ui-ux-pro-max/data/stacks/${name}";
-                value.source = "${uiUxProMaxSrc}/.claude/skills/ui-ux-pro-max/data/stacks/${name}";
-              })
-              [
-                "angular.csv"
-                "astro.csv"
-                "flutter.csv"
-                "html-tailwind.csv"
-                "jetpack-compose.csv"
-                "laravel.csv"
-                "nextjs.csv"
-                "nuxt-ui.csv"
-                "nuxtjs.csv"
-                "react-native.csv"
-                "react.csv"
-                "shadcn.csv"
-                "svelte.csv"
-                "swiftui.csv"
-                "threejs.csv"
-                "vue.csv"
-              ]
-          )
-        ))
         // (lib.optionalAttrs skillsCfg."mattpocock".enable (
           (lib.optionalAttrs skillsCfg."mattpocock".engineering (
             mkMattPocockSkillFiles "engineering" mattpocockEngineering

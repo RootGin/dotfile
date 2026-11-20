@@ -19,12 +19,9 @@
     programs = {
       firefox = {
         enable = lib.mkDefault true;
-        package = config.my.programs.browsing.firefox.package;
-        # Broken somehow?
-        # languagePacks = [
-        #   "de"
-        #   "en-US"
-        # ];
+        package = lib.mkIf (
+          config.my.programs.browsing.firefox.package != null
+        ) config.my.programs.browsing.firefox.package;
 
         # ─── About:config prefs ───────────────────────────────────────────────────────
         preferencesStatus = "locked";
@@ -42,16 +39,6 @@
           "browser.newtabpage.activity-stream.system.showSponsored" = false;
           "browser.topsites.contile.enabled" = false;
           "extensions.pocket.enabled" = false;
-          # Broken due to "stability issues"
-          /*
-            "privacy.donottrackheader.enabled" = true;
-            "privacy.fingerprintingProtection" = true;
-            "privacy.resistFingerprinting" = true;
-            "privacy.trackingprotection.emailtracking.enabled" = true;
-            "privacy.trackingprotection.enabled" = true;
-            "privacy.trackingprotection.fingerprinting.enabled" = true;
-            "privacy.trackingprotection.socialtracking.enabled" = true;
-          */
 
           # Wayland / GPU acceleration
           "gfx.canvas.accelerated" = true;
@@ -80,7 +67,7 @@
             Locked = true;
             Value = true;
           };
-          OverrideFirstRunPage = "https://start.v3rm1n.dev";
+          OverrideFirstRunPage = "";
           OverridePostUpdatePage = "";
           SearchBar = "unified";
 
@@ -155,6 +142,9 @@
         };
       };
     };
-    environment.etc."firefox/policies/policies.json".target = "librewolf/policies/policies.json";
+    environment.etc."firefox/policies/policies.json".target = lib.mkIf (
+      config.my.programs.browsing.firefox.package != null
+      && lib.getName config.my.programs.browsing.firefox.package == "librewolf"
+    ) "librewolf/policies/policies.json";
   };
 }

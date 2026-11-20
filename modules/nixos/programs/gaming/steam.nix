@@ -2,7 +2,6 @@
 {
   config = lib.mkIf config.my.programs.gaming.enable {
     programs = {
-      gamemode.enable = true;
       steam = {
         enable = true;
         gamescopeSession.enable = true;
