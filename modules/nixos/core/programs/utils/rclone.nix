@@ -29,7 +29,7 @@ in
 
             Service = {
               Type = "simple";
-              Environment = [ "PATH=/run/wrappers/bin/:$PATH" ];
+              Environment = [ "PATH=/run/wrappers/bin:/run/current-system/sw/bin" ];
               ExecStartPre = "${lib.getExe' pkgs.uutils-coreutils-noprefix "mkdir"} -p ${mountdir}";
 
               ExecStart = ''
@@ -38,7 +38,7 @@ in
                   --vfs-cache-mode full \
                   --vfs-cache-max-age 1m \
                   --dir-cache-time 30s \
-                  --poll-interval 15s \
+                  --poll-interval 15s
               '';
 
               ExecStop = "${lib.getExe' pkgs.fuse "fusermount"} -u ${mountdir}";

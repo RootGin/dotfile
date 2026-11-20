@@ -1,5 +1,4 @@
 {
-  inputs,
   config,
   lib,
   pkgs,
@@ -34,21 +33,21 @@ in
           }
           {
             name = "zsh-nix-shell";
-            file = "nix-shell.plugin.zsh";
-            src = pkgs.fetchFromGitHub {
-              owner = "chisui";
-              repo = "zsh-nix-shell";
-              rev = "v0.8.0";
-              sha256 = "1lzrn0n4fxfcgg65v0qhnj7wnybybqzs4adz7xsrkgmcsr0ii8b7";
-            };
+            src = pkgs.zsh-nix-shell;
+            file = "share/zsh-nix-shell/nix-shell.plugin.zsh";
           }
         ];
         initContent = ''
           POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
           source ~/.config/zsh/.p10k.zsh
-          eval "$(direnv hook zsh)"
-          eval "$(zoxide init --cmd cd zsh)"
         '';
+      };
+
+      programs.direnv.enableZshIntegration = true;
+      programs.zoxide = {
+        enable = true;
+        enableZshIntegration = true;
+        options = [ "--cmd cd" ];
       };
     };
   };

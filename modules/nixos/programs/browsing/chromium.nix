@@ -1,5 +1,4 @@
 {
-  inputs,
   config,
   lib,
   pkgs,
@@ -57,15 +56,12 @@ in
       };
 
       extensions = [
-        #"nngceckbapebfimnlniiiahkandclblb" # Bitwarden
         "enamippconapkdmgfgjchkhakpfinmaj" # DeArrow
         "ldpochfccmkkmhdbclfhpagapcfdljkj" # Decentraleyes
         "mlomiejdfkolichcflejclcbmpeaniij" # Ghostery
         "bggfcpfjbdkhfhfmkjpbhnkhnpjjeomc" # Material Icons for GitHub
-        #"pkehgijcmpdhfbdbbnkijodmdjhbjlgp" # Privacy Badger
         "ghmbeldphafepmbegfdlkpapadhbakde" # Proton Pass
         "gebbhagfogifgggkldgodflihgfeippi" # Return YouTube Dislike
-        #"cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
         "ponfpcnoihfmfllpaingbgckeeldkhle" # YouTube Enhancer
       ];
     };

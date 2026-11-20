@@ -35,6 +35,7 @@ in
   config = lib.mkIf config.security.agenix.enable {
     age = {
       identityPaths = [
+        "/etc/agenix/age.key"
         "/home/${username}/.config/agenix/age.key"
       ];
 
@@ -50,8 +51,8 @@ in
         "rootgin-password-hash" = {
           file = "${secretsDir}/rootgin-password-hash.age";
           owner = "root";
-          group = config.users.users.${username}.group;
-          mode = "0440";
+          group = "root";
+          mode = "0400";
         };
       };
     };

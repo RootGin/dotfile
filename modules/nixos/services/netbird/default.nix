@@ -25,11 +25,7 @@
     services.netbird = {
       enable = true;
       ui.enable = config.my.services.netbird.ui;
-    }
-    // lib.optionalAttrs config.my.services.netbird.routingPeer {
-      useRoutingFeatures = "client";
+      useRoutingFeatures = lib.mkIf config.my.services.netbird.routingPeer "both";
     };
-
-    networking.firewall.trustedInterfaces = [ "wt0" ];
   };
 }

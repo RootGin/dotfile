@@ -32,10 +32,7 @@ in
   config = lib.mkIf config.my.desktop.enable {
     environment.systemPackages = with pkgs; [
       v4l-utils
-      ffmpeg
     ];
-
-    security.polkit.enable = true;
 
     systemd.user.services.webcam-conf = {
       description = "Overwrite webcam default settings";

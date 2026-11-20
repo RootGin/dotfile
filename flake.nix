@@ -3,11 +3,9 @@
 
   nixConfig = {
     extra-substituters = [
-      "https://vicinae.cachix.org"
       "https://devenv.cachix.org"
     ];
     extra-trusted-public-keys = [
-      "vicinae.cachix.org-1:1kDrfienkGHPYbkpNj1mWTr7Fm1+zcenzgTizIcI3oc="
       "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
     ];
   };
@@ -73,15 +71,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    vicinae = {
-      url = "github:vicinaehq/vicinae/v0.20.3";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     ponytail = {
       url = "github:DietrichGebert/ponytail";
       flake = false;
     };
+
+    luciole.url = "github:noctalia-dev/luciole";
   };
 
   outputs =
@@ -91,7 +86,6 @@
       mkHost =
         hostPath:
         nixpkgs.lib.nixosSystem {
-          inherit system;
           specialArgs = { inherit inputs self; };
           modules = [ hostPath ];
         };

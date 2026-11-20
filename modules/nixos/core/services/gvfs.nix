@@ -1,3 +1,10 @@
 {
-  services.gvfs.enable = true;
+  config,
+  lib,
+  ...
+}:
+{
+  config = lib.mkIf config.my.desktop.enable {
+    services.gvfs.enable = true;
+  };
 }

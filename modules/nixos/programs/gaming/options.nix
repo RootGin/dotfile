@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ lib, ... }:
 {
   options.my.programs.gaming = {
     enable = lib.mkEnableOption "Complete gaming profile";

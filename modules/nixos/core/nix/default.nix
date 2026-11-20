@@ -11,7 +11,6 @@ let
 in
 {
   imports = [
-    ./btrfs.nix
     ./gc.nix
     ./settings.nix
   ];
@@ -37,14 +36,6 @@ in
 
   home-manager.users.${username} = {
     home.stateVersion = "26.05";
-    dconf.settings = {
-      "org/gnome/desktop/interface" = {
-        color-scheme = "prefer-dark";
-      };
-      "org/cinnamon/desktop/applications/terminal" = {
-        exec = "kitty";
-      };
-    };
   };
 
   programs.direnv = {
@@ -59,9 +50,9 @@ in
 
   programs.nix-ld = {
     enable = true;
-    libraries = (pkgs.steam-run.args.multiPkgs pkgs) ++ [
-      pkgs.stdenv.cc.cc.lib
-    ];
+    libraries =
+      [ pkgs.stdenv.cc.cc.lib ]
+      ++ lib.optionals config.my.desktop.enable (pkgs.steam-run.args.multiPkgs pkgs);
   };
 
   nixpkgs.config = {

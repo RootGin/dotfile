@@ -5,13 +5,14 @@
   pkgs,
   ...
 }:
+let
+  # Evaluate overlay locally so nixpkgs.overlays is not polluted globally
+  nix4vscode = (inputs.nix4vscode.overlays.default pkgs pkgs).nix4vscode;
+in
 {
   config = lib.mkIf config.my.programs.dev.enable {
-    nixpkgs.overlays = [ inputs.nix4vscode.overlays.default ];
-
     environment.systemPackages = [
       pkgs.nil
-      pkgs.nixfmt
 
       (pkgs.vscode-with-extensions.override {
         vscode = pkgs.vscode;
@@ -41,8 +42,7 @@
             rust-lang.rust-analyzer
 
           ])
-          ++
-            pkgs.nix4vscode.forVscode [
+          ++ nix4vscode.forVscode [
                 # Extension Pack for Java members, from the marketplace directly
                 # (nixpkgs' redhat.java is not kept up to date)
                 "redhat.java"

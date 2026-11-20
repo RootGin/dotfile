@@ -78,7 +78,6 @@ in
       tumbler
       gthumb
       yazi
-      networkmanagerapplet
       zenity
     ];
 
@@ -290,8 +289,16 @@ in
 
             spawn-at-startup "uwsm" "finalize"
             spawn-at-startup "${lib.getExe (pkgs.writeShellScriptBin "niri-wallpaper" "${lib.getExe pkgs.swaybg} -i ${wallpaperPath} -m fill")}"
-            spawn-at-startup "${pkgs.clipman}/bin/clipman" "--daemon"
-            spawn-at-startup "${lib.getExe (pkgs.writeShellScriptBin "niri-restart-portals" "while ! busctl --user status org.gnome.Mutter.ScreenCast >/dev/null 2>&1; do sleep 0.2; done; systemctl --user restart xdg-desktop-portal.service")}"
+            spawn-at-startup "${pkgs.wl-clipboard}/bin/wl-paste" "--type" "text" "--watch" "${pkgs.clipman}/bin/clipman" "store"
+            spawn-at-startup "${lib.getExe (pkgs.writeShellScriptBin "niri-restart-portals" ''
+              i=0
+              while ! busctl --user status org.gnome.Mutter.ScreenCast >/dev/null 2>&1; do
+                i=$((i + 1))
+                [ "$i" -ge 50 ] && exit 0
+                sleep 0.2
+              done
+              systemctl --user try-restart xdg-desktop-portal.service
+            '')}"
 
             xwayland-satellite {
                 path "${lib.getExe pkgs.xwayland-satellite}"

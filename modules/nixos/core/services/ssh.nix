@@ -3,10 +3,9 @@
   programs.ssh.extraConfig = ''
     Host *
       AddKeysToAgent yes
-      IdentityFile ~/.ssh/id_ed25519
   '';
   services.openssh = {
-    enable = true;
+    enable = lib.mkDefault false;
     ports = [ 4545 ];
     settings = {
       PasswordAuthentication = lib.mkDefault false;

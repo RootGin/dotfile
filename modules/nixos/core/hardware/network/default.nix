@@ -8,7 +8,6 @@ let
 in
 {
   networking = {
-    useDHCP = lib.mkDefault true;
     networkmanager = {
       dns = "systemd-resolved";
       enable = true;
@@ -23,8 +22,8 @@ in
     enable = true;
     settings = {
       Resolve = {
-        DNSSEC = false;
-        DNSOverTLS = "opportunistic";
+        DNSSEC = "allow-downgrade";
+        DNSOverTLS = "yes";
         DNS = [
           "9.9.9.11"
           "149.112.112.11"

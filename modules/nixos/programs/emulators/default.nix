@@ -18,7 +18,6 @@ in
   config = lib.mkIf config.my.programs.emulation.enable {
     environment.systemPackages = with pkgs; [
       docker-compose
-      #winboat
     ];
     home-manager.users.${username}.home.packages = with pkgs; [
       qemu

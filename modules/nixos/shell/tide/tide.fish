@@ -1,4 +1,3 @@
-set -U fish_greeting
 if not set -q tide_left_prompt_items
     set -U tide_aws_bg_color FF9900
     set -U tide_aws_color 232F3E

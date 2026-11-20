@@ -13,7 +13,7 @@ in
     fail2ban = {
       enable = lib.mkOption {
         type = lib.types.bool;
-        default = false;
+        default = true;
         description = "Enable fail2ban intrusion prevention for services like SSH.";
       };
     };
@@ -32,7 +32,7 @@ in
     networking.firewall.enable = lib.mkDefault true;
 
     # Intrusion prevention: automatically ban hosts with repeated authentication failures
-    services.fail2ban = lib.mkIf cfg.fail2ban.enable {
+    services.fail2ban = lib.mkIf (cfg.fail2ban.enable && config.services.openssh.enable) {
       enable = true;
       maxretry = 3;
       bantime = "24h";
@@ -71,6 +71,18 @@ in
 
       # RFC 1337 TIME-WAIT assassination hazard protection
       "net.ipv4.tcp_rfc1337" = 1;
+
+      # Kernel pointer, dmesg, and eBPF restrictions
+      "kernel.kptr_restrict" = 2;
+      "kernel.dmesg_restrict" = 1;
+      "kernel.unprivileged_bpf_disabled" = 1;
+      "net.core.bpf_jit_harden" = 2;
+
+      # Filesystem symlink/hardlink/FIFO protections
+      "fs.protected_hardlinks" = 1;
+      "fs.protected_symlinks" = 1;
+      "fs.protected_fifos" = 2;
+      "fs.protected_regular" = 2;
     };
   };
 }

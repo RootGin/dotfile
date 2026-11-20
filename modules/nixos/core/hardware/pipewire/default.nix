@@ -1,6 +1,7 @@
 {
   inputs,
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -9,49 +10,51 @@ let
   EQPath = "/home/${username}/.config/pipewire/EQ.txt";
 in
 {
-  services.pipewire = {
-    enable = config.my.desktop.enable;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    audio.enable = true;
-    jack.enable = true;
-    pulse.enable = true;
-    wireplumber = {
-      enable = config.my.desktop.enable;
-      extraConfig."10-bluez" = {
-        "monitor.bluez.properties" = {
-          "bluez5.enable-sbc-xq" = true;
-          "bluez5.enable-msbc" = true;
-          "bluez5.enable-hw-volume" = true;
-          "bluez5.headset-roles" = [
-            "hsp_hs"
-            "hsp_ag"
-            "hfp_hf"
-            "hfp_ag"
-          ];
+  config = lib.mkIf config.my.desktop.enable {
+    services.pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      audio.enable = true;
+      jack.enable = true;
+      pulse.enable = true;
+      wireplumber = {
+        enable = true;
+        extraConfig."10-bluez" = {
+          "monitor.bluez.properties" = {
+            "bluez5.enable-sbc-xq" = true;
+            "bluez5.enable-msbc" = true;
+            "bluez5.enable-hw-volume" = true;
+            "bluez5.headset-roles" = [
+              "hsp_hs"
+              "hsp_ag"
+              "hfp_hf"
+              "hfp_ag"
+            ];
+          };
         };
       };
     };
-  };
-  environment.systemPackages = [
-    pkgs.crosspipe
-  ];
-  home-manager.users.${username} = _: {
-    home.file = {
-      ".config/pipewire/pipewire.conf.d/my-parametric-equalizer.conf".text = ''
-        context.modules = [
-          {
-            name = "libpipewire-module-parametric-equalizer"
-            args = {
-              node.name = "parametric-equalizer"
-              media.class = "Audio/Sink"
-              equalizer.filepath = "${EQPath}"
-              equalizer.description = "EQ Sink"
+    environment.systemPackages = [
+      pkgs.crosspipe
+    ];
+    home-manager.users.${username} = _: {
+      home.file = {
+        ".config/pipewire/pipewire.conf.d/my-parametric-equalizer.conf".text = ''
+          context.modules = [
+            {
+              name = "libpipewire-module-parametric-equalizer"
+              args = {
+                node.name = "parametric-equalizer"
+                media.class = "Audio/Sink"
+                equalizer.filepath = "${EQPath}"
+                equalizer.description = "EQ Sink"
+              }
             }
-          }
-        ]
-      '';
-      ".config/pipewire/EQ.txt".source = ./parametric.txt;
+          ]
+        '';
+        ".config/pipewire/EQ.txt".source = ./parametric.txt;
+      };
     };
   };
 }

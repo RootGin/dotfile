@@ -1,5 +1,4 @@
 {
-  inputs,
   config,
   lib,
   pkgs,
@@ -47,9 +46,13 @@ in
             src = pkgs.fishPlugins.puffer.src;
           }
         ];
-        interactiveShellInit = ''
-          zoxide init --cmd cd fish | source
-        '';
+      };
+
+      programs.direnv.enableFishIntegration = true;
+      programs.zoxide = {
+        enable = true;
+        enableFishIntegration = true;
+        options = [ "--cmd cd" ];
       };
     };
   };
