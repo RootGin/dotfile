@@ -10,7 +10,6 @@ result
 result-*
 
 # direnv
-.envrc
 .direnv
 
 # Editor temp files

@@ -83,6 +83,7 @@
     { self, nixpkgs, ... }@inputs:
     let
       system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
       mkHost =
         hostPath:
         nixpkgs.lib.nixosSystem {
@@ -96,6 +97,15 @@
         thumb = mkHost ./hosts/thumb;
       };
 
-      formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;
+      devShells.${system}.default = pkgs.mkShell {
+        packages = with pkgs; [
+          deadnix
+          nixd
+          nixfmt
+          statix
+        ];
+      };
+
+      formatter.${system} = pkgs.nixfmt-tree;
     };
 }
