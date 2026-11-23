@@ -18,7 +18,22 @@ in
     programs.spicetify = {
       enable = true;
       theme = spicePkgs.themes.text;
-      colorScheme = config.my.user.spicetifyColorScheme;
+      colorScheme = "custom";
+      customColorScheme = with config.lib.stylix.colors; {
+        accent = base0C;
+        accent-active = base0D;
+        accent-inactive = base00;
+        banner = base0D;
+        border-active = base0D;
+        border-inactive = base01;
+        header = base03;
+        highlight = base03;
+        main = base00;
+        notification = base0D;
+        notification-error = base08;
+        subtext = base04;
+        text = base06;
+      };
 
       enabledSnippets = with spicePkgs.snippets; [
         autoHideFriends

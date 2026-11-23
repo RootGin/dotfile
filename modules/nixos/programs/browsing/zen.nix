@@ -63,7 +63,7 @@ in
             "network.dns.echconfig.enabled" = true;
             "network.dns.http3_echconfig.enabled" = true;
             "geo.enabled" = false;
-            "webgl.disabled" = true;
+            "webgl.disabled" = false;
           };
         };
 
@@ -187,7 +187,7 @@ in
             "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
             "browser.search.suggest.enabled" = false;
             "browser.tabs.warnOnClose" = true;
-            "browser.startup.homepage" = "https://startup-page-nord.vercel.app/";
+            "browser.startup.homepage" = "about:home";
             "browser.startup.page" = 3;
             "browser.translations.panelShown" = true;
             "browser.urlbar.quicksuggest.scenario" = "history";
@@ -201,6 +201,9 @@ in
             "extensions.autoDisableScope" = false;
             "gfx.webrender.all" = true;
             "layers.acceleration.force-enabled" = true;
+            "webgl.disabled" = false;
+            "webgl.force-enabled" = true;
+            "webgl.enable-webgl2" = true;
             "privacy.sanitize.sanitizeOnShutdown" = true;
             "privacy.clearOnShutdown.cache" = true;
             "privacy.clearOnShutdown.cookies" = false;

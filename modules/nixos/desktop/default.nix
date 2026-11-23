@@ -22,7 +22,8 @@ in
     };
 
     home-manager.users.${config.my.user.username} = {
-      dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
+      dconf.settings."org/gnome/desktop/interface".color-scheme =
+        lib.mkForce (if config.stylix.polarity == "light" then "prefer-light" else "prefer-dark");
 
       xdg.configFile."luciole/colors.toml".text = ''
         [colors]

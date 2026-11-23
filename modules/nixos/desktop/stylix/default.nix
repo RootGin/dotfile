@@ -7,6 +7,16 @@
 }:
 let
   inherit (config.my.user) colorScheme;
+  schemeFile = "${pkgs.base16-schemes}/share/themes/${colorScheme}.yaml";
+  schemePolarity =
+    let
+      lines = lib.splitString "\n" (builtins.readFile schemeFile);
+      variantLines = builtins.filter (lib.hasPrefix "variant:") lines;
+    in
+    if variantLines != [ ] && lib.hasInfix "light" (builtins.head variantLines) then
+      "light"
+    else
+      "dark";
 in
 {
   imports = [
@@ -32,11 +42,11 @@ in
 
     stylix = {
       enable = true;
-      base16Scheme = "${pkgs.base16-schemes}/share/themes/${colorScheme}.yaml";
+      base16Scheme = schemeFile;
 
       cursor = {
         package = pkgs.google-cursor;
-        name = "GoogleDot-White";
+        name = if schemePolarity == "light" then "GoogleDot-Black" else "GoogleDot-White";
         size = 25;
       };
 
@@ -62,12 +72,13 @@ in
         };
       };
 
-      polarity = "dark";
+      polarity = schemePolarity;
 
       icons = {
         enable = true;
         package = pkgs.kora-icon-theme;
         dark = "kora";
+        light = "kora-light";
       };
 
       opacity.applications = 0.8;

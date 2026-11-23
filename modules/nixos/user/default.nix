@@ -31,13 +31,6 @@
       example = "kanagawa";
     };
 
-    spicetifyColorScheme = lib.mkOption {
-      type = lib.types.str;
-      default = "Nord";
-      description = "Spicetify color scheme name — must match spicetify's exact casing";
-      example = "Nord";
-    };
-
     dots = lib.mkOption {
       type = lib.types.str;
       description = ''
