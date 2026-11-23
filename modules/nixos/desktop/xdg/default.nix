@@ -13,7 +13,7 @@ let
     image = "gthumb.desktop";
     audio = "vlc.desktop";
     video = "vlc.desktop";
-    directory = "thunar.desktop";
+    directory = "dev.noctalia.luciole.desktop";
     pdf = "zathura.desktop";
     terminal = "kitty.desktop";
   };

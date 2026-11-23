@@ -71,10 +71,7 @@ in
       zbar
       python3
       # waybar
-      thunar
-      thunar-archive-plugin
       xarchiver
-      thunar-volman
       tumbler
       gthumb
       yazi
@@ -150,7 +147,7 @@ in
                 // ── Applications ────────────────────────────────────
                 Mod+Q { spawn "kitty"; }
                 Mod+F { spawn "${browser}"; }
-                Mod+E { spawn "thunar"; }
+                Mod+E { spawn "luciole"; }
                 Mod+R { spawn "fuzzel"; }
 
                 // ── Screenshots ────────────────────────────────────

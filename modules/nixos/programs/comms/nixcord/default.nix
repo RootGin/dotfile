@@ -16,6 +16,8 @@ in
     discord.enable = true;
     # Note: nixcord now requires an explicit client mod selection.
     discord.vencord.enable = true;
+    # Disable openASAR while its nixpkgs substituteStream pattern is broken.
+    discord.openASAR.enable = false;
 
     user = username;
 
