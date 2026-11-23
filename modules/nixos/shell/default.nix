@@ -10,9 +10,6 @@ in
 {
   imports = [
     ./bash.nix
-    ./p10k
-    ./zsh.nix
-    ./fish.nix
   ];
 
   home-manager.users.${username} = lib.mkIf config.my.desktop.enable {

@@ -95,20 +95,6 @@ in
     remotionRender
   ];
 
-  config.programs.fish.interactiveShellInit = ''
-    function npm --wraps npm
-      if test (count $argv) -ge 2; and test "$argv[1]" = "run"; and contains -- "$argv[2]" render dev
-        if test -f /run/opengl-driver/share/glvnd/egl_vendor.d/10_nvidia.json
-          __EGL_VENDOR_LIBRARY_FILENAMES=/run/opengl-driver/share/glvnd/egl_vendor.d/10_nvidia.json nvidia-offload command npm $argv
-        else
-          nvidia-offload command npm $argv
-        end
-      else
-        command npm $argv
-      end
-    end
-  '';
-
   config.programs.bash.interactiveShellInit = ''
     npm() {
       if [ "$#" -ge 2 ] && [ "$1" = "run" ] && { [ "$2" = "render" ] || [ "$2" = "dev" ]; }; then

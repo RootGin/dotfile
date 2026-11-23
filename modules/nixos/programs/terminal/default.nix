@@ -16,14 +16,14 @@ in
     home-manager.users.${username} = {
       programs.kitty = {
         enable = true;
-        shellIntegration.enableFishIntegration = true;
+        shellIntegration.enableBashIntegration = true;
         settings = {
           background_opacity = lib.mkForce "0.5";
           cursor_shape = "block";
           cursor_blink_interval = 0;
           confirm_os_window_close = 0;
-          # Ignore $SHELL from the login session (stale for re-login) and always spawn fish.
-          shell = "/run/current-system/sw/bin/fish";
+          # Ignore $SHELL from the login session (stale for re-login) and always spawn bash.
+          shell = "/run/current-system/sw/bin/bash";
         };
       };
     };
