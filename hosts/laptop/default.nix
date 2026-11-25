@@ -1,10 +1,11 @@
 {
   imports = [
-    ../../modules/nixos
-    ../common
     ../../profiles/workstation.nix
     ./hardware-configuration.nix
-    ./modules
+    ./modules/hardware.nix
+    ./modules/programs.nix
+    ./modules/service.nix
+    ./modules/userOptions.nix
   ];
 
   my.boot.grub.enable = true;

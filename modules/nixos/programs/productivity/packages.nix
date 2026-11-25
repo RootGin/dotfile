@@ -26,7 +26,7 @@ in
     environment.systemPackages =
       with pkgs;
       [
-        kdePackages.kdenlive
+        drawio
         obsidian
       ]
       ++ lib.optional config.my.programs.productivity.end-rs.enable end-rs;

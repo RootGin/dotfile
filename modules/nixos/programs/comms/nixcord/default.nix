@@ -126,7 +126,6 @@ in
         favoriteEmojiFirst.enable = true;
         fixCodeblockGap.enable = true;
         fixImagesQuality.enable = true;
-        fixYoutubeEmbeds.enable = true;
         forceOwnerCrown.enable = true;
         fullSearchContext.enable = true;
         gameActivityToggle.enable = true;
@@ -226,7 +225,6 @@ in
         viewIcons.enable = true;
         voiceChatDoubleClick.enable = true;
         volumeBooster.enable = true;
-        youtubeAdblock.enable = true;
       };
     };
   };

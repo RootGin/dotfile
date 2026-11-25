@@ -2,8 +2,14 @@
   imports = [
     ./core/home-manager.nix
     ./assets
-    ./modules.nix
     ./core
+    ./programs
+    ./desktop
+    ./hardware
+    ./security
+    ./services
+    ./shell
+    ./user
     ../../users/rootgin
   ];
 }

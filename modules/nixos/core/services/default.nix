@@ -1,24 +1,38 @@
+{ config, lib, ... }:
+let
+  username = config.my.user.username;
+in
 {
   imports = [
-    ./gnome.nix
-    ./fwupd.nix
     ./gvfs.nix
-    ./nm-applet.nix
-    ./power-profiles-daemon.nix
-    ./rtkit.nix
     ./ssh.nix
-    ./upower.nix
   ];
 
-  # Cap journald log buffers in RAM/storage
-  services.journald.settings.Journal = {
-    SystemMaxUse = "100M";
-    RuntimeMaxUse = "50M";
-  };
+  config = lib.mkMerge [
+    {
+      # Cap journald log buffers in RAM/storage
+      services.journald.settings.Journal = {
+        SystemMaxUse = "100M";
+        RuntimeMaxUse = "50M";
+      };
 
-  # Disable speech-dispatcher to save background processes when text-to-speech isn't used
-  systemd.user = {
-    services."speech-dispatcher".enable = false;
-    sockets."speech-dispatcher".enable = false;
-  };
+      # Disable speech-dispatcher to save background processes when text-to-speech isn't used
+      systemd.user = {
+        services."speech-dispatcher".enable = false;
+        sockets."speech-dispatcher".enable = false;
+      };
+    }
+
+    (lib.mkIf config.my.desktop.enable {
+      services = {
+        gnome.gnome-keyring.enable = true;
+        power-profiles-daemon.enable = true;
+        upower.enable = true;
+      };
+      security.rtkit.enable = true;
+      home-manager.users.${username} = _: {
+        services.network-manager-applet.enable = true;
+      };
+    })
+  ];
 }

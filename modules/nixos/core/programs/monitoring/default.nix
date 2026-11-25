@@ -1,9 +1,21 @@
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   imports = [
-    ./btop.nix
-    ./cava.nix
     ./fastfetch
-    ./vul.nix
     ./netorbit.nix
   ];
+
+  environment.systemPackages =
+    with pkgs;
+    [
+      btop
+      resources
+      vulnix
+    ]
+    ++ lib.optionals config.my.desktop.enable [ pkgs.cava ];
 }

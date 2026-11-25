@@ -1,6 +1,5 @@
 {
   imports = [
-    ./modules
     ./locale.nix
   ];
 }

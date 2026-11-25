@@ -9,20 +9,21 @@
     enable = lib.mkEnableOption "ZeroTier One mesh VPN service";
   };
 
-  config = lib.mkMerge [
-    {
-      services.zerotierone.enable = config.my.security.vpn.zerotier.enable;
-    }
+  config = {
+    services.zerotierone.enable = config.my.security.vpn.zerotier.enable;
 
-    (lib.mkIf config.my.desktop.enable {
-      environment.systemPackages = with pkgs; [
+    environment.systemPackages = lib.mkIf config.my.desktop.enable (
+      with pkgs;
+      [
         proton-vpn
         proton-vpn-cli
         networkmanager-openvpn
-      ];
+      ]
+    );
 
-      services.dbus.packages = [ pkgs.networkmanager-openvpn ];
-      networking.networkmanager.plugins = [ pkgs.networkmanager-openvpn ];
-    })
-  ];
+    services.dbus.packages = lib.mkIf config.my.desktop.enable [ pkgs.networkmanager-openvpn ];
+    networking.networkmanager.plugins = lib.mkIf config.my.desktop.enable [
+      pkgs.networkmanager-openvpn
+    ];
+  };
 }

@@ -95,7 +95,18 @@ in
     # target, so the toggle must live in home-manager namespace, not in
     # the NixOS-level stylix.targets above.
     home-manager.sharedModules = [
-      { stylix.targets.rofi.enable = false; }
+      {
+        stylix.targets.rofi.enable = false;
+
+        dconf.settings."org/gnome/desktop/interface".color-scheme = lib.mkForce (
+          if config.stylix.polarity == "light" then "prefer-light" else "prefer-dark"
+        );
+
+        # Force-disable GTK4 theming. stylix (gtk target) defines a non-null
+        # gtk.gtk4.theme; mkForce preserves the intent (no GTK4 theme) and
+        # keeps stylix theming GTK3 only.
+        gtk.gtk4.theme = lib.mkForce null;
+      }
     ];
   };
 }

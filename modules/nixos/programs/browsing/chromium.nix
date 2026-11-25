@@ -10,11 +10,7 @@ in
 {
 
   options.my.programs.browsing.chromium = {
-    enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable Chromium browser.";
-    };
+    enable = lib.mkEnableOption "Chromium browser";
 
     package = lib.mkOption {
       type = lib.types.nullOr lib.types.package;
@@ -76,14 +72,14 @@ in
       { lib, ... }:
       {
         home.activation.braveVerticalTabs = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        if [[ -f "$HOME/.config/BraveSoftware/Brave-Browser/Default/Preferences" ]]; then
-          ${pkgs.jq}/bin/jq '.brave.tabs.vertical_tabs_enabled = true | .brave.tabs.vertical_tabs_collapsed = false' \
-            "$HOME/.config/BraveSoftware/Brave-Browser/Default/Preferences" \
-            > "$HOME/.config/BraveSoftware/Brave-Browser/Default/Preferences.tmp" \
-            && mv "$HOME/.config/BraveSoftware/Brave-Browser/Default/Preferences.tmp" \
-              "$HOME/.config/BraveSoftware/Brave-Browser/Default/Preferences"
-        fi
-      '';
-    };
+          if [[ -f "$HOME/.config/BraveSoftware/Brave-Browser/Default/Preferences" ]]; then
+            ${pkgs.jq}/bin/jq '.brave.tabs.vertical_tabs_enabled = true | .brave.tabs.vertical_tabs_collapsed = false' \
+              "$HOME/.config/BraveSoftware/Brave-Browser/Default/Preferences" \
+              > "$HOME/.config/BraveSoftware/Brave-Browser/Default/Preferences.tmp" \
+              && mv "$HOME/.config/BraveSoftware/Brave-Browser/Default/Preferences.tmp" \
+                "$HOME/.config/BraveSoftware/Brave-Browser/Default/Preferences"
+          fi
+        '';
+      };
   };
 }

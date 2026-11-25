@@ -10,9 +10,9 @@ let
   defaultApps = {
     browser = "zen-twilight.desktop";
     text = "nvim.desktop";
-    image = "gthumb.desktop";
-    audio = "vlc.desktop";
-    video = "vlc.desktop";
+    image = "imv.desktop";
+    audio = "mpv.desktop";
+    video = "mpv.desktop";
     directory = "dev.noctalia.luciole.desktop";
     pdf = "zathura.desktop";
     terminal = "kitty.desktop";
@@ -76,43 +76,56 @@ in
     # ── MIME type associations ───────────────────────────────
     xdg.mime = {
       enable = true;
-      defaultApplications = lib.listToAttrs (
-        lib.flatten (
-          lib.mapAttrsToList (
-            category: mimes: map (mime: lib.attrsets.nameValuePair mime [ defaultApps."${category}" ]) mimes
-          ) mimeMap
-        )
-      );
+      defaultApplications = lib.concatMapAttrs (c: ms: lib.genAttrs ms (_: [ defaultApps.${c} ])) mimeMap;
     };
 
-    # ── Portal fallback (common) — compositor‑specific config  ──
-    # (e.g. niri) takes priority over config.common at runtime.
-    xdg.portal.config.common = {
-      default = [
-        "gnome"
-        "gtk"
-      ];
-      "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
-      "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
-    };
-
-    environment.systemPackages = with pkgs; [
-      xdg-user-dirs
-      xdg-utils
-    ];
-
-    home-manager.users.${username} = _: {
-      xdg = {
-        userDirs = {
-          enable = true;
-          createDirectories = true;
-          setSessionVariables = false;
+    # ── XDG Desktop Portal ───────────────────────────────────
+    # Compositor-specific config (niri) takes priority over config.common at runtime.
+    xdg.portal =
+      let
+        common = {
+          default = [
+            "gnome"
+            "gtk"
+          ];
+          "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
+          "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+        };
+      in
+      {
+        enable = true;
+        xdgOpenUsePortal = true;
+        extraPortals = [
+          pkgs.xdg-desktop-portal-gtk
+          pkgs.xdg-desktop-portal-gnome
+        ];
+        config = {
+          inherit common;
+          niri = lib.mkForce (
+            common
+            // {
+              default = [ "gtk" ];
+              "org.freedesktop.impl.portal.Access" = [ "gtk" ];
+              "org.freedesktop.impl.portal.Notification" = [ "gtk" ];
+              "org.freedesktop.impl.portal.ScreenCast" = [ "gnome" ];
+              "org.freedesktop.impl.portal.Screenshot" = [ "gnome" ];
+              "org.freedesktop.impl.portal.Settings" = [
+                "gtk"
+                "gnome"
+              ];
+            }
+          );
         };
       };
-      # Force-disable GTK4 theming. stylix (gtk target) defines a non-null
-      # gtk.gtk4.theme; mkForce preserves the intent (no GTK4 theme) and
-      # keeps stylix theming GTK3 only.
-      gtk.gtk4.theme = lib.mkForce null;
+
+    environment.systemPackages = [ pkgs.xdg-utils ];
+
+    home-manager.users.${username} = {
+      xdg.userDirs = {
+        enable = true;
+        createDirectories = true;
+        setSessionVariables = false;
+      };
     };
   };
 }
