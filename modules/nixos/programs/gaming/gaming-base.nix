@@ -41,9 +41,21 @@ in
     environment.systemPackages =
       with pkgs;
       [
-        mangohud
+        dxvk
         goverlay
+        lutris
+        mangohud
+        protontricks
+        vulkan-loader
+        vulkan-tools
+        wineWow64Packages.stable
+        winetricks
       ]
       ++ cfg.extraPackages;
+
+    services.flatpak.packages = [
+      "org.vinegarhq.Sober"
+      "org.vinegarhq.Vinegar"
+    ];
   };
 }

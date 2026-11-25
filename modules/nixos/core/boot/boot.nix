@@ -21,6 +21,13 @@
         };
 
         kernelPackages = pkgs.linuxPackages_latest;
+
+        kernelParams = [
+          "psmouse.synaptics_intertouch=0"
+          "quiet"
+        ];
+
+        plymouth.enable = true;
       };
     }
 

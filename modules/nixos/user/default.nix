@@ -58,4 +58,10 @@
       example = "myuser";
     };
   };
+
+  config.my.user = {
+    colorScheme = lib.mkDefault "nord";
+    dots = lib.mkDefault "/etc/nixos";
+    username = lib.mkDefault "rootgin";
+  };
 }

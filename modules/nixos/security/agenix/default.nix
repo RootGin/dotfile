@@ -1,5 +1,4 @@
 {
-  self,
   inputs,
   config,
   lib,
@@ -8,28 +7,13 @@
 }:
 let
   username = config.my.user.username;
-  secretsDir = "${self}/secrets";
-
-  hasSecret = name: builtins.pathExists "${secretsDir}/${name}.age";
-
-  allSecretsExist = lib.all hasSecret [
-    "deepseek-api-key"
-    "qwen-api-key"
-    "rootgin-password-hash"
-  ];
+  secretsDir = ../../../../secrets;
 in
 {
   imports = [ inputs.agenix.nixosModules.default ];
 
   options.security.agenix = {
     enable = lib.mkEnableOption "Enable agenix secret management";
-
-    secretsAvailable = lib.mkOption {
-      type = lib.types.bool;
-      default = allSecretsExist;
-      readOnly = true;
-      description = "Whether all encrypted secret files exist in the secrets directory.";
-    };
   };
 
   config = lib.mkIf config.security.agenix.enable {

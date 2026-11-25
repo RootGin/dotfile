@@ -1,11 +1,7 @@
 { config, lib, ... }:
 {
   options.my.programs.browsing.firefox = {
-    enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable Firefox browser.";
-    };
+    enable = lib.mkEnableOption "Firefox browser";
 
     package = lib.mkOption {
       type = lib.types.nullOr lib.types.package;

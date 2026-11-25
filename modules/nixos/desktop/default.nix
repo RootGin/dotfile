@@ -1,30 +1,36 @@
-{ config, inputs, lib, ... }:
+{
+  config,
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
 let
   colors = config.lib.stylix.colors.withHashtag;
 in
 {
   imports = [
     inputs.luciole.nixosModules.default
-    ./options.nix
-    ./eww
     ./ly
     ./stylix
     ./xdg
     ./niri
   ];
 
+  options.my.desktop.enable = lib.mkEnableOption "the graphical desktop stack (display manager, audio, bluetooth)";
+
   config = lib.mkIf config.my.desktop.enable {
     programs.luciole.enable = true;
+
+    environment.systemPackages = [ pkgs.eww ];
 
     environment.sessionVariables = {
       NIXOS_OZONE_WL = "1";
       WEBKIT_DISABLE_COMPOSITING_MODE = "1";
+      XDG_CURRENT_DESKTOP = "X-NIXOS-SYSTEMD-AWARE:niri";
     };
 
     home-manager.users.${config.my.user.username} = {
-      dconf.settings."org/gnome/desktop/interface".color-scheme =
-        lib.mkForce (if config.stylix.polarity == "light" then "prefer-light" else "prefer-dark");
-
       xdg.configFile."luciole/colors.toml".text = ''
         [colors]
         primary = "${colors.base03}"

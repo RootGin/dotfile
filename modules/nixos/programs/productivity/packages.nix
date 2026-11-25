@@ -26,6 +26,7 @@ in
     environment.systemPackages =
       with pkgs;
       [
+        drawio
         kdePackages.kdenlive
         obsidian
       ]

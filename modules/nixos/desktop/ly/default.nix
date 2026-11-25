@@ -5,7 +5,6 @@
     settings = {
       bigclock = "en";
       save = true;
-      setup_cmd = "";
       vi_mode = true;
     };
   };

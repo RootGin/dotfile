@@ -1,5 +1,4 @@
 {
-  inputs,
   config,
   lib,
   pkgs,
@@ -12,6 +11,33 @@ let
 
   wallpaperPath = "/home/${username}/.config/backgrounds/nord.png";
   browser = "zen-twilight";
+
+  screenshotCmd =
+    region:
+    let
+      grimSource = if region then ''-g \"$(${lib.getExe pkgs.slurp} -w 0)\" -'' else "-";
+    in
+    ''spawn "sh" "-c" "mkdir -p ~/Pictures/Screenshots && ${lib.getExe pkgs.grim} ${grimSource} | tee ~/Pictures/Screenshots/$(date '+%Y-%m-%d_%H-%M-%S').png | ${pkgs.wl-clipboard}/bin/wl-copy";'';
+
+  workspaceBinds =
+    let
+      keys = lib.listToAttrs (
+        map (n: {
+          name = if n == 10 then "0" else toString n;
+          value = toString n;
+        }) (lib.range 1 10)
+      );
+      mkGroup =
+        prefix: action: suffix:
+        lib.concatStringsSep "\n                " (
+          lib.mapAttrsToList (k: ws: "${prefix}+${k} { ${action} ${ws}${suffix}; }") keys
+        );
+    in
+    {
+      focus = mkGroup "Mod" "focus-workspace" "";
+      moveColumn = mkGroup "Mod+Shift" "move-column-to-workspace" "";
+      moveWindow = mkGroup "Mod+Alt" "move-window-to-workspace" " focus=false";
+    };
 in
 {
 
@@ -19,6 +45,15 @@ in
 
     # ── Niri compositor (system integration) ────────────────
     programs.niri.enable = true;
+
+    # ── Clipboard manager (Stash) ───────────────────────────
+    services.stash-clipboard = {
+      enable = true;
+      package = pkgs.stash-clipboard.overrideAttrs (old: {
+        buildInputs = (old.buildInputs or [ ]) ++ [ pkgs.sqlite ];
+      });
+      serviceArguments = [ "--persist" ];
+    };
 
     # ── UWSM: user Wayland session manager ───────────────────
     programs.uwsm = {
@@ -29,29 +64,6 @@ in
           comment = "Niri compositor managed by UWSM";
           binPath = "/run/current-system/sw/bin/niri-session";
         };
-      };
-    };
-
-    # ── XDG Desktop Portal ───────────────────────────────────
-    xdg.portal = {
-      enable = true;
-      xdgOpenUsePortal = true;
-      extraPortals = [
-        pkgs.xdg-desktop-portal-gtk
-        pkgs.xdg-desktop-portal-gnome
-      ];
-      config.niri = lib.mkForce {
-        default = [ "gtk" ];
-        "org.freedesktop.impl.portal.Access" = [ "gtk" ];
-        "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
-        "org.freedesktop.impl.portal.Notification" = [ "gtk" ];
-        "org.freedesktop.impl.portal.ScreenCast" = [ "gnome" ];
-        "org.freedesktop.impl.portal.Screenshot" = [ "gnome" ];
-        "org.freedesktop.impl.portal.Settings" = [
-          "gtk"
-          "gnome"
-        ];
-        "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
       };
     };
 
@@ -67,13 +79,11 @@ in
       gammastep
       playerctl
       pavucontrol
-      clipman
       zbar
       python3
-      # waybar
       xarchiver
       tumbler
-      gthumb
+      imv
       yazi
       zenity
     ];
@@ -150,12 +160,15 @@ in
                 Mod+E { spawn "luciole"; }
                 Mod+R { spawn "fuzzel"; }
 
+                // ── Clipboard ───────────────────────────────────────
+                Mod+Ctrl+V { spawn "sh" "-c" "sel=$(${lib.getExe config.services.stash-clipboard.package} list | ${lib.getExe pkgs.fuzzel} --dmenu --prompt=\"Clipboard: \") && [ -n \"$sel\" ] && printf '%s\\n' \"$sel\" | ${lib.getExe config.services.stash-clipboard.package} decode | ${pkgs.wl-clipboard}/bin/wl-copy"; }
+
                 // ── Screenshots ────────────────────────────────────
                 // Every bind saves to ~/Pictures/Screenshots AND copies to clipboard.
-                Print { spawn "sh" "-c" "mkdir -p ~/Pictures/Screenshots && ${lib.getExe pkgs.grim} - | tee ~/Pictures/Screenshots/$(date '+%Y-%m-%d_%H-%M-%S').png | ${pkgs.wl-clipboard}/bin/wl-copy"; }
-                Mod+Shift+Print { spawn "sh" "-c" "mkdir -p ~/Pictures/Screenshots && ${lib.getExe pkgs.grim} -g \"$(${lib.getExe pkgs.slurp} -w 0)\" - | tee ~/Pictures/Screenshots/$(date '+%Y-%m-%d_%H-%M-%S').png | ${pkgs.wl-clipboard}/bin/wl-copy"; }
-                Mod+Ctrl+S { spawn "sh" "-c" "mkdir -p ~/Pictures/Screenshots && ${lib.getExe pkgs.grim} - | tee ~/Pictures/Screenshots/$(date '+%Y-%m-%d_%H-%M-%S').png | ${pkgs.wl-clipboard}/bin/wl-copy"; }
-                Mod+Ctrl+Shift+S { spawn "sh" "-c" "mkdir -p ~/Pictures/Screenshots && ${lib.getExe pkgs.grim} -g \"$(${lib.getExe pkgs.slurp} -w 0)\" - | tee ~/Pictures/Screenshots/$(date '+%Y-%m-%d_%H-%M-%S').png | ${pkgs.wl-clipboard}/bin/wl-copy"; }
+                Print { ${screenshotCmd false} }
+                Mod+Shift+Print { ${screenshotCmd true} }
+                Mod+Ctrl+S { ${screenshotCmd false} }
+                Mod+Ctrl+Shift+S { ${screenshotCmd true} }
                 Mod+Shift+E { spawn "sh" "-c" "${pkgs.wl-clipboard}/bin/wl-paste | ${lib.getExe pkgs.swappy} -f -"; }
 
                 // ── QR code scanner ─────────────────────────────────
@@ -185,40 +198,13 @@ in
                 Mod+Space { maximize-column; }
 
                 // ── Workspace switching ─────────────────────────────
-                Mod+1 { focus-workspace 1; }
-                Mod+2 { focus-workspace 2; }
-                Mod+3 { focus-workspace 3; }
-                Mod+4 { focus-workspace 4; }
-                Mod+5 { focus-workspace 5; }
-                Mod+6 { focus-workspace 6; }
-                Mod+7 { focus-workspace 7; }
-                Mod+8 { focus-workspace 8; }
-                Mod+9 { focus-workspace 9; }
-                Mod+0 { focus-workspace 10; }
+                ${workspaceBinds.focus}
 
                 // ── Move column to workspace ────────────────────────
-                Mod+Shift+1 { move-column-to-workspace 1; }
-                Mod+Shift+2 { move-column-to-workspace 2; }
-                Mod+Shift+3 { move-column-to-workspace 3; }
-                Mod+Shift+4 { move-column-to-workspace 4; }
-                Mod+Shift+5 { move-column-to-workspace 5; }
-                Mod+Shift+6 { move-column-to-workspace 6; }
-                Mod+Shift+7 { move-column-to-workspace 7; }
-                Mod+Shift+8 { move-column-to-workspace 8; }
-                Mod+Shift+9 { move-column-to-workspace 9; }
-                Mod+Shift+0 { move-column-to-workspace 10; }
+                ${workspaceBinds.moveColumn}
 
                 // ── Move window to workspace (silent) ───────────────
-                Mod+Alt+1 { move-window-to-workspace 1 focus=false; }
-                Mod+Alt+2 { move-window-to-workspace 2 focus=false; }
-                Mod+Alt+3 { move-window-to-workspace 3 focus=false; }
-                Mod+Alt+4 { move-window-to-workspace 4 focus=false; }
-                Mod+Alt+5 { move-window-to-workspace 5 focus=false; }
-                Mod+Alt+6 { move-window-to-workspace 6 focus=false; }
-                Mod+Alt+7 { move-window-to-workspace 7 focus=false; }
-                Mod+Alt+8 { move-window-to-workspace 8 focus=false; }
-                Mod+Alt+9 { move-window-to-workspace 9 focus=false; }
-                Mod+Alt+0 { move-window-to-workspace 10 focus=false; }
+                ${workspaceBinds.moveWindow}
 
                 // ── Scratchpad ──────────────────────────────────────
                 Mod+S { focus-workspace "magic"; }
@@ -286,16 +272,17 @@ in
 
             spawn-at-startup "uwsm" "finalize"
             spawn-at-startup "${lib.getExe (pkgs.writeShellScriptBin "niri-wallpaper" "${lib.getExe pkgs.swaybg} -i ${wallpaperPath} -m fill")}"
-            spawn-at-startup "${pkgs.wl-clipboard}/bin/wl-paste" "--type" "text" "--watch" "${pkgs.clipman}/bin/clipman" "store"
-            spawn-at-startup "${lib.getExe (pkgs.writeShellScriptBin "niri-restart-portals" ''
-              i=0
-              while ! busctl --user status org.gnome.Mutter.ScreenCast >/dev/null 2>&1; do
-                i=$((i + 1))
-                [ "$i" -ge 50 ] && exit 0
-                sleep 0.2
-              done
-              systemctl --user try-restart xdg-desktop-portal.service
-            '')}"
+            spawn-at-startup "${lib.getExe (
+              pkgs.writeShellScriptBin "niri-restart-portals" ''
+                i=0
+                while ! busctl --user status org.gnome.Mutter.ScreenCast >/dev/null 2>&1; do
+                  i=$((i + 1))
+                  [ "$i" -ge 50 ] && exit 0
+                  sleep 0.2
+                done
+                systemctl --user try-restart xdg-desktop-portal.service
+              ''
+            )}"
 
             xwayland-satellite {
                 path "${lib.getExe pkgs.xwayland-satellite}"
@@ -320,11 +307,6 @@ in
             niri validate -c ${rawConfig}
             cp ${rawConfig} $out
           '';
-    };
-
-    # ── System-level environment variables ─────────────────
-    environment.sessionVariables = {
-      XDG_CURRENT_DESKTOP = "X-NIXOS-SYSTEMD-AWARE:niri";
     };
   };
 }

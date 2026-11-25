@@ -68,18 +68,32 @@
     };
 
     luciole.url = "github:noctalia-dev/luciole";
+
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    { self, nixpkgs, ... }@inputs:
+    {
+      self,
+      nixpkgs,
+      git-hooks,
+      ...
+    }@inputs:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
       mkHost =
         hostPath:
         nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs self; };
-          modules = [ hostPath ];
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./modules/nixos
+            ./hosts/common
+            hostPath
+          ];
         };
     in
     {
@@ -88,7 +102,17 @@
         thumb = mkHost ./hosts/thumb;
       };
 
+      checks.${system}.pre-commit-check = git-hooks.lib.${system}.run {
+        src = ./.;
+        hooks.nixfmt = {
+          enable = true;
+          package = pkgs.nixfmt;
+        };
+      };
+
       devShells.${system}.default = pkgs.mkShell {
+        inherit (self.checks.${system}.pre-commit-check) shellHook;
+        buildInputs = self.checks.${system}.pre-commit-check.enabledPackages;
         packages = with pkgs; [
           deadnix
           nixd

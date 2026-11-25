@@ -1,5 +1,4 @@
 {
-  inputs,
   config,
   lib,
   pkgs,
@@ -18,7 +17,7 @@ in
   system = {
     autoUpgrade = {
       enable = true;
-      flake = "${config.my.user.dots}";
+      flake = "${dots}";
       flags = [
         "-L"
         "--update-input"
@@ -50,9 +49,10 @@ in
 
   programs.nix-ld = {
     enable = true;
-    libraries =
-      [ pkgs.stdenv.cc.cc.lib ]
-      ++ lib.optionals config.my.desktop.enable (pkgs.steam-run.args.multiPkgs pkgs);
+    libraries = [
+      pkgs.stdenv.cc.cc.lib
+    ]
+    ++ lib.optionals config.my.desktop.enable (pkgs.steam-run.args.multiPkgs pkgs);
   };
 
   nixpkgs.config = {
