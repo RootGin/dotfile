@@ -63,7 +63,6 @@ in
       enable = true;
       opencode = {
         enable = true;
-        ponytail.enable = true;
       };
       "agent-skills" = {
         enable = true;
@@ -100,9 +99,9 @@ in
       if [ "$#" -ge 2 ] && [ "$1" = "run" ] && { [ "$2" = "render" ] || [ "$2" = "dev" ]; }; then
         if [ -f /run/opengl-driver/share/glvnd/egl_vendor.d/10_nvidia.json ]; then
           __EGL_VENDOR_LIBRARY_FILENAMES=/run/opengl-driver/share/glvnd/egl_vendor.d/10_nvidia.json \
-            nvidia-offload command npm "$@"
+            nvidia-offload npm "$@"
         else
-          nvidia-offload command npm "$@"
+          nvidia-offload npm "$@"
         fi
       else
         command npm "$@"

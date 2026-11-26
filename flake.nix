@@ -57,16 +57,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nvf = {
-      url = "github:notashelf/nvf";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    ponytail = {
-      url = "github:DietrichGebert/ponytail";
-      flake = false;
-    };
-
     luciole.url = "github:noctalia-dev/luciole";
 
     git-hooks = {

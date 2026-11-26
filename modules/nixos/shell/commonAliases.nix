@@ -3,8 +3,6 @@
   ls = "eza";
   tree = "eza --tree --git-ignore";
 
-  vi = "nvim";
-  vim = "nvim";
   ff = "fastfetch";
 
   ga = "git add";

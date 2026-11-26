@@ -9,7 +9,7 @@ let
 
   defaultApps = {
     browser = "zen-twilight.desktop";
-    text = "nvim.desktop";
+    text = "dev.zed.Zed.desktop";
     image = "imv.desktop";
     audio = "mpv.desktop";
     video = "mpv.desktop";

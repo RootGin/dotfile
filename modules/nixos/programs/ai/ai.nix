@@ -25,10 +25,6 @@ let
     autoupdate = false;
 
     mcp = {
-      deepwiki = {
-        type = "remote";
-        url = "https://mcp.deepwiki.com/mcp";
-      };
       mcp-nixos = {
         type = "local";
         enabled = true;
@@ -45,15 +41,6 @@ let
       };
     }
     // opencodeCfg.mcpServers;
-
-    plugin = [
-      "opencode-pty"
-      "opencode-worktree"
-      "opencode-md-table-formatter"
-    ]
-    ++ lib.optionals opencodeCfg.ponytail.enable [
-      "${inputs.ponytail}/.opencode/plugins/ponytail.mjs"
-    ];
   };
 
 in
@@ -82,40 +69,44 @@ in
         };
       })
       (lib.mkIf (dshCfg.enable && dshPlugins != [ ]) {
-        home.activation.deepseekHarnessPlugins = inputs.home-manager.lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-          if [[ -z "''${DRY_RUN:-}" ]]; then
-            profile=${lib.escapeShellArg dshCfg.profile}
-            pkgJson="$HOME/.dsh/profiles/$profile/package.json"
-            for pkg in ${lib.concatMapStringsSep " " lib.escapeShellArg dshPlugins}; do
-              pkgName="$pkg"
-              if [[ "$pkgName" =~ ^(@?[^@]+)@.+$ ]]; then
-                pkgName="''${BASH_REMATCH[1]}"
+        home.activation.deepseekHarnessPlugins =
+          inputs.home-manager.lib.hm.dag.entryAfter [ "writeBoundary" ]
+            ''
+              if [[ -z "''${DRY_RUN:-}" ]]; then
+                profile=${lib.escapeShellArg dshCfg.profile}
+                pkgJson="$HOME/.dsh/profiles/$profile/package.json"
+                for pkg in ${lib.concatMapStringsSep " " lib.escapeShellArg dshPlugins}; do
+                  pkgName="$pkg"
+                  if [[ "$pkgName" =~ ^(@?[^@]+)@.+$ ]]; then
+                    pkgName="''${BASH_REMATCH[1]}"
+                  fi
+                  if ! ${pkgs.jq}/bin/jq -e --arg pkg "$pkgName" \
+                    '(.dependencies[$pkg] != null) or ((.dsh.profile.bundles // []) | index($pkg) != null)' \
+                    "$pkgJson" >/dev/null 2>&1; then
+                    echo "Installing DeepSeek Harness plugin '$pkg' into profile '$profile'..."
+                    if ! ${pkgs.deepseek-harness}/bin/dsh plugin --profile "$profile" add "$pkg"; then
+                      echo "warning: failed to install DeepSeek Harness plugin '$pkg' (offline or registry error)" >&2
+                    fi
+                  fi
+                done
               fi
-              if ! ${pkgs.jq}/bin/jq -e --arg pkg "$pkgName" \
-                '(.dependencies[$pkg] != null) or ((.dsh.profile.bundles // []) | index($pkg) != null)' \
-                "$pkgJson" >/dev/null 2>&1; then
-                echo "Installing DeepSeek Harness plugin '$pkg' into profile '$profile'..."
-                if ! ${pkgs.deepseek-harness}/bin/dsh plugin --profile "$profile" add "$pkg"; then
-                  echo "warning: failed to install DeepSeek Harness plugin '$pkg' (offline or registry error)" >&2
-                fi
-              fi
-            done
-          fi
-        '';
+            '';
       })
       (lib.mkIf (reaCfg.enable && dshCfg.enable && reaCfg.dsh.enable) {
-        home.activation.deepseekHarnessReaMcp = inputs.home-manager.lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-          if [[ -z "''${DRY_RUN:-}" ]]; then
-            patchFile="$HOME/.dsh/cordis.patch.yml"
-            reaScript="${reaPkg}/lib/node_modules/rea-agents/scripts/rea.mjs"
-            if [[ ! -f "$patchFile" ]] || ! ${pkgs.gnugrep}/bin/grep -qF "$reaScript" "$patchFile"; then
-              echo "Configuring REA MCP server for DeepSeek Harness..."
-              if ! ${reaPkg}/bin/rea setup --client dsh --yes; then
-                echo "warning: failed to configure REA MCP server for DeepSeek Harness" >&2
+        home.activation.deepseekHarnessReaMcp =
+          inputs.home-manager.lib.hm.dag.entryAfter [ "writeBoundary" ]
+            ''
+              if [[ -z "''${DRY_RUN:-}" ]]; then
+                patchFile="$HOME/.dsh/cordis.patch.yml"
+                reaScript="${reaPkg}/lib/node_modules/rea-agents/scripts/rea.mjs"
+                if [[ ! -f "$patchFile" ]] || ! ${pkgs.gnugrep}/bin/grep -qF "$reaScript" "$patchFile"; then
+                  echo "Configuring REA MCP server for DeepSeek Harness..."
+                  if ! ${reaPkg}/bin/rea setup --client dsh --yes; then
+                    echo "warning: failed to configure REA MCP server for DeepSeek Harness" >&2
+                  fi
+                fi
               fi
-            fi
-          fi
-        '';
+            '';
       })
     ];
   };

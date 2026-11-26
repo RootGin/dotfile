@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 let
@@ -14,6 +15,8 @@ in
 
   config = lib.mkIf config.my.programs.terminal.enable {
     home-manager.users.${username} = {
+      home.packages = [ pkgs.tuios ];
+
       programs.kitty = {
         enable = true;
         shellIntegration.enableBashIntegration = true;

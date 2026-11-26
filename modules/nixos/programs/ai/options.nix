@@ -50,10 +50,6 @@
     opencode = {
       enable = lib.mkEnableOption "Enable opencode agent";
 
-      ponytail = {
-        enable = lib.mkEnableOption "Enable Ponytail plugin for opencode (github:DietrichGebert/ponytail)";
-      };
-
       mcpServers = lib.mkOption {
         type = lib.types.attrsOf lib.types.anything;
         default = { };
